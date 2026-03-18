@@ -1,0 +1,38 @@
+<nav class="app-header navbar navbar-expand bg-body fixed-top">
+  <div class="container-fluid">
+    <button class="btn btn-link nav-link" type="button" (click)="toggleSidebar()">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <ul class="navbar-nav ms-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-bs-toggle="dropdown" href="#">
+          <i class="fas fa-bell"></i>
+          <span class="badge bg-warning">15</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-end">
+          <span class="dropdown-header">Notifications</span>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">New message <span class="float-end text-secondary fs-7">3 mins</span></a>
+        </div>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+          <img src="assets/img/user2-160x160.jpg" class="user-image rounded-circle" />
+          <span class="d-none d-md-inline">Alexander Pierce</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li class="user-header bg-primary text-white">
+            <img src="assets/img/user2-160x160.jpg" class="rounded-circle" />
+            <p>Alexander Pierce - Web Developer<small>Member since Nov. 2023</small></p>
+          </li>
+          <li class="user-footer d-flex justify-content-between">
+            <a class="btn btn-default btn-flat" href="#">Profile</a>
+            <a class="btn btn-default btn-flat" href="#">Sign out</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>

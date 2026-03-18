@@ -1,0 +1,75 @@
+<div class="container-fluid">
+      <header class="sticky-top bg-white border-bottom">
+    <div class="container d-flex justify-content-between align-items-center py-3">
+      <div class="d-flex align-items-center gap-2">
+        <div class="bg-primary text-white rounded p-2 d-flex align-items-center justify-content-center">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <span class="h4 mb-0">SellerPulse</span>
+      </div>
+      <a routerLink="/login" class="btn btn-outline-primary btn-sm">Login</a>
+      <a routerLink="/signup" class="btn btn-outline-primary btn-sm">signup</a>
+    </div>
+  </header>
+    <div class="row h-100">
+
+        <!-- Left side: Info / Marketing -->
+        <div class="col-md-6 d-none d-md-flex flex-column justify-content-center align-items-start p-5 text-white"
+            style="background: linear-gradient(135deg, #10b77f 0%, #0d6efd 100%);">
+            <h1 class="display-4 fw-bold mb-3">Welcome to SellerPulse</h1>
+            <p class="lead mb-4">
+                Manage your multi-marketplace profits, track inventory, scan barcodes, and analyze P&L — all in one
+                dashboard.
+            </p>
+            <ul class="list-unstyled">
+                <li class="mb-2">✔ Multi-marketplace inventory</li>
+                <li class="mb-2">✔ PDF dispatch import</li>
+                <li class="mb-2">✔ Barcode scanning</li>
+                <li class="mb-2">✔ Real-time profit tracking</li>
+            </ul>
+        </div>
+
+        <!-- Right side: Login form -->
+        <div class="col-md-6 d-flex align-items-center justify-content-center p-5 bg-light">
+            <div class="w-100" style="max-width: 400px;">
+                <h2 class="mb-4 text-center" style="color: #10b77f;">Login</h2>
+                <form [formGroup]="loginForm" (ngSubmit)="login()">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" id="email" class="form-control" formControlName="email"
+                            placeholder="Enter email">
+                        <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
+                            class="text-danger small mt-1">
+                            <div *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</div>
+                            <div *ngIf="loginForm.get('email')?.errors?.['email']">Enter a valid email.</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" class="form-control" formControlName="password"
+                            placeholder="Enter password">
+                        <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+                            class="text-danger small mt-1">
+                            Password is required.
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn w-100" style="background-color: #10b77f; color: #fff;">
+                        Login
+                    </button>
+
+                    <div class="text-center mt-3">
+                        <button routerLink="/signup" class="btn" style="color:#0d6efd;">Go to Signup</button>
+                        <button routerLink="/" class="btn" style="color:#0d6efd;">Back to Home</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <!-- Footer -->
+    <footer class="bg-white border-top py-3 text-center text-muted">
+        © 2026 SellerPulse. Built for marketplace sellers.
+    </footer>
+</div>

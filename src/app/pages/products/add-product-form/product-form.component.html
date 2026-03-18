@@ -1,0 +1,108 @@
+<div class="container m-4 overflow-auto">
+  <div class="row">
+    <div class="col-md-6">
+      <h4 class="mb-3">{{ mode}} Product</h4>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <button type="button" class="btn btn-secondary" (click)="cancel()">X</button>
+    </div>
+  </div>
+  <br>
+  <div class="card p-2">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="row g-3">
+        <!-- Upper fields -->
+        <ng-container *ngFor="let field of fields">
+          <div class="col-md-6"
+            *ngIf="!['size','cost_price','selling_price','shipping_cost','rto_cost','stock'].includes(field.key)"
+            [class.col-12]="field.key==='sku'||field.key==='name'">
+            <label class="form-label">{{ field.label }}</label>
+
+            <ng-container [ngSwitch]="field.type">
+              <input *ngSwitchCase="'text'" [formControlName]="field.key" class="form-control"
+                [placeholder]="field.placeholder || ('Enter ' + field.label)" />
+              <input *ngSwitchCase="'number'" type="number" [formControlName]="field.key" class="form-control"
+                [placeholder]="field.placeholder" />
+              <select *ngSwitchCase="'select'" [formControlName]="field.key" class="form-select"
+                (change)="onFieldChange(field.key)">
+                <option value="" disabled>{{ field.placeholder || 'Select ' + field.label }}</option>
+                <option *ngFor="let opt of field.options" [value]="opt.value">{{ opt.label }}</option>
+              </select>
+            </ng-container>
+
+            <!-- Custom Color -->
+            <div *ngIf="field.key==='color' && form.get('color')?.value==='OTHER'" class="mt-2">
+              <input type="text" formControlName="custom_color" class="form-control" placeholder="Enter Custom Color" />
+            </div>
+
+            <!-- Error -->
+            <div class="text-danger mt-1"
+              *ngIf="form.get(field.key) && form.get(field.key)?.invalid && form.get(field.key)?.touched">
+              {{ field.label }} is required
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <hr class="my-3">
+
+      <!-- Variants FormArray -->
+      <!-- Variants Table -->
+      <div class="table-responsive mt-3" formArrayName="variants">
+        <table class="table table-bordered align-middle text-center">
+          <thead class="table-light">
+            <tr>
+              <th class="text-nowrap">Size &nbsp; &nbsp; &nbsp;</th>
+              <th class="text-nowrap">Cost Price</th>
+              <th class="text-nowrap">Selling Price</th>
+              <th class="text-nowrap">Shipping Cost</th>
+              <th class="text-nowrap">RTO Cost</th>
+              <th class="text-nowrap">Stock &nbsp;&nbsp; &nbsp;&nbsp;</th>
+              <th class="text-nowrap" style="width:90px;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let variant of variantsArray.controls; let i = index" [formGroupName]="i">
+              <td><input type="text" formControlName="size" class="form-control form-control-sm"
+                  placeholder="Size (L,M,S)" /></td>
+              <td><input type="number" formControlName="cost_price" class="form-control form-control-sm"
+                  placeholder="Cost Price" /></td>
+              <td><input type="number" formControlName="selling_price" class="form-control form-control-sm"
+                  placeholder="Selling Price" /></td>
+              <td><input type="number" formControlName="shipping_cost" class="form-control form-control-sm"
+                  placeholder="Shipping Cost" /></td>
+              <td><input type="number" formControlName="rto_cost" class="form-control form-control-sm"
+                  placeholder="RTO Cost" /></td>
+              <td><input type="number" formControlName="stock" class="form-control form-control-sm"
+                  placeholder="Stock" /></td>
+              <td>
+                <!-- <button type="button" class="btn btn-danger btn-sm" (click)="removeVariant(i)" 
+                  *ngIf="variantsArray.length > 1">Delete</button> -->
+                <button type="button"
+                  class="btn btn-danger btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                  (click)="removeVariant(i)" *ngIf="variantsArray.length > 1" style="width:32px; height:32px;">
+                  <i class="fas fa-trash "></i><!-- Bootstrap dash icon -->
+                </button>
+
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button type="button" class="btn btn-primary btn-sm my-2" (click)="addVariant()"> + Add Row</button>
+        <!-- <button type="button" class="btn btn-success rounded-circle" (click)="addVariant()"
+            style="width:36px; height:36px; display:flex; align-items:center; justify-content:center;">
+      <i class="fas fa-plus"></i> 
+    </button> -->
+      </div>
+
+
+      <hr>
+      <div class="d-flex justify-content-end gap-2 mt-4">
+        <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-success" [disabled]="form.invalid">{{ mode }}</button>
+      </div>
+    </form>
+  </div>
+
+</div>

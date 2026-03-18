@@ -1,0 +1,102 @@
+<div class="container-fluid py-4">
+
+  <!-- Dashboard Title -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 text-dark">Dashboard</h1>
+    <a routerLink="/" class="btn btn-outline-primary">Back to Home</a>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="row g-4 mb-5">
+    <div class="col-sm-6 col-lg-3" *ngFor="let s of summaries">
+      <div class="card shadow-sm text-white" [style.background-color]="s.bg">
+        <div class="card-body d-flex align-items-center">
+          <i [class]="s.icon + ' fa-2x me-3'"></i>
+          <div>
+            <h5 class="card-title mb-1">{{ s.title }}</h5>
+            <h4 class="card-text fw-bold">{{ s.value }}</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+
+  <!-- Recent Orders Card -->
+  <div class="rounded-lg border bg-card text-card-foreground shadow-sm p-5">
+    <h3 class="text-sm font-semibold mb-4">Recent Orders</h3>
+    <div class="space-y-3">
+      <div *ngFor="let order of recentOrders" class="flex items-center justify-between rounded-lg border border-border p-3">
+        <div class="space-y-1">
+          <p class="text-sm font-medium">{{ getProductById(order.skuId)?.name || order.skuId }}</p>
+          <div class="flex items-center gap-2">
+            <span class="mono text-xs text-muted-foreground">{{ order.orderSubId }}</span>
+            <div 
+              class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-semibold"
+              [ngClass]="platformColors[order.marketplace]"
+            >
+              {{ order.marketplace }}
+            </div>
+          </div>
+        </div>
+        <div class="text-right space-y-1">
+          <div 
+            class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-semibold"
+            [ngClass]="statusColors[order.status]"
+          >
+            {{ order.status }}
+          </div>
+          <p class="text-xs text-muted-foreground">Qty: {{ order.quantity }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Low Stock Alerts Card -->
+  <div class="rounded-lg border bg-card text-card-foreground shadow-sm p-5">
+    <h3 class="text-sm font-semibold mb-4">Low Stock Alerts</h3>
+    <div class="space-y-3">
+      <p *ngIf="lowStockProducts.length === 0" class="text-sm text-muted-foreground py-4 text-center">
+        All products are well stocked ✓
+      </p>
+      <div *ngFor="let product of lowStockProducts" class="flex items-center justify-between rounded-lg border border-border p-3">
+        <div class="space-y-1">
+          <p class="text-sm font-medium">{{ product.name }}</p>
+          <div class="flex items-center gap-2">
+            <span class="mono text-xs text-muted-foreground">{{ product.sku }}</span>
+            <div 
+              class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-semibold"
+              [ngClass]="platformColors[product.marketplace]"
+            >
+              {{ product.marketplace }}
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-lg font-bold" [ngClass]="product.stock < 10 ? 'text-loss' : 'text-warning'">
+            {{ product.stock }}
+          </span>
+          <span class="text-xs text-muted-foreground">units</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+  <!-- Features Section -->
+  <h4 class="mb-3">Quick Actions</h4>
+  <div class="row g-4">
+    <div class="col-sm-6 col-lg-4" *ngFor="let f of features">
+      <div class="card h-100 border shadow-sm text-center p-4">
+        <div class="mb-3">
+          <i [class]="f.icon + ' fa-2x'" style="color: #10b77f;"></i>
+        </div>
+        <h5 class="card-title">{{ f.title }}</h5>
+        <p class="card-text">{{ f.desc }}</p>
+      </div>
+    </div>
+  </div>
+
+</div>

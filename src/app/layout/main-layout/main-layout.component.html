@@ -1,0 +1,8 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+<app-loader></app-loader> <!-- Global loader -->
+<div class="content-wrapper" [class.sidebar-collapsed]="isSidebarCollapsed">
+  <router-outlet></router-outlet>
+</div>
+
+<app-footer></app-footer>

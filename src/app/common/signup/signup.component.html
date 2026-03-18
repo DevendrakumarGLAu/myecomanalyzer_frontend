@@ -1,0 +1,126 @@
+<div class="container-fluid">
+    <header class="sticky-top bg-white border-bottom mb-3">
+        <div class="container d-flex justify-content-between align-items-center py-3">
+            <div class="d-flex align-items-center gap-2">
+                <div class="bg-primary text-white rounded p-2 d-flex align-items-center justify-content-center">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <span class="h4 mb-0">SellerPulse</span>
+            </div>
+            <a routerLink="/login" class="btn btn-outline-primary btn-sm">Login</a>
+            <a routerLink="/signup" class="btn btn-outline-primary btn-sm">signup</a>
+        </div>
+    </header>
+    <div class="row h-100 p-3">
+
+        <!-- Left side: Info / Marketing -->
+         <div class="col-md-6 d-none d-md-flex flex-column justify-content-center align-items-start p-5 text-white"
+            style="background: linear-gradient(135deg, #10b77f 0%, #0d6efd 100%);">
+            <h1 class="display-4 fw-bold mb-3">Welcome to SellerPulse</h1>
+            <p class="lead mb-4">
+                Manage your multi-marketplace profits, track inventory, scan barcodes, and analyze P&L — all in one
+                dashboard.
+            </p>
+            <ul class="list-unstyled">
+                <li class="mb-2">✔ Multi-marketplace inventory</li>
+                <li class="mb-2">✔ PDF dispatch import</li>
+                <li class="mb-2">✔ Barcode scanning</li>
+                <li class="mb-2">✔ Real-time profit tracking</li>
+            </ul>
+        </div>
+        <!-- Right side: Login form -->
+        <div class="col-md-6 d-flex align-items-center justify-content-center p-5 bg-light">
+            <div class="card shadow-sm w-100" >
+                <div class="card-body">
+                    <h3 class="card-title mb-4 text-center"  style="color: #10b77f;">Sign Up</h3>
+
+                    <form [formGroup]="signupForm" (ngSubmit)="signup()">
+
+                        <!-- Username -->
+                         <div class="row">
+
+                        
+                        <div class="mb-3 col-md-6 ">
+                            <label class="form-label">Username *</label>
+                            <input formControlName="username" type="text" class="form-control"
+                                [ngClass]="{'is-invalid': signupForm.controls['username'].invalid && signupForm.controls['username'].touched}">
+                            <div class="invalid-feedback">
+                                Username is required (3-150 chars)
+                            </div>
+                        </div>
+
+                        <!-- First Name -->
+                        <div class="mb-3 col-md-6 ">
+                            <label class="form-label">First Name</label>
+                            <input formControlName="first_name" type="text" class="form-control">
+                        </div>
+
+                        <!-- Last Name -->
+                        <div class="mb-3 col-md-6 ">
+                            <label class="form-label">Last Name</label>
+                            <input formControlName="last_name" type="text" class="form-control">
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-3 col-md-6 ">
+                            <label class="form-label">Email *</label>
+                            <input formControlName="email" type="email" class="form-control"
+                                [ngClass]="{'is-invalid': signupForm.controls['email'].invalid && signupForm.controls['email'].touched}">
+                            <div class="invalid-feedback">
+                                Valid email is required
+                            </div>
+                        </div>
+
+                        <!-- Mobile Number -->
+                        <div class="mb-3 col-md-6 ">
+                            <label class="form-label">Mobile Number</label>
+                            <input formControlName="mobile_number" type="text" class="form-control">
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-3 col-md-6 ">
+                            <label class="form-label">Password *</label>
+                            <input formControlName="password" type="password" class="form-control"
+                                [ngClass]="{'is-invalid': signupForm.controls['password'].invalid && signupForm.controls['password'].touched}">
+                            <div class="invalid-feedback">
+                                Password must be at least 6 characters
+                            </div>
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="mb-3 col-md-6 ">
+                            <label class="form-label">Confirm Password *</label>
+                            <input formControlName="confirm_password" type="password" class="form-control">
+                        </div>
+
+                        <!-- Use Trial -->
+                        <div class="form-check mb-3">
+                            <input formControlName="use_trial" type="checkbox" class="form-check-input" id="useTrial">
+                            <label class="form-check-label" for="useTrial">Use Trial</label>
+                        </div>
+
+                        <!-- Submit -->
+                         <div class="d-flex justify-content-end">
+                        <span  class="btn w-50">Already have Account <a routerLink="/login">Login</a>  </span>
+                        <button type="submit" class="btn btn-primary w-50">Sign Up</button>
+
+                         </div>
+
+                        <!-- Error Message -->
+                        <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+                            {{ errorMessage }}
+                        </div>
+                         </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- </div> -->
+  <footer class="bg-white border-top py-3 text-center text-muted">
+        © 2026 SellerPulse. Built for marketplace sellers.
+    </footer>
+</div>

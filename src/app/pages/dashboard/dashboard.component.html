@@ -1,0 +1,184 @@
+<div class="container-fluid mt-4">
+
+    <!-- PLATFORM FILTER -->
+
+    <div class="row mb-3">
+
+        <div class="col-md-3">
+
+            <!-- <select class="form-select" [(ngModel)]="platformId" (change)="changePlatform()"> -->
+
+            <select class="form-select" [(ngModel)]="selectedPlatform" (change)="changePlatform()">
+                <option value="">-- Select Platform --</option>
+                <option *ngFor=" let p of platforms" [value]="p.code">
+                    {{ p.name }}
+                </option>
+            </select>
+
+        </div>
+
+    </div>
+
+
+    <!-- SUMMARY CARDS -->
+
+    <div class="row text-center" *ngIf="dashboard">
+
+        <div class="col-md-2">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6>Total Orders</h6>
+                    <h4>{{dashboard.summary.total_orders}}</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6>Total Products</h6>
+                    <h4>{{dashboard.summary.total_products}}</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6>Total Sales</h6>
+                    <h4>₹{{dashboard.summary.total_sales}}</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6>Total Returns</h6>
+                    <h4>₹{{dashboard.summary.total_returns}}</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6>Settlement</h6>
+                    <h4>₹{{dashboard.summary.total_settlement}}</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6>Low Stock</h6>
+                    <h4>{{dashboard.summary.low_stock_products}}</h4>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ORDERS BY STATUS -->
+
+    <div class="row mt-4" *ngIf="dashboard">
+
+        <div class="col-md-6">
+
+            <div class="card">
+
+                <div class="card-header">
+                    Orders by Status
+                </div>
+
+                <table class="table table-sm">
+
+                    <tr>
+                        <th>Status</th>
+                        <th>Total</th>
+                    </tr>
+
+                    <tr *ngFor="let s of dashboard.orders_by_status">
+
+                        <td>{{s.status}}</td>
+                        <td>{{s.total}}</td>
+
+                    </tr>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- PLATFORM STATS -->
+
+        <div class="col-md-6">
+
+            <div class="card">
+
+                <div class="card-header">
+                    Orders by Platform
+                </div>
+
+                <table class="table table-sm">
+
+                    <tr>
+                        <th>Platform</th>
+                        <th>Total</th>
+                    </tr>
+
+                    <tr *ngFor="let p of dashboard.orders_by_platform">
+
+                        <td>{{p.platform}}</td>
+                        <td>{{p.total}}</td>
+
+                    </tr>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SALES TREND -->
+
+    <div class="row mt-4" *ngIf="dashboard">
+
+        <div class="col-md-12">
+
+            <div class="card">
+
+                <div class="card-header">
+                    Sales Trend (Last 7 Days)
+                </div>
+
+                <table class="table table-bordered table-sm">
+
+                    <tr>
+                        <th>Date</th>
+                        <th>Total Orders</th>
+                    </tr>
+
+                    <tr *ngFor="let t of dashboard.sales_trend">
+
+                        <td>{{t.date}}</td>
+                        <td>{{t.total_orders}}</td>
+
+                    </tr>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

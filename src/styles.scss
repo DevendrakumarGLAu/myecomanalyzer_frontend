@@ -1,1 +1,28 @@
-/* You can add global styles to this file, and also import other style files */
+/* global.scss */
+.app-sidebar {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  width: 250px;
+  height: calc(100vh - 56px);
+  background-color: #343a40;
+  transition: transform 0.3s ease, width 0.3s ease;
+  z-index: 1100;
+
+  &.collapsed {
+    transform: translateX(-100%);
+  }
+
+  @media (min-width: 992px) {
+    &.collapsed {
+      transform: translateX(0);
+      width: 80px;
+    }
+  }
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.form-label {
+  font-weight: 500; /* Optional: makes text slightly bolder */
+}

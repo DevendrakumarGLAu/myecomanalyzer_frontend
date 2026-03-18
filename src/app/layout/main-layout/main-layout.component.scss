@@ -1,0 +1,15 @@
+/* main-layout.component.scss */
+.content-wrapper {
+  margin-top: 56px; // header height
+  margin-left: 250px; // default sidebar width
+  padding: 20px;
+  transition: margin-left 0.3s;
+
+  &.sidebar-collapsed {
+    margin-left: 80px; // desktop collapsed width
+  }
+
+  @media (max-width: 991px) {
+    margin-left: 0; // mobile always full width
+  }
+}

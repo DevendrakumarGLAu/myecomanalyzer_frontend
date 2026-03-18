@@ -1,0 +1,84 @@
+<div class="container m-4">
+
+  <!-- Top Row -->
+  <div class="row mb-3 align-items-center">
+    <div class="col-md-6">
+      <input 
+        type="text" 
+        class="form-control"
+        placeholder="Search category..."
+        [(ngModel)]="searchText" 
+        (input)="loadCategories()" />
+    </div>
+
+    <div class="col-md-6 text-end">
+      <button 
+        class="btn"
+        [style.background-color]="colors.buttons.add"
+        style="color: white;"
+        (click)="openDialog()">
+        <i class="fas fa-plus me-1"></i> Add Category
+      </button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="">
+    <table class="table table-bordered table-hover">
+      <thead class="table-light">
+        <tr>
+          <th width="10%" class="text-center">Actions</th>
+          <th width="10%">ID</th>
+          <th width="40%">Name</th>
+          <th width="20%">Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let cat of categories">
+            <!-- Actions Dropdown -->
+          <td class="text-center">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                                <i class="fas fa-ellipsis-h"></i> <!-- vertical three dots icon -->
+                            </button>
+
+                            <!-- Menu definition -->
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item (click)="openDialog(cat)">
+                                    <i class="fas fa-pencil-alt text-primary me-2"></i>
+                                </button>
+                                <button mat-menu-item (click)="deactivateCategory(cat.id)">
+                                    <i class="fas fa-trash text-danger me-2"></i>
+                                </button>
+                            </mat-menu>
+            
+          </td>
+
+          <td>{{ cat.id }}</td>
+
+          <td>{{ cat.name }}</td>
+
+          <td>
+            <span 
+              class="badge"
+              [ngClass]="cat.is_active ? 'bg-success' : 'bg-danger'">
+              {{ cat.is_active ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+
+          
+
+        </tr>
+
+        <!-- No Data -->
+        <tr *ngIf="categories.length === 0">
+          <td colspan="4" class="text-center text-muted">
+            No categories found
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+</div>

@@ -1,0 +1,22 @@
+<div class="container m-4">
+  <h2>{{ mode }} Category</h2>
+
+  <form [formGroup]="categoryForm" (ngSubmit)="save()">
+
+    <div class="mb-3">
+      <label for="categoryName" class="form-label">Category Name</label>
+      <input type="text" id="categoryName" class="form-control" formControlName="name" />
+    </div>
+
+    <div class="text-end">
+      <button type="button" class="btn btn-secondary me-2" (click)="cancel()">
+        Cancel
+      </button>
+
+      <button type="submit" class="btn btn-primary">
+        {{ mode }}
+      </button>
+    </div>
+
+  </form>
+</div>

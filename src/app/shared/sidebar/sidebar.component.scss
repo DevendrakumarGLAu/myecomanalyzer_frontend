@@ -1,0 +1,34 @@
+.sidebar {
+  position: fixed;
+  top: 56px;        // navbar height
+  left: 0;
+  width: 250px;     // same width for all screens
+  height: calc(100vh - 56px);
+  background-color: #2d3033;
+  overflow-y: auto;
+  z-index: 1050;
+  transition: transform 0.3s ease-in-out;
+
+  .nav-link.active {
+    background-color: #0d6efd;
+    color: white;
+  }
+
+  .nav-link:hover {
+    background-color: #495057;
+    color: white;
+  }
+
+  // Hidden on mobile by default
+  @media (max-width: 992px) {
+    transform: translateX(-100%);
+  }
+}
+
+// Sidebar visible on mobile
+.sidebar.show {
+  transform: translateX(0);
+}
+.sidebar.collapsed {
+  width: 80px; // collapse width on desktop
+}
