@@ -16,9 +16,15 @@ export class DashboardService {
     const token = localStorage.getItem('token') || '';  // get token from localStorage
     return new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`  // use Authorization header to pass the token
+      'access-token': `Bearer ${token}` // use Authorization header to pass the token
     });
   }
+   private getAuthHeaders(): HttpHeaders {
+        const token = localStorage.getItem('token') || '';
+        return new HttpHeaders({
+            'access-token': `Bearer ${token}` // <-- FastAPI standard
+        });
+    }
 
   // Method to get dashboard summary
   getDashboard(platformCode?: string) {

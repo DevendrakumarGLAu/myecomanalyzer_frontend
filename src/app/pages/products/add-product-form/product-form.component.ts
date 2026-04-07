@@ -77,7 +77,7 @@ export class ProductFormComponent implements OnInit, OnChanges {
     { "label": "Beige", "value": "BEIGE" },
     { "label": "Gold", "value": "GOLD" },
     { "label": "Silver", "value": "SILVER" },
-    { "label": "Multi Color", "value": "MULTI_COLOR" },
+    { "label": "Multicolor", "value": "MULTICOLOR" },
     { "label": "Other", "value": "OTHER" }
   ]
 

@@ -52,7 +52,7 @@ export class ProductComponent implements OnInit {
 
     loadProducts() {
         const filters = {
-            search: this.searchTerm,
+            search: this.searchTerm.trim(),
             platform: this.selectedPlatform,
             page: this.currentPage,
             limit: this.itemsPerPage
@@ -70,7 +70,7 @@ export class ProductComponent implements OnInit {
 
     applyFilter(): void {
         const filters = {
-            search: this.searchTerm,
+            search: this.searchTerm.trim(),
             platform: this.selectedPlatform,
             page: this.currentPage,
             limit: this.itemsPerPage

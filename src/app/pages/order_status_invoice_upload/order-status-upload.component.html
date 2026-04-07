@@ -1,0 +1,47 @@
+<div class="upload-container">
+  <h2>Upload Order Status CSV</h2>
+
+  <input type="file" (change)="onFileSelected($event)" accept=".csv" />
+
+  <button (click)="uploadFile()">Upload</button>
+
+  <div *ngIf="message" class="message">{{ message }}</div>
+
+  <div *ngIf="errorList.length > 0">
+    <h3>Errors</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Row</th>
+          <th>Sub Order ID</th>
+          <th>Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let err of errorList">
+          <td>{{ err.row }}</td>
+          <td>{{ err.sub_order_id || '-' }}</td>
+          <td>{{ err.reason }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="notFoundList.length > 0">
+    <h3>Orders Not Found</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Sub Order ID</th>
+          <th>Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of notFoundList">
+          <td>{{ item.sub_order_id }}</td>
+          <td>{{ item.reason }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

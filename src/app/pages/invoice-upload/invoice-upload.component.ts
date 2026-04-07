@@ -26,10 +26,11 @@ export class InvoiceUploadComponent {
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
   }
-
+  errorList: any[] = [];
+  errorFileUrl: string | null = null;
   uploadFile() {
     console.log("Selected Platform:", this.selectedPlatform);
-  console.log("Selected File:", this.selectedFile);
+    console.log("Selected File:", this.selectedFile);
     if (!this.selectedFile || !this.selectedPlatform) {
       this.message = "Please select platform and file.";
       return;
@@ -42,12 +43,17 @@ export class InvoiceUploadComponent {
       .subscribe({
         next: (res: any) => {
           const summary = res?.data?.summary;
+
           this.message = `
-    ✅ Imported: ${summary.imported}
-    🔁 Duplicate (Not Inserted): ${summary.duplicates}
-    ❌ Error (Not Inserted): ${summary.errors}
-    ⚠️ Total Not Inserted: ${summary.not_inserted}
-  `;
+          ✅ Imported: ${summary.imported}
+          🔁 Duplicate: ${summary.duplicates}
+          ❌ Errors: ${summary.errors}
+          ⚠️ Not Inserted: ${summary.not_inserted}
+                `;
+
+          // ✅ NEW: store detailed errors
+          this.errorList = res?.data?.error_orders || [];
+          this.errorFileUrl = res?.data?.error_file || null;
         },
         error: (err: any) => {
           this.message = 'Upload failed: ' + (err.error?.message || err.message);
@@ -55,3 +61,5 @@ export class InvoiceUploadComponent {
       });
   }
 }
+
+// 214662336226083456_1 - exchange order

@@ -42,4 +42,27 @@ export class InvoiceService {
 
         return this.http.post(url, formData, { params, headers: this.getAuthHeaders() });
     }
+
+    uploadOrderStatusCSV(file: File, platformCode: string): Observable<any> {
+        const url = `${this.baseUrl}/order-status`;
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const params = new HttpParams().set('platform_code', platformCode);
+
+        return this.http.post(url, formData, { params, headers: this.getAuthHeaders() });
+    }
+
+    getAllOrdersData(platformCode: string, page: number, limit: number,search: string = ''): Observable<any> {
+        let params = new HttpParams()
+            .set('platform_code', platformCode)
+            .set('page', page)
+            .set('limit', limit)
+            .set('search', search) // Placeholder for search text
+            .set('sort_by', 'id')
+            .set('order', 'desc');
+
+        return this.http.get(`${this.baseUrl}/dispatch-invoice`, { params });
+    }
 }

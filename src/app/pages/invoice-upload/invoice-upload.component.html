@@ -1,12 +1,13 @@
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
-  <div class="card shadow-lg p-4" style="width: 400px;">
-    
-    <div class="card-body text-center">
-      
-      <h2 class="card-title mb-4">Upload Invoice</h2>
+  <div class="card shadow-lg p-3" style="width: 420px; max-height: 90vh; overflow-y: auto;">
 
-      <div class="mb-3 text-start">
-        <label class="form-label">Select Platform:</label>
+    <div class="card-body">
+
+      <h4 class="text-center mb-3">Upload Invoice</h4>
+
+      <!-- Platform -->
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Select Platform</label>
         <select class="form-select" [(ngModel)]="selectedPlatform">
           <option value="">-- Select Platform --</option>
           <option *ngFor="let p of platforms" [value]="p.code">
@@ -15,22 +16,64 @@
         </select>
       </div>
 
+      <!-- File -->
       <div class="mb-3">
-        <input 
-          type="file" 
-          class="form-control" 
-          (change)="onFileSelected($event)" 
-          accept=".pdf" 
-        />
+        <input type="file" class="form-control" (change)="onFileSelected($event)" accept=".pdf" />
       </div>
 
+      <!-- Upload Button -->
       <div class="d-grid mb-3">
-        <button class="btn btn-primary" (click)="uploadFile()">
-          Upload
+        <button class="btn btn-primary btn-sm" (click)="uploadFile()">
+          ⬆ Upload Invoice
         </button>
       </div>
 
-      <p class="text-success">{{ message }}</p>
+      <!-- Success Message -->
+      <p class="text-success text-center">{{ message }}</p>
+
+      <!-- ERROR SECTION -->
+      <div *ngIf="errorList.length > 0" class="mt-4">
+
+        <!-- Header Row -->
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h6 class="text-danger mb-0">
+            Failed Orders 
+            <span class="badge bg-danger">{{ errorList.length }}</span>
+          </h6>
+
+          <a *ngIf="errorFileUrl"
+             [href]="errorFileUrl"
+             download
+             class="btn btn-outline-danger btn-sm">
+            ⬇ Download
+          </a>
+        </div>
+
+        <!-- Scrollable Table -->
+        <div class="table-responsive" style="max-height: 250px; overflow-y: auto;">
+          <table class="table table-sm table-bordered table-hover align-middle">
+            <thead class="table-light sticky-top">
+              <tr>
+                <th>Order ID</th>
+                <th>SKU</th>
+                <th>Size</th>
+                <th>Color</th>
+                <th>Reason</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let err of errorList">
+                <td>{{ err.order_id }}</td>
+                <td>{{ err.sku }}</td>
+                <td>{{ err.size }}</td>
+                <td>{{ err.color }}</td>
+                <td class="text-danger fw-semibold">{{ err.reason }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
 
     </div>
   </div>
