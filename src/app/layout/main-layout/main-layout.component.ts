@@ -6,6 +6,7 @@ import { FooterComponent } from '../../shared/footer/footer.component';
 import { SidebarService } from '../../services/sidebar.service';
 import { loadavg } from 'os';
 import { LoaderComponent } from '../../common/loader/loader.component';
+import { PageWrapperComponent } from '../pagelayout/page-wrapper.component';
 
 @Component({
   selector: 'app-main-layout',
@@ -15,7 +16,8 @@ import { LoaderComponent } from '../../common/loader/loader.component';
     HeaderComponent,
     SidebarComponent,
     FooterComponent,
-    LoaderComponent
+    // LoaderComponent,
+    PageWrapperComponent
   ],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss'

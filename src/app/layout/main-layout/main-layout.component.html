@@ -1,8 +1,33 @@
-<app-header></app-header>
-<app-sidebar></app-sidebar>
-<app-loader></app-loader> <!-- Global loader -->
-<div class="content-wrapper" [class.sidebar-collapsed]="isSidebarCollapsed">
-  <router-outlet></router-outlet>
-</div>
+<!-- <div class="app-wrapper">
+  <app-header></app-header>
+  <app-sidebar></app-sidebar>
+  <main class="app-main">
+    <app-loader></app-loader>
+    <div class="app-content-wrapper" [class.sidebar-collapsed]="isSidebarCollapsed">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+  <app-footer></app-footer>
+</div> -->
+<div class="app-wrapper">
 
-<app-footer></app-footer>
+  <!-- SIDEBAR -->
+  <app-sidebar></app-sidebar>
+
+  <!-- MAIN WRAPPER -->
+  <div class="app-main-wrapper">
+
+    <!-- HEADER (fixed) -->
+    <app-header></app-header>
+
+    <!-- SCROLLABLE PAGE CONTENT -->
+    <app-page-wrapper>
+      <router-outlet></router-outlet>
+    </app-page-wrapper>
+   <app-footer></app-footer>
+
+    <!-- FOOTER (fixed at bottom of page, after content) -->
+   
+
+  </div>
+</div>

@@ -1,87 +1,87 @@
-<aside class="app-sidebar bg-dark text-white" [class.collapsed]="isCollapsed">
+<aside class="app-sidebar bg-body-secondary elevation-4" data-bs-theme="dark">
   <div class="sidebar-brand p-3">
-    <a class="d-flex align-items-center text-white" routerLink="/dashboard">
-      <img src="assets/img/AdminLTELogo.png" class="brand-image opacity-75 me-2" />
+    <a class="d-flex align-items-center text-white" routerLink="/dashboard" style="text-decoration: none;">
+      <img src="assets/img/AdminLTELogo.png" class="brand-image opacity-75 me-2" alt="AdminLTE Logo"
+        style="height: 33px;" />
       <span class="brand-text fw-light">AdminLTE 4</span>
     </a>
   </div>
 
-  <nav class="mt-2">
-    <ul class="nav flex-column" role="menu">
-      <li class="nav-header">Nav Header</li>
+  <div class="sidebar-wrapper">
+    <nav class="mt-2">
+      <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
+        <li class="nav-header">Nav Header</li>
 
-      <li class="nav-item">
-        <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">
-          <i class="nav-icon fas fa-tachometer-alt mr-2"></i>
-          <span class="ml-2">Dashboard</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a routerLink="/user-dashboard" routerLinkActive="active" class="nav-link">
-          <i class="nav-icon fas fa-tachometer-alt mr-2"></i>
-          <span class="ml-2">User Dashboard</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a routerLink="/category" routerLinkActive="active" class="nav-link">
-          <i class="nav-icon fas fa-cart mr-2"></i>
-          <span class="ml-2">Category</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a routerLink="/products" routerLinkActive="active" class="nav-link">
-          <i class="nav-icon fas fa-tachometer-alt mr-2"></i>
-          <span class="ml-2">Products</span>
-        </a>
-      </li>
-      <!-- DispatchInvoiceComponent -->
-       <li class="nav-item">
-        <a routerLink="/dispatch-invoice" routerLinkActive="active" class="nav-link">
-          <i class="nav-icon fas fa-tachometer-alt mr-2"></i>
-          <span class="ml-2">Dispatch Invoice</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a routerLink="/upload-invoice" routerLinkActive="active" class="nav-link">
-          <i class="nav-icon fas fa-cart mr-2"></i>
-          <span class="ml-2">Upload Invoice</span>
-        </a>
-      </li>
+        <li class="nav-item">
+          <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">
+            <i class="nav-icon fas fa-tachometer-alt mr-2"></i>
+            <p class="ml-2">Dashboard</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/user-dashboard" routerLinkActive="active" class="nav-link">
+            <i class="nav-icon fas fa-tachometer-alt mr-2"></i>
+            <p class="ml-2">User Dashboard</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/category" routerLinkActive="active" class="nav-link">
+            <i class="nav-icon fas fa-cart mr-2"></i>
+            <p class="ml-2">Category</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/products" routerLinkActive="active" class="nav-link">
+            <i class="nav-icon fas fa-tachometer-alt mr-2"></i>
+            <p class="ml-2">Products</p>
+          </a>
+        </li>
+        <!-- DispatchInvoiceComponent -->
+        <li class="nav-item">
+          <a routerLink="/dispatch-invoice" routerLinkActive="active" class="nav-link">
+            <i class="nav-icon fas fa-tachometer-alt mr-2"></i>
+            <p class="ml-2">Dispatch Invoice</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/upload-invoice" routerLinkActive="active" class="nav-link">
+            <i class="nav-icon fas fa-cart mr-2"></i>
+            <p class="ml-2">Upload Invoice</p>
+          </a>
+        </li>
 
-      <li class="nav-item">
-        <a routerLink="/upload-excel" routerLinkActive="active" class="nav-link">
-          <i class="nav-icon fas fa-cart mr-2"></i>
-          <span class="ml-2">Upload Excel</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a routerLink="/order-status" routerLinkActive="active" class="nav-link">
-          <i class="nav-icon fas fa-cart mr-2"></i>
-          <span class="ml-2">Order Status</span>
-        </a>
-      </li>
-            
+        <li class="nav-item">
+          <a routerLink="/upload-excel" routerLinkActive="active" class="nav-link">
+            <i class="nav-icon fas fa-cart mr-2"></i>
+            <p class="ml-2">Upload Excel</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/order-status" routerLinkActive="active" class="nav-link">
+            <i class="nav-icon fas fa-cart mr-2"></i>
+            <p class="ml-2">Order Status</p>
+          </a>
+        </li>
 
-      <li class="nav-item">
-        <a href="#" class="nav-link">
-          <i class="nav-icon fas fa-layer-group"></i>
-          <span class="ml-2">Treeview
-            <i class="right fas fa-angle-left"></i>
-          </span>
-          <!-- <p>Treeview
-            <i class="right fas fa-angle-left"></i>
-          </p> -->
-        </a>
-        <ul class="nav nav-treeview ps-3">
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <span class="ml-2">Level 2</span>
-            </a>
-          </li>
-        </ul>
-      </li>
 
-    </ul>
-  </nav>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-layer-group"></i>
+            <p class="ml-2">Treeview
+              <i class="nav-arrow fas fa-angle-right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview ps-3">
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p class="ml-2">Level 2</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+      </ul>
+    </nav>
+  </div>
 </aside>

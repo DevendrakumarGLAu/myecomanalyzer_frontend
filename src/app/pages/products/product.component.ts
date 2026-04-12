@@ -55,32 +55,23 @@ export class ProductComponent implements OnInit {
             search: this.searchTerm.trim(),
             platform: this.selectedPlatform,
             page: this.currentPage,
-            limit: this.itemsPerPage
+            limit: Number(this.itemsPerPage)
         };
         this.productService.getProducts(filters)
             .subscribe({
                 next: (data) => {
                     this.products = data.items;
                     this.filteredProducts = data.items;
-                    this.totalItems = data.total;
+                    this.updatePagination(data.total);
                 },
                 error: (err) => console.error(err)
             });
     }
 
     applyFilter(): void {
-        const filters = {
-            search: this.searchTerm.trim(),
-            platform: this.selectedPlatform,
-            page: this.currentPage,
-            limit: this.itemsPerPage
-        };
-
-        this.productService.getProducts(filters).subscribe((data) => {
-            this.filteredProducts = data.items;
-            this.totalItems = data.total;
-            this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
-        });
+        this.currentPage = 1;
+        this.gotoPageNumber = 1;
+        this.loadProducts();
     }
 
 
@@ -164,17 +155,40 @@ export class ProductComponent implements OnInit {
 
     // Computed indexes
     get startIndex(): number {
-        return (this.currentPage - 1) * this.itemsPerPage;
+        if (this.totalItems === 0) return 0;
+        return (this.currentPage - 1) * Number(this.itemsPerPage);
     }
 
     get endIndex(): number {
-        return Math.min(this.startIndex + this.itemsPerPage, this.totalItems);
+        return Math.min((this.currentPage - 1) * Number(this.itemsPerPage) + Number(this.itemsPerPage), this.totalItems);
     }
 
     // Generate page numbers array
     getPages(): number[] {
         const pages = [];
-        for (let i = 1; i <= this.totalPages; i++) {
+        const maxPagesToShow = 5;
+        let startPage: number, endPage: number;
+        
+        if (this.totalPages <= maxPagesToShow) {
+            startPage = 1;
+            endPage = this.totalPages;
+        } else {
+            const maxPagesBeforeCurrentPage = Math.floor(maxPagesToShow / 2);
+            const maxPagesAfterCurrentPage = Math.ceil(maxPagesToShow / 2) - 1;
+            
+            if (this.currentPage <= maxPagesBeforeCurrentPage) {
+                startPage = 1;
+                endPage = maxPagesToShow;
+            } else if (this.currentPage + maxPagesAfterCurrentPage >= this.totalPages) {
+                startPage = this.totalPages - maxPagesToShow + 1;
+                endPage = this.totalPages;
+            } else {
+                startPage = this.currentPage - maxPagesBeforeCurrentPage;
+                endPage = this.currentPage + maxPagesAfterCurrentPage;
+            }
+        }
+        
+        for (let i = startPage; i <= endPage; i++) {
             pages.push(i);
         }
         return pages;
@@ -202,6 +216,9 @@ export class ProductComponent implements OnInit {
     // Update total pages after fetching data
     updatePagination(total: number) {
         this.totalItems = total;
-        this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+        this.totalPages = Math.ceil(this.totalItems / Number(this.itemsPerPage));
+        if (this.totalPages === 0) {
+            this.totalPages = 1;
+        }
     }
 }

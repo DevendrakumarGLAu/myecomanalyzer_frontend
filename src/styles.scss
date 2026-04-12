@@ -1,28 +1,76 @@
-/* global.scss */
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--bs-body-bg);
+}
+
+/* ------------------------
+   APP WRAPPER
+------------------------ */
+.app-wrapper {
+  // display: flex;
+  min-height: 100vh;
+}
+
+/* ------------------------
+   SIDEBAR
+------------------------ */
 .app-sidebar {
   position: fixed;
-  top: 56px;
+  top: 0;
   left: 0;
+  bottom: 0;
   width: 250px;
-  height: calc(100vh - 56px);
-  background-color: #343a40;
-  transition: transform 0.3s ease, width 0.3s ease;
-  z-index: 1100;
-
-  &.collapsed {
-    transform: translateX(-100%);
-  }
-
-  @media (min-width: 992px) {
-    &.collapsed {
-      transform: translateX(0);
-      width: 80px;
-    }
-  }
+  overflow-y: auto;
+  background: #fff;
+  z-index: 1040;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-.form-label {
-  font-weight: 500; /* Optional: makes text slightly bolder */
+/* ------------------------
+   MAIN WRAPPER (next to sidebar)
+------------------------ */
+.app-main-wrapper {
+  display: flex;
+  flex-direction: column;
+  // margin-left: 250px;       /* same as sidebar width */
+  height: 100vh;            /* full viewport height */
+}
+
+/* ------------------------
+   HEADER (fixed/sticky)
+------------------------ */
+app-header,
+.app-header {
+  height: 60px;
+  flex-shrink: 0;           /* don’t shrink */
+  background: #fff;
+  border-bottom: 1px solid #dee2e6;
+  z-index: 1050;
+}
+
+/* ------------------------
+   SCROLLABLE CONTENT
+------------------------ */
+app-page-wrapper,
+.app-page-wrapper {
+  flex: 1 1 auto;           /* take remaining space */
+  min-height: 0;            /* allows proper flex scrolling */
+  overflow-y: auto;         /* scroll only this */
+  padding: 1rem;
+  background: #f4f6f9;
+}
+
+/* ------------------------
+   FOOTER
+------------------------ */
+app-footer,
+footer.app-footer {
+  flex-shrink: 0;           /* don’t shrink */
+  height: 50px;
+  line-height: 50px;
+  background: #f4f6f9;
+  padding: 0 1rem;
+  border-top: 1px solid #dee2e6;
 }
