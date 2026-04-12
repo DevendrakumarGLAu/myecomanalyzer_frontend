@@ -74,3 +74,18 @@ footer.app-footer {
   padding: 0 1rem;
   border-top: 1px solid #dee2e6;
 }
+
+/* ------------------------
+   SNACKBAR STYLES
+------------------------ */
+.success-snackbar {
+  --mdc-snackbar-container-color: #28a745;
+  --mdc-snackbar-supporting-text-color: #ffffff;
+  --mat-mdc-snack-bar-button-color: #ffffff;
+}
+
+.error-snackbar {
+  --mdc-snackbar-container-color: #dc3545;
+  --mdc-snackbar-supporting-text-color: #ffffff;
+  --mat-mdc-snack-bar-button-color: #ffffff;
+}

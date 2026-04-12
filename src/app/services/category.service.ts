@@ -6,7 +6,7 @@ import { environment } from '../../environments/environment';
 export interface Category {
   id?: number;
   name: string;
-  is_active?:boolean;
+  is_active?: boolean;
 }
 
 @Injectable({
@@ -45,14 +45,26 @@ export class CategoryService {
   }
 
   addCategory(category: Category): Observable<any> {
-    return this.http.post(`${this.baseUrl}/add`, category);
+    return this.http.post(
+      `${this.baseUrl}/add`,
+      category,
+      { headers: this.getHeaders() }
+    );
   }
 
   updateCategory(categoryId: number, category: Category): Observable<any> {
-    return this.http.put(`${this.baseUrl}/update?category_id=${categoryId}`, category);
+    return this.http.put(
+      `${this.baseUrl}/update?category_id=${categoryId}`,
+      category,
+      { headers: this.getHeaders() }
+    );
   }
 
   deactivateCategory(categoryId: number): Observable<any> {
-    return this.http.patch(`${this.baseUrl}/deactivate?category_id=${categoryId}`, {});
+    return this.http.patch(
+      `${this.baseUrl}/deactivate?category_id=${categoryId}`,
+      {},
+      { headers: this.getHeaders() }
+    );
   }
 }
