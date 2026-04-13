@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 
 import { MaterialModule } from '../../../../material.module';
 import { COLORS, PLATFORMS, PLATFORM_COLORS } from '../../common/constant/platform.constants';
+import { ToastService } from '../../services/toast.service';
 
 declare var bootstrap: any;
 @Component({
@@ -29,6 +30,15 @@ export class ProductComponent implements OnInit {
     colors = COLORS;
     platforms = PLATFORMS;
     selectedPlatform: string = '';
+        // Pagination variables
+    totalItems = 0;
+    itemsPerPage = 10;
+    currentPage = 1;
+    totalPages = 1;
+    gotoPageNumber = 1;
+
+    // Options for records per page
+    pageSizeOptions = [5, 10, 20, 30, 50, 100];
 
     // Dynamic columns config
     columns = [
@@ -43,7 +53,7 @@ export class ProductComponent implements OnInit {
     ];
 
     constructor(private productService: ProductService,
-        private dialog: MatDialog
+        private dialog: MatDialog, private toast: ToastService
     ) { }
 
     ngOnInit() {
@@ -104,15 +114,32 @@ export class ProductComponent implements OnInit {
 
     saveProduct(product: Product) {
         if (this.editingProduct && this.selectedProduct?.id) {
-            this.productService.updateProduct(Number(this.selectedProduct.id), product).subscribe({
-                next: () => this.loadProducts(),
-                complete: () => this.closeDialog()
-            });
+            this.productService.updateProduct(Number(this.selectedProduct.id), product)
+                .subscribe({
+                    next: (res: any) => {
+                        this.toast.success(res?.message || 'Product updated successfully');
+                        this.loadProducts();
+                        this.closeDialog();
+                    },
+                    error: (err) => {
+                        this.toast.error(err?.error?.message || 'Failed to update product');
+                    }
+                });
+
         } else {
-            this.productService.addProduct(product).subscribe({
-                next: () => this.loadProducts(),
-                complete: () => this.closeDialog()
-            });
+
+            this.productService.addProduct(product)
+                .subscribe({
+                    next: (res: any) => {
+                        this.toast.success(res?.message || 'Product added successfully');
+                        this.loadProducts();
+                        this.closeDialog();
+                    },
+                    error: (err) => {
+                        this.toast.error(err?.error?.message || 'Failed to add product');
+                    }
+                });
+
         }
     }
 
@@ -142,17 +169,6 @@ export class ProductComponent implements OnInit {
     }
 
 
-
-    // Pagination variables
-    totalItems = 0;
-    itemsPerPage = 10;
-    currentPage = 1;
-    totalPages = 1;
-    gotoPageNumber = 1;
-
-    // Options for records per page
-    pageSizeOptions = [5, 10, 20, 30, 50, 100];
-
     // Computed indexes
     get startIndex(): number {
         if (this.totalItems === 0) return 0;
@@ -168,14 +184,14 @@ export class ProductComponent implements OnInit {
         const pages = [];
         const maxPagesToShow = 5;
         let startPage: number, endPage: number;
-        
+
         if (this.totalPages <= maxPagesToShow) {
             startPage = 1;
             endPage = this.totalPages;
         } else {
             const maxPagesBeforeCurrentPage = Math.floor(maxPagesToShow / 2);
             const maxPagesAfterCurrentPage = Math.ceil(maxPagesToShow / 2) - 1;
-            
+
             if (this.currentPage <= maxPagesBeforeCurrentPage) {
                 startPage = 1;
                 endPage = maxPagesToShow;
@@ -187,7 +203,7 @@ export class ProductComponent implements OnInit {
                 endPage = this.currentPage + maxPagesAfterCurrentPage;
             }
         }
-        
+
         for (let i = startPage; i <= endPage; i++) {
             pages.push(i);
         }

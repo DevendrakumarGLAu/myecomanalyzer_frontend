@@ -3,20 +3,12 @@
   <!-- Top Row -->
   <div class="row mb-3 align-items-center">
     <div class="col-md-6">
-      <input 
-        type="text" 
-        class="form-control"
-        placeholder="Search category..."
-        [(ngModel)]="searchText" 
+      <input type="text" class="form-control" placeholder="Search category..." [(ngModel)]="searchText"
         (input)="loadCategories()" />
     </div>
 
     <div class="col-md-6 text-end">
-      <button 
-        class="btn"
-        [style.background-color]="colors.buttons.add"
-        style="color: white;"
-        (click)="openDialog()">
+      <button class="btn" [style.background-color]="colors.buttons.add" style="color: white;" (click)="openDialog()">
         <i class="fas fa-plus me-1"></i> Add Category
       </button>
     </div>
@@ -36,22 +28,22 @@
 
       <tbody>
         <tr *ngFor="let cat of categories">
-            <!-- Actions Dropdown -->
+          <!-- Actions Dropdown -->
           <td class="text-center">
             <button mat-icon-button [matMenuTriggerFor]="menu">
-                                <i class="fas fa-ellipsis-h"></i> <!-- vertical three dots icon -->
-                            </button>
+              <i class="fas fa-ellipsis-h"></i> <!-- vertical three dots icon -->
+            </button>
 
-                            <!-- Menu definition -->
-                            <mat-menu #menu="matMenu">
-                                <button mat-menu-item (click)="openDialog(cat)">
-                                    <i class="fas fa-pencil-alt text-primary me-2"></i>
-                                </button>
-                                <button mat-menu-item (click)="deactivateCategory(cat.id)">
-                                    <i class="fas fa-trash text-danger me-2"></i>
-                                </button>
-                            </mat-menu>
-            
+            <!-- Menu definition -->
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="openDialog(cat)">
+                <i class="fas fa-pencil-alt text-primary me-2"></i>
+              </button>
+              <button mat-menu-item (click)="deactivateCategory(cat.id)">
+                <i class="fas fa-trash text-danger me-2"></i>
+              </button>
+            </mat-menu>
+
           </td>
 
           <td>{{ cat.id }}</td>
@@ -59,14 +51,12 @@
           <td>{{ cat.name }}</td>
 
           <td>
-            <span 
-              class="badge"
-              [ngClass]="cat.is_active ? 'bg-success' : 'bg-danger'">
+            <span class="badge" [ngClass]="cat.is_active ? 'bg-success' : 'bg-danger'">
               {{ cat.is_active ? 'Active' : 'Inactive' }}
             </span>
           </td>
 
-          
+
 
         </tr>
 
@@ -79,6 +69,51 @@
 
       </tbody>
     </table>
+    <div class="d-flex justify-content-end mt-3">
+      <nav>
+        <ul class="pagination mb-0 align-items-center">
+
+          <!-- Go To Page -->
+          <li class="page-item d-flex align-items-center me-3">
+            <span class="me-1 small">Page</span>
+            <input type="number" class="form-control form-control-sm" style="width: 70px;" [value]="page" min="1"
+              [max]="totalPages" (change)="goToPageInput($event)">
+          </li>
+
+          <!-- Page Size -->
+          <li class="page-item d-flex align-items-center ms-3">
+            <span class="me-1 small">Show</span>
+            <select class="form-select form-select-sm" [value]="limit" (change)="onPageSizeChange($event)">
+              <option *ngFor="let size of pageSizes" [value]="size">
+                {{ size }}
+              </option>
+            </select>
+          </li>
+
+          <!-- Showing Records -->
+          <li class="page-item disabled me-3">
+            <span class="page-link border-0 bg-transparent text-muted">
+              Show: {{ startRecord }} - {{ endRecord }} of {{ total }}
+            </span>
+          </li>
+
+          <!-- Previous -->
+          <li class="page-item" [class.disabled]="page === 1">
+            <a class="page-link" (click)="prevPage()">&laquo;</a>
+          </li>
+
+          <!-- Current -->
+          <li class="page-item active">
+            <span class="page-link">{{ page }}</span>
+          </li>
+
+          <!-- Next -->
+          <li class="page-item" [class.disabled]="page === totalPages">
+            <a class="page-link" (click)="nextPage()">&raquo;</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </div>
 
 </div>
