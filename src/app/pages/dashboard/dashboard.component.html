@@ -181,4 +181,53 @@
 
     </div>
 
+    <!-- DELIVERY PARTNER STATS -->
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    Delivery Partner Performance
+                </div>
+                <table class="table table-bordered table-sm text-center">
+                    <thead>
+                        <tr>
+                            <th>Partner</th>
+                            <th>Total Orders</th>
+                            <th>Shipped</th>
+                            <th>Delivered</th>
+                            <th>RTO</th>
+                            <th>Cancelled</th>
+                            <th>Customer Return</th>
+                            <th>Success %</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let d of dashboard.delivery_partner_stats">
+                            <td>{{ d.partner }}</td>
+                            <td>{{ d.total_orders }}</td>
+                            <td><span class="badge bg-info text-dark">{{ d.ready_to_ship }}</span></td>
+                            <td><span class="badge bg-success">{{ d.delivered }}</span></td>
+                            <td><span class="badge bg-warning text-dark">{{ d.rto }}</span></td>
+                            <td><span class="badge bg-danger">{{ d.cancelled }}</span></td>
+                            <td><span class="badge bg-info text-dark">{{ d.customer_return }}</span></td>
+                            <td>
+                                <span class="badge bg-dark">
+                                    {{
+                                    d.total_orders
+                                    ? ((d.delivered / d.total_orders) * 100 | number:'1.0-0')
+                                    : 0
+                                    }}%
+                                </span>
+                            </td>
+                        </tr>
+                        <tr *ngIf="!dashboard?.delivery_partner_stats?.length">
+                            <td colspan="7" class="text-center py-4 text-muted">
+                                No data found
+                            </td>
+                        </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>

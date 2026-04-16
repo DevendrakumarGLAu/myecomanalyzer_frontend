@@ -20,70 +20,66 @@
       </div>
     </div>
   </div>
-  
+
   <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
 
-  <!-- Recent Orders Card -->
-  <div class="rounded-lg border bg-card text-card-foreground shadow-sm p-5">
-    <h3 class="text-sm font-semibold mb-4">Recent Orders</h3>
-    <div class="space-y-3">
-      <div *ngFor="let order of recentOrders" class="flex items-center justify-between rounded-lg border border-border p-3">
-        <div class="space-y-1">
-          <p class="text-sm font-medium">{{ getProductById(order.skuId)?.name || order.skuId }}</p>
-          <div class="flex items-center gap-2">
-            <span class="mono text-xs text-muted-foreground">{{ order.orderSubId }}</span>
-            <div 
-              class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-semibold"
-              [ngClass]="platformColors[order.marketplace]"
-            >
-              {{ order.marketplace }}
+    <!-- Recent Orders Card -->
+    <div class="rounded-lg border bg-card text-card-foreground shadow-sm p-5">
+      <h3 class="text-sm font-semibold mb-4">Recent Orders</h3>
+      <div class="space-y-3">
+        <div *ngFor="let order of recentOrders"
+          class="flex items-center justify-between rounded-lg border border-border p-3">
+          <div class="space-y-1">
+            <p class="text-sm font-medium">{{ getProductById(order.skuId)?.name || order.skuId }}</p>
+            <div class="flex items-center gap-2">
+              <span class="mono text-xs text-muted-foreground">{{ order.orderSubId }}</span>
+              <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-semibold"
+                [ngClass]="platformColors[order.marketplace]">
+                {{ order.marketplace }}
+              </div>
             </div>
           </div>
-        </div>
-        <div class="text-right space-y-1">
-          <div 
-            class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-semibold"
-            [ngClass]="statusColors[order.status]"
-          >
-            {{ order.status }}
+          <div class="text-right space-y-1">
+            <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-semibold"
+              [ngClass]="statusColors[order.status]">
+              {{ order.status }}
+            </div>
+            <p class="text-xs text-muted-foreground">Qty: {{ order.quantity }}</p>
           </div>
-          <p class="text-xs text-muted-foreground">Qty: {{ order.quantity }}</p>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Low Stock Alerts Card -->
-  <div class="rounded-lg border bg-card text-card-foreground shadow-sm p-5">
-    <h3 class="text-sm font-semibold mb-4">Low Stock Alerts</h3>
-    <div class="space-y-3">
-      <p *ngIf="lowStockProducts.length === 0" class="text-sm text-muted-foreground py-4 text-center">
-        All products are well stocked ✓
-      </p>
-      <div *ngFor="let product of lowStockProducts" class="flex items-center justify-between rounded-lg border border-border p-3">
-        <div class="space-y-1">
-          <p class="text-sm font-medium">{{ product.name }}</p>
-          <div class="flex items-center gap-2">
-            <span class="mono text-xs text-muted-foreground">{{ product.sku }}</span>
-            <div 
-              class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-semibold"
-              [ngClass]="platformColors[product.marketplace]"
-            >
-              {{ product.marketplace }}
+    <!-- Low Stock Alerts Card -->
+    <div class="rounded-lg border bg-card text-card-foreground shadow-sm p-5">
+      <h3 class="text-sm font-semibold mb-4">Low Stock Alerts</h3>
+      <div class="space-y-3">
+        <p *ngIf="lowStockProducts.length === 0" class="text-sm text-muted-foreground py-4 text-center">
+          All products are well stocked ✓
+        </p>
+        <div *ngFor="let product of lowStockProducts"
+          class="flex items-center justify-between rounded-lg border border-border p-3">
+          <div class="space-y-1">
+            <p class="text-sm font-medium">{{ product.name }}</p>
+            <div class="flex items-center gap-2">
+              <span class="mono text-xs text-muted-foreground">{{ product.sku }}</span>
+              <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-semibold"
+                [ngClass]="platformColors[product.marketplace]">
+                {{ product.marketplace }}
+              </div>
             </div>
           </div>
-        </div>
-        <div class="flex items-center gap-2">
-          <span class="text-lg font-bold" [ngClass]="product.stock < 10 ? 'text-loss' : 'text-warning'">
-            {{ product.stock }}
-          </span>
-          <span class="text-xs text-muted-foreground">units</span>
+          <div class="flex items-center gap-2">
+            <span class="text-lg font-bold" [ngClass]="product.stock < 10 ? 'text-loss' : 'text-warning'">
+              {{ product.stock }}
+            </span>
+            <span class="text-xs text-muted-foreground">units</span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-</div>
+  </div>
 
   <!-- Features Section -->
   <h4 class="mb-3">Quick Actions</h4>
@@ -95,6 +91,49 @@
         </div>
         <h5 class="card-title">{{ f.title }}</h5>
         <p class="card-text">{{ f.desc }}</p>
+      </div>
+    </div>
+  </div>
+  <!-- Delivery Partner Performance -->
+  <div class="rounded-lg border bg-card text-card-foreground shadow-sm p-5 mt-5">
+    <h3 class="text-sm font-semibold mb-4">Delivery Partner Performance</h3>
+
+    <div class="space-y-3">
+      <p *ngIf="deliveryPartners.length === 0" class="text-sm text-muted-foreground text-center py-4">
+        No delivery data available
+      </p>
+
+      <div *ngFor="let dp of deliveryPartners"
+        class="flex items-center justify-between rounded-lg border border-border p-3">
+
+        <!-- Left -->
+        <div>
+          <p class="text-sm font-medium">{{ dp.partner }}</p>
+          <p class="text-xs text-muted-foreground">
+            Total Orders: {{ dp.total_orders }}
+          </p>
+        </div>
+
+        <!-- Right stats -->
+        <div class="flex gap-4 text-xs font-semibold">
+
+          <span class="text-green-600">
+            ✔ {{ dp.delivered }}
+          </span>
+
+          <span class="text-red-600">
+            RTO {{ dp.rto }}
+          </span>
+
+          <span class="text-gray-500">
+            ✖ {{ dp.cancelled }}
+          </span>
+
+          <span class="text-yellow-600">
+            ↩ {{ dp.customer_return }}
+          </span>
+
+        </div>
       </div>
     </div>
   </div>

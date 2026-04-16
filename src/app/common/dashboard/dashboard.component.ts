@@ -17,6 +17,14 @@ interface Product {
   marketplace: string;
   stock: number;
 }
+interface DeliveryPartnerStats {
+  partner: string;
+  total_orders: number;
+  delivered: number;
+  rto: number;
+  cancelled: number;
+  customer_return: number;
+}
 @Component({
   selector: 'app-dashboard',
   standalone:true,
@@ -24,7 +32,7 @@ interface Product {
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
-
+  deliveryPartners: any[] = [];
 
   // Example summary data
   summaries = [

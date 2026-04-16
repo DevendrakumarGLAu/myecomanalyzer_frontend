@@ -15,9 +15,9 @@ export class UserDashboardComponent implements OnInit {
   dashboard:any;
 
   platformId:any = null;
-   selectedPlatform: string = 'meesho';
-    message: string = '';
-    platforms = PLATFORMS;
+  selectedPlatform: string = 'meesho';
+  message: string = '';
+  platforms = PLATFORMS;
 
 
   constructor(private dashboardService:DashboardService){}
