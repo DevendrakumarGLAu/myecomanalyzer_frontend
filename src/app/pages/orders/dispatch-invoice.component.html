@@ -45,10 +45,9 @@
                     <tr>
                         <th>ID</th>
                         <th>Order ID</th>
-                        <th>Order Date</th>
+                        <th class="text-nowrap">Order Date</th>
                         <th>SKU</th>
                         <th>Product Name</th>
-                        <th>SKU</th>
                         <th>Size</th>
                         <th>Color</th>
                         <th>Status</th>
@@ -58,10 +57,9 @@
                     <tr *ngFor="let invoice of invoices;let i = index ">
                         <td>{{i + 1}}</td>
                         <td>{{ invoice.order_id }}</td>
-                        <td>{{ invoice.order_date | date }}</td>
-                        <td>{{ invoice.sku }}</td>s
-                        <td>{{ invoice.product_name }}</td>
+                        <td class="text-nowrap">{{ invoice.order_date | date }}</td>
                         <td>{{ invoice.sku }}</td>
+                        <td>{{ invoice.product_name }}</td>
                         <td>{{ invoice.size }}</td>
                         <td>{{ invoice.color }}</td>
 
