@@ -2,13 +2,23 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { InvoiceService } from '../../services/invoice.service';
-import { NgFor, NgIf, TitleCasePipe } from '@angular/common';
+import { DatePipe, NgFor, NgIf, TitleCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
+import { InvoiceUploadComponent } from '../invoice-upload/invoice-upload.component';
+import { OrderStatusUploadComponent } from '../order_status_invoice_upload/order-status-upload.component';
+import { PaymentExcelComponent } from '../payment_invoice/payment_invoice.component';
+declare var bootstrap: any;
+
 @Component({
     selector: 'app-dispatch-invoice',
     standalone: true,
-    imports: [NgIf, NgFor, TitleCasePipe, FormsModule],
+    imports: [NgIf, NgFor, TitleCasePipe, FormsModule,
+        InvoiceUploadComponent,
+        OrderStatusUploadComponent,
+        PaymentExcelComponent, DatePipe
+
+    ],
     templateUrl: './dispatch-invoice.component.html'
 })
 export class DispatchInvoiceComponent implements OnInit, OnDestroy {
@@ -26,8 +36,11 @@ export class DispatchInvoiceComponent implements OnInit, OnDestroy {
 
     loading = false;
     searchText = '';
+
+    activeModal: string = '';
+    modalTitle: string = '';
     private searchSubject = new Subject<string>();
-   private searchSubscription: Subscription = new Subscription();
+    private searchSubscription: Subscription = new Subscription();
     constructor(private invoiceService: InvoiceService) { }
 
     ngOnInit() {
@@ -146,5 +159,15 @@ export class DispatchInvoiceComponent implements OnInit, OnDestroy {
         this.limit = Number((event.target as HTMLSelectElement).value);
         this.page = 1; // reset to first page
         this.fetchData();
+    }
+
+    openModal(type: string) {
+        this.activeModal = type;
+        if (type === 'invoice') this.modalTitle = 'Upload Invoice';
+        if (type === 'excel') this.modalTitle = 'Upload Excel';
+        if (type === 'status') this.modalTitle = 'Order Status';
+        const modalEl = document.getElementById('mainModal');
+        const modal = new bootstrap.Modal(modalEl);
+        modal.show();
     }
 }

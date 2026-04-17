@@ -1,4 +1,4 @@
-<div class="container m-4 overflow-auto">
+<div class="container p-4 overflow-auto">
   <div class="row">
     <div class="col-md-6">
       <h4 class="mb-3">{{ mode}} Product</h4>
@@ -7,7 +7,9 @@
       <button type="button" class="btn btn-secondary" (click)="cancel()">X</button>
     </div>
   </div>
+  <hr>
   <br>
+
   <div class="card p-2">
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="row g-3">

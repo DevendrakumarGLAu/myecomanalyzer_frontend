@@ -1,10 +1,10 @@
 // marketplaces and their colors
 
 export const PLATFORMS = [
-  { name: 'Flipkart', code: 'FLIPKART' },
+  // { name: 'Flipkart', code: 'FLIPKART' },
   { name: 'Meesho', code: 'MEESHO' },
-  { name: 'Amazon', code: 'AMAZON' },
-  { name: 'Myntra', code: 'MYNTRA' }
+  // { name: 'Amazon', code: 'AMAZON' },
+  // { name: 'Myntra', code: 'MYNTRA' }
 ];
 
 export const PLATFORM_COLORS: Record<string, string> = {

@@ -203,7 +203,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let d of dashboard.delivery_partner_stats">
+                        <tr *ngFor="let d of dashboard?.delivery_partner_stats">
                             <td>{{ d.partner }}</td>
                             <td>{{ d.total_orders }}</td>
                             <td><span class="badge bg-info text-dark">{{ d.ready_to_ship }}</span></td>

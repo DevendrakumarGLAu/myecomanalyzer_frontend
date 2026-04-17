@@ -63,6 +63,6 @@ export class InvoiceService {
             .set('sort_by', 'id')
             .set('order', 'desc');
 
-        return this.http.get(`${this.baseUrl}/dispatch-invoice`, { params });
+        return this.http.get(`${this.baseUrl}/dispatch-invoice`, { params, headers: this.getAuthHeaders()});
     }
 }

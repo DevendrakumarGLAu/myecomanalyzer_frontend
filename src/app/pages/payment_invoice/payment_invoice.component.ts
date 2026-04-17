@@ -6,7 +6,7 @@ import { InvoiceService } from '../../services/invoice.service';
 import { PLATFORMS } from '../../common/constant/platform.constants';
 
 @Component({
-  selector: 'app-invoice-upload',
+  selector: 'app-payment-invoice-upload',
   standalone: true,
   imports: [NgFor, FormsModule, CommonModule],
   templateUrl: './payment_invoice.component.html',

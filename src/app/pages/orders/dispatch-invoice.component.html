@@ -21,10 +21,20 @@
         </div>
 
         <!-- Right: Add Button -->
-        <div>
-            <button class="btn btn-primary btn-sm" >
+        <div class="d-flex gap-2">
+
+            <button class="btn btn-primary btn-sm" (click)="openModal('invoice')">
                 Add Invoice
             </button>
+
+            <button class="btn btn-success btn-sm" (click)="openModal('excel')">
+                Payment Status Excel
+            </button>
+
+            <button class="btn btn-dark btn-sm" (click)="openModal('status')">
+                Order Status Excel
+            </button>
+
         </div>
     </div>
     <!-- Table -->
@@ -35,6 +45,8 @@
                     <tr>
                         <th>ID</th>
                         <th>Order ID</th>
+                        <th>Order Date</th>
+                        <th>SKU</th>
                         <th>Product Name</th>
                         <th>SKU</th>
                         <th>Size</th>
@@ -46,6 +58,8 @@
                     <tr *ngFor="let invoice of invoices;let i = index ">
                         <td>{{i + 1}}</td>
                         <td>{{ invoice.order_id }}</td>
+                        <td>{{ invoice.order_date | date }}</td>
+                        <td>{{ invoice.sku }}</td>s
                         <td>{{ invoice.product_name }}</td>
                         <td>{{ invoice.sku }}</td>
                         <td>{{ invoice.size }}</td>
@@ -63,7 +77,7 @@
 
                     <!-- Empty State -->
                     <tr *ngIf="invoices.length === 0">
-                        <td class="text-center py-3">
+                        <td colspan="9" class="text-center py-3">
                             No data found
                         </td>
                     </tr>
@@ -122,6 +136,23 @@
         </nav>
 
     </div>
+</div>
+<div class="modal fade" id="mainModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <!-- Header -->
+      <div class="modal-header">
+        <h5 class="modal-title">{{ modalTitle }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <!-- Body -->
+      <div class="modal-body" style="max-height: 75vh; overflow-y: auto;">
+        <app-invoice-upload *ngIf="activeModal === 'invoice'"></app-invoice-upload>
+        <app-order-status-upload *ngIf="activeModal === 'status'"></app-order-status-upload>
+        <app-payment-invoice-upload *ngIf="activeModal === 'excel'"></app-payment-invoice-upload>
+      </div>
+    </div>
+  </div>
 </div>
 <br>
 <br>

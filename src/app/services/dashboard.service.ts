@@ -14,7 +14,6 @@ export class DashboardService {
   // Function to get headers with the access token
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token') || '';  // get token from localStorage
-    console.log('Dashboard token:', token);
     return new HttpHeaders({
       'Content-Type': 'application/json',
       'access-token': `Bearer ${token}` // use Authorization header to pass the token

@@ -90,13 +90,13 @@ export class ProductComponent implements OnInit {
         this.editingProduct = !!product;
         this.selectedProduct = product || null;
         const dialogRef = this.dialog.open(ProductFormComponent, {
-            width: '3500px',
+            width: '1000px',
+            maxHeight: '80vh',
             data: {
                 product: product || null,             // send product
                 mode: this.editingProduct ? 'Update' : 'Add'  // send mode inside data
             },
-            position: { top: '80px', bottom: '80px' },
-            maxHeight: 'calc(100vh - 140px)'
+            position: { top: '80px', bottom: '80px' }
         });
 
         dialogRef.afterClosed().subscribe(result => {
