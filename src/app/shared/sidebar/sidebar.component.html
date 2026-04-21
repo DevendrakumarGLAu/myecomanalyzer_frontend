@@ -1,4 +1,4 @@
-<aside class="app-sidebar bg-body-secondary elevation-4" data-bs-theme="dark">
+<aside class="app-sidebar bg-body-secondary elevation-4" data-bs-theme="dark"  [class.collapsed]="isCollapsed">
   <div class="sidebar-brand p-3">
     <a class="d-flex align-items-center text-white" routerLink="/dashboard" style="text-decoration: none;">
       <img src="assets/img/AdminLTELogo.png" class="brand-image opacity-75 me-2" alt="AdminLTE Logo"
@@ -26,20 +26,20 @@
         </li>
         <li class="nav-item">
           <a routerLink="/category" routerLinkActive="active" class="nav-link">
-            <i class="nav-icon fas fa-cart mr-2"></i>
+            <i class="nav-icon fas fa-list"></i>
             <p class="ml-2">Category</p>
           </a>
         </li>
         <li class="nav-item">
           <a routerLink="/products" routerLinkActive="active" class="nav-link">
-            <i class="nav-icon fas fa-tachometer-alt mr-2"></i>
+            <i class="nav-icon fas fa-box"></i>
             <p class="ml-2">Products</p>
           </a>
         </li>
         <!-- DispatchInvoiceComponent -->
         <li class="nav-item">
           <a routerLink="/dispatch-invoice" routerLinkActive="active" class="nav-link">
-            <i class="nav-icon fas fa-tachometer-alt mr-2"></i>
+            <i class="nav-icon fas fa-file-invoice"></i>
             <p class="ml-2">Dispatch Invoice</p>
           </a>
         </li>

@@ -3,12 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { LoaderService } from './services/loader.service';
 import { LoaderComponent } from './common/loader/loader.component';
 import { Observable } from 'rxjs';
-import { AsyncPipe, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,LoaderComponent,NgIf,AsyncPipe],
+  imports: [RouterOutlet,LoaderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

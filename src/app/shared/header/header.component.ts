@@ -17,6 +17,7 @@ export class HeaderComponent {
   }
 
   toggleSidebar() {
+    document.body.classList.toggle('sidebar-collapse');
     this.sidebarService.toggle();
   }
 }
