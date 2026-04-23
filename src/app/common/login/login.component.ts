@@ -44,6 +44,10 @@ export class LoginComponent implements OnInit {
         // Example: store token if backend returns it
         if (response?.access_token) {
           localStorage.setItem('token', response.access_token);
+          localStorage.setItem('username', response.username || '');
+          localStorage.setItem('first_name', response.first_name || '');
+          localStorage.setItem('last_name', response.last_name || '');
+          localStorage.setItem('created_at', response.created_at || '');
         }
 
         this.router.navigate(['/user-dashboard']);

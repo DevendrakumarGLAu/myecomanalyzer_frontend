@@ -1,8 +1,8 @@
-<div class="container-fluid mt-4">
+<div class="container-fluid mt-4 mb-4">
 
     <!-- PLATFORM FILTER -->
 
-    <div class="row mb-3">
+    <div class="row mb-3 ">
 
         <div class="col-md-3">
 
@@ -22,56 +22,56 @@
 
     <!-- SUMMARY CARDS -->
 
-    <div class="row text-center" *ngIf="dashboard">
+    <div class="row mb-3 g-3" *ngIf="dashboard">
 
-        <div class="col-md-2">
-            <div class="card shadow-sm">
-                <div class="card-body">
+        <div class="col-6 col-md-2">
+            <div class="card text-white bg-primary shadow">
+                <div class="card-body text-center">
                     <h6>Total Orders</h6>
                     <h4>{{dashboard.summary.total_orders}}</h4>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-2">
-            <div class="card shadow-sm">
-                <div class="card-body">
+        <div class="col-6 col-md-2">
+            <div class="card text-white bg-success shadow">
+                <div class="card-body text-center">
                     <h6>Total Products</h6>
                     <h4>{{dashboard.summary.total_products}}</h4>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-2">
-            <div class="card shadow-sm">
-                <div class="card-body">
+        <div class="col-6 col-md-2">
+            <div class="card text-white bg-warning shadow">
+                <div class="card-body text-center">
                     <h6>Total Sales</h6>
                     <h4>₹{{dashboard.summary.total_sales}}</h4>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-2">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h6>Total Returns</h6>
+        <div class="col-6 col-md-2">
+            <div class="card text-white bg-danger shadow">
+                <div class="card-body text-center">
+                    <h6>Returns</h6>
                     <h4>₹{{dashboard.summary.total_returns}}</h4>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-2">
-            <div class="card shadow-sm">
-                <div class="card-body">
+        <div class="col-6 col-md-2">
+            <div class="card text-white bg-info shadow">
+                <div class="card-body text-center">
                     <h6>Settlement</h6>
                     <h4>₹{{dashboard.summary.total_settlement}}</h4>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-2">
-            <div class="card shadow-sm">
-                <div class="card-body">
+        <div class="col-6 col-md-2">
+            <div class="card text-white bg-dark shadow">
+                <div class="card-body text-center">
                     <h6>Low Stock</h6>
                     <h4>{{dashboard.summary.low_stock_products}}</h4>
                 </div>
@@ -83,63 +83,51 @@
 
     <!-- ORDERS BY STATUS -->
 
-    <div class="row mt-4" *ngIf="dashboard">
+    <div class="row mt-4 g-3" *ngIf="dashboard">
 
         <div class="col-md-6">
 
-            <div class="card">
-
-                <div class="card-header">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
                     Orders by Status
                 </div>
 
-                <table class="table table-sm">
-
+                <table class="table table-hover table-sm m-3">
                     <tr>
                         <th>Status</th>
                         <th>Total</th>
                     </tr>
 
                     <tr *ngFor="let s of dashboard.orders_by_status">
-
-                        <td>{{s.status}}</td>
-                        <td>{{s.total}}</td>
-
+                        <td>
+                            <span class="badge bg-secondary">{{s.status}}</span>
+                        </td>
+                        <td><b>{{s.total}}</b></td>
                     </tr>
-
                 </table>
-
             </div>
 
         </div>
 
 
         <!-- PLATFORM STATS -->
-
         <div class="col-md-6">
-
-            <div class="card">
-
-                <div class="card-header">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
                     Orders by Platform
                 </div>
 
-                <table class="table table-sm">
-
+                <table class="table table-hover table-sm m-3">
                     <tr>
                         <th>Platform</th>
                         <th>Total</th>
                     </tr>
 
                     <tr *ngFor="let p of dashboard.orders_by_platform">
-
                         <td>{{p.platform}}</td>
-                        <td>{{p.total}}</td>
-
+                        <td><span class="badge bg-primary">{{p.total}}</span></td>
                     </tr>
-
                 </table>
-
             </div>
 
         </div>
@@ -153,26 +141,26 @@
 
         <div class="col-md-12">
 
-            <div class="card">
+            <div class="card shadow-sm">
 
-                <div class="card-header">
+                <div class="card-header bg-success text-white">
                     Sales Trend (Last 7 Days)
                 </div>
 
-                <table class="table table-bordered table-sm">
+                <table class="table table-hover table-sm ">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Date</th>
+                            <th>Total Orders</th>
+                        </tr>
+                    </thead>
 
-                    <tr>
-                        <th>Date</th>
-                        <th>Total Orders</th>
-                    </tr>
-
-                    <tr *ngFor="let t of dashboard.sales_trend">
-
-                        <td>{{t.date}}</td>
-                        <td>{{t.total_orders}}</td>
-
-                    </tr>
-
+                    <tbody>
+                        <tr *ngFor="let t of dashboard.sales_trend">
+                            <td>{{t.date}}</td>
+                            <td><b>{{t.total_orders}}</b></td>
+                        </tr>
+                    </tbody>
                 </table>
 
             </div>
@@ -185,48 +173,51 @@
 
     <div class="row mt-4">
         <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
                     Delivery Partner Performance
                 </div>
-                <table class="table table-bordered table-sm text-center">
-                    <thead>
-                        <tr>
-                            <th>Partner</th>
-                            <th>Total Orders</th>
-                            <th>Shipped</th>
-                            <th>Delivered</th>
-                            <th>RTO</th>
-                            <th>Cancelled</th>
-                            <th>Customer Return</th>
-                            <th>Success %</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let d of dashboard?.delivery_partner_stats">
-                            <td>{{ d.partner }}</td>
-                            <td>{{ d.total_orders }}</td>
-                            <td><span class="badge bg-info text-dark">{{ d.ready_to_ship }}</span></td>
-                            <td><span class="badge bg-success">{{ d.delivered }}</span></td>
-                            <td><span class="badge bg-warning text-dark">{{ d.rto }}</span></td>
-                            <td><span class="badge bg-danger">{{ d.cancelled }}</span></td>
-                            <td><span class="badge bg-info text-dark">{{ d.customer_return }}</span></td>
-                            <td>
-                                <span class="badge bg-dark">
-                                    {{
-                                    d.total_orders
-                                    ? ((d.delivered / d.total_orders) * 100 | number:'1.0-0')
-                                    : 0
-                                    }}%
-                                </span>
-                            </td>
-                        </tr>
-                        <tr *ngIf="!dashboard?.delivery_partner_stats?.length">
-                            <td colspan="7" class="text-center py-4 text-muted">
-                                No data found
-                            </td>
-                        </tr>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm text-center m-3">
+                        <thead class="bg-primary text-white">
+                            <tr>
+                                <th>Partner</th>
+                                <th>Total Orders</th>
+                                <th>Shipped</th>
+                                <th>Delivered</th>
+                                <th>RTO</th>
+                                <th>Cancelled</th>
+                                <th>Customer Return</th>
+                                <th>Success %</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let d of dashboard?.delivery_partner_stats">
+                                <td>{{ d.partner }}</td>
+                                <td>{{ d.total_orders }}</td>
+                                <td><span class="badge bg-info text-dark">{{ d.ready_to_ship }}</span></td>
+                                <td><span class="badge bg-success">{{ d.delivered }}</span></td>
+                                <td><span class="badge bg-warning text-dark">{{ d.rto }}</span></td>
+                                <td><span class="badge bg-danger">{{ d.cancelled }}</span></td>
+                                <td><span class="badge bg-info text-dark">{{ d.customer_return }}</span></td>
+                                <td>
+                                    <span class="badge bg-dark">
+                                        {{
+                                        d.total_orders
+                                        ? ((d.delivered / d.total_orders) * 100 | number:'1.0-0')
+                                        : 0
+                                        }}%
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr *ngIf="!dashboard?.delivery_partner_stats?.length">
+                                <td colspan="7" class="text-center py-4 text-muted">
+                                    No data found
+                                </td>
+                            </tr>
+                    </table>
+                </div>
+
             </div>
         </div>
     </div>

@@ -6,34 +6,34 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
-  standalone:true,
-  imports:[NgFor,NgIf, FormsModule,CommonModule],
+  standalone: true,
+  imports: [NgFor, NgIf, FormsModule, CommonModule],
   templateUrl: './dashboard.component.html'
 })
 export class UserDashboardComponent implements OnInit {
 
-  dashboard:any;
+  dashboard: any;
 
-  platformId:any = null;
-  selectedPlatform: string = 'meesho';
+  platformId: any = null;
+  selectedPlatform: string = 'MEESHO';
   message: string = '';
   platforms = PLATFORMS;
 
 
-  constructor(private dashboardService:DashboardService){}
+  constructor(private dashboardService: DashboardService) { }
 
-  ngOnInit(){
+  ngOnInit() {
     this.loadDashboard();
   }
 
-  loadDashboard(){
+  loadDashboard() {
     this.dashboardService.getDashboard(this.selectedPlatform)
-    .subscribe((res:any)=>{
-      this.dashboard = res;
-    })
+      .subscribe((res: any) => {
+        this.dashboard = res;
+      })
   }
 
-  changePlatform(){
+  changePlatform() {
     this.loadDashboard();
   }
 

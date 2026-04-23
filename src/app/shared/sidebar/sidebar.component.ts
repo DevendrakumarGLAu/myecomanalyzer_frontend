@@ -36,4 +36,9 @@ export class SidebarComponent implements OnInit {
       }
     }
   }
+  isOpen = false;
+
+toggleMenu() {
+  this.isOpen = !this.isOpen;
+}
 }
