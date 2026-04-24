@@ -1,13 +1,8 @@
 <div class="card border-0 shadow-sm">
-
   <div class="card-body">
 
-    <!-- Title -->
-    <!-- <h5 class="text-center mb-3">Upload Payment Excel</h5> -->
-
-    <!-- Platform -->
+    <!-- PLATFORM -->
     <div class="mb-3">
-      <!-- <label class="form-label fw-semibold">Select Platform</label> -->
       <select class="form-select" [(ngModel)]="selectedPlatform">
         <option value="">-- Select Platform --</option>
         <option *ngFor="let p of platforms" [value]="p.code">
@@ -16,9 +11,9 @@
       </select>
     </div>
 
-    <!-- File -->
+    <!-- FILE -->
     <div class="mb-3">
-      <input 
+      <input
         type="file"
         class="form-control"
         (change)="onFileSelected($event)"
@@ -26,15 +21,63 @@
       />
     </div>
 
-    <!-- Upload Button -->
+    <!-- BUTTON -->
     <div class="d-grid mb-3">
       <button class="btn btn-primary btn-sm" (click)="uploadFile()">
         ⬆ Upload Excel
       </button>
     </div>
 
-    <!-- Message -->
-    <p class="text-success text-center">{{ message }}</p>
+    <!-- MESSAGE -->
+    <div *ngIf="message" class="alert alert-info">
+      {{ message }}
+    </div>
+
+    <!-- SUMMARY CARD -->
+    <div *ngIf="responseData" class="card mt-3 border-success">
+      <div class="card-body">
+
+        <h6 class="text-success">Upload Summary</h6>
+
+        <p class="mb-1">
+          ✅ Created: <b>{{ responseData.created }}</b>
+        </p>
+
+        <p class="mb-1">
+          🔁 Updated: <b>{{ responseData.updated }}</b>
+        </p>
+
+        <p class="mb-1 text-danger">
+          ❌ Skipped: <b>{{ responseData.skipped }}</b>
+        </p>
+
+      </div>
+    </div>
+
+    <!-- SKIPPED TABLE -->
+    <div *ngIf="skippedDetails.length > 0" class="mt-3">
+
+      <h6 class="text-danger">Skipped Records</h6>
+
+      <table class="table table-sm table-bordered">
+        <thead>
+          <tr>
+            <th>Row</th>
+            <th>Sub Order</th>
+            <th>Reason</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of skippedDetails">
+            <td>{{ item.row }}</td>
+            <td>{{ item.sub_order }}</td>
+            <td>{{ item.reason }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
 
   </div>
 </div>
