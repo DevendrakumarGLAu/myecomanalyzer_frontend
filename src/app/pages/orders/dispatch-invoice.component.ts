@@ -8,6 +8,7 @@ import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs'
 import { InvoiceUploadComponent } from '../invoice-upload/invoice-upload.component';
 import { OrderStatusUploadComponent } from '../order_status_invoice_upload/order-status-upload.component';
 import { PaymentExcelComponent } from '../payment_invoice/payment_invoice.component';
+import { ManualDispatchComponent } from '../manual-dispatch/manual-dispatch.component';
 declare var bootstrap: any;
 
 @Component({
@@ -16,7 +17,7 @@ declare var bootstrap: any;
     imports: [NgIf, NgFor, TitleCasePipe, FormsModule,
         InvoiceUploadComponent,
         OrderStatusUploadComponent,
-        PaymentExcelComponent, DatePipe
+        PaymentExcelComponent, DatePipe,ManualDispatchComponent
 
     ],
     templateUrl: './dispatch-invoice.component.html'

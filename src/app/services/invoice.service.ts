@@ -65,4 +65,8 @@ export class InvoiceService {
 
         return this.http.get(`${this.baseUrl}/dispatch-invoice`, { params, headers: this.getAuthHeaders()});
     }
+    createSingleOrder(payload: any) {
+        const url = `${this.baseUrl}/dispatch-single-order`;
+        return this.http.post(url, payload, { headers: this.getAuthHeaders() });
+    }
 }

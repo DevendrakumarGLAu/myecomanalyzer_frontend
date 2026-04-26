@@ -26,7 +26,9 @@
             <button class="btn btn-primary btn-sm" (click)="openModal('invoice')">
                 Add Invoice
             </button>
-
+            <button class="btn btn-warning btn-sm" (click)="openModal('manual')">
+                ➕ Manual Dispatch
+            </button>
             <button class="btn btn-success btn-sm" (click)="openModal('excel')">
                 Payment Status Excel
             </button>
@@ -148,6 +150,7 @@
         <app-invoice-upload *ngIf="activeModal === 'invoice'"></app-invoice-upload>
         <app-order-status-upload *ngIf="activeModal === 'status'"></app-order-status-upload>
         <app-payment-invoice-upload *ngIf="activeModal === 'excel'"></app-payment-invoice-upload>
+        <app-manual-dispatch *ngIf="activeModal === 'manual'"></app-manual-dispatch>
       </div>
     </div>
   </div>

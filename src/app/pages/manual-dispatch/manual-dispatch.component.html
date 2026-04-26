@@ -1,0 +1,74 @@
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Manual Dispatch</h5>
+        </div>
+
+        <div class="card-body">
+            <form [formGroup]="form" (ngSubmit)="submit()">
+
+                <div class="row">
+                    <div class="col-md-6 mb-3" *ngFor="let field of fields">
+
+                        <label class="form-label">
+                            {{ field.label }}
+                            <span *ngIf="field.required" class="text-danger">*</span>
+                        </label>
+
+                        <!-- INPUT -->
+                        <input *ngIf="field.type !== 'select' && field.type !== 'textarea'" class="form-control"
+                            [type]="field.type" [formControlName]="field.name" />
+
+                        <!-- TEXTAREA -->
+                        <textarea *ngIf="field.type === 'textarea'" class="form-control" rows="2"
+                            [formControlName]="field.name">
+                         </textarea>
+
+                        <!-- SELECT -->
+                        <select *ngIf="field.type ==='select'" class="form-select" [formControlName]="field.name">
+                            <option *ngFor="let opt of field.options" [value]="opt.value">
+                                {{ opt.label }}
+                            </option>
+                        </select>
+
+                        <!-- Validation -->
+                        <div class="text-danger small mt-1"
+                            *ngIf="getControl(field.name)?.touched && getControl(field.name)?.invalid">
+
+                            <div *ngIf="getControl(field.name)?.errors?.['required']">
+                                {{ field.label }} is required
+                            </div>
+
+                            <div *ngIf="getControl(field.name)?.errors?.['min']">
+                                Invalid value
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-success px-4" type="submit" [disabled]="loading || form.invalid">
+
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                        {{ loading ? 'Creating...' : 'Create Order' }}
+
+                    </button>
+                </div>
+
+            </form>
+
+            <!-- Message -->
+            <div *ngIf="message" class="alert mt-3"
+                [ngClass]="{
+       'alert-success': messageType === 'success',
+       'alert-warning': messageType === 'warning'
+     }">
+                {{ message }}
+            </div>
+
+        </div>
+    </div>
+</div>
