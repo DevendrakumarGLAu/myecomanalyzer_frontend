@@ -4,9 +4,10 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
-  standalone:true,
-  imports:[RouterModule],
+  standalone: true,
+  imports: [RouterModule],
   templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
   isCollapsed = false;
@@ -29,10 +30,11 @@ export class SidebarComponent implements OnInit {
   // Optional: close sidebar when clicking outside on mobile
   @HostListener('document:click', ['$event'])
   handleClick(event: MouseEvent) {
-    if (window.innerWidth < 992 && this.isCollapsed) {
+    if (window.innerWidth < 992 && !this.isCollapsed) {
       const sidebar = document.querySelector('.app-sidebar');
       if (sidebar && !sidebar.contains(event.target as Node)) {
-        this.sidebarService.setCollapsed(true); // keep collapsed unless toggle clicked
+        this.sidebarService.setCollapsed(true);
+        document.body.classList.remove('sidebar-open');
       }
     }
   }

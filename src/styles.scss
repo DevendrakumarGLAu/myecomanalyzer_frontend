@@ -79,8 +79,8 @@ footer.app-footer {
    SNACKBAR STYLES
 ------------------------ */
 ::ng-deep .mat-mdc-snack-bar-container {
-  margin-top: 70px !important;
-  z-index: 2000 !important;
+  margin-top: 10px !important;
+  z-index: 3000 !important;
 }
 .success-snackbar {
   --mdc-snackbar-container-color: #28a745;

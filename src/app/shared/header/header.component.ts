@@ -47,6 +47,7 @@ toTitleCase(str: string): string {
 
   toggleSidebar() {
     document.body.classList.toggle('sidebar-collapse');
+    document.body.classList.toggle('sidebar-open');
     this.sidebarService.toggle();
   }
 

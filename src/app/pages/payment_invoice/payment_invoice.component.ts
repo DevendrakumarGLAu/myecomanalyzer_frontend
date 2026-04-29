@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InvoiceService } from '../../services/invoice.service';
 import { PLATFORMS } from '../../common/constant/platform.constants';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-payment-invoice-upload',
@@ -26,7 +27,8 @@ export class PaymentExcelComponent {
 
   constructor(
     private http: HttpClient,
-    private invoiceService: InvoiceService
+    private invoiceService: InvoiceService,
+    private toast: ToastService
   ) {}
 
   onFileSelected(event: any) {
@@ -62,9 +64,11 @@ export class PaymentExcelComponent {
           this.skippedDetails = res?.skipped_details || [];
 
           this.message = res?.message || "Upload completed";
+          this.toast.success(this.message);
         },
         error: (err: any) => {
           this.message = 'Upload failed: ' + (err.error?.detail || err.message);
+          this.toast.error(this.message); 
         }
       });
   }

@@ -19,7 +19,7 @@ export class UserDashboardComponent implements OnInit {
   message: string = '';
   platforms = PLATFORMS;
 
-
+  private lastRequestedPlatform: string | null = null;
   constructor(private dashboardService: DashboardService) { }
 
   ngOnInit() {
@@ -27,6 +27,9 @@ export class UserDashboardComponent implements OnInit {
   }
 
   loadDashboard() {
+     if (this.lastRequestedPlatform === this.selectedPlatform) {
+      return; // 🚫 prevents duplicate API calls
+    }
     this.dashboardService.getDashboard(this.selectedPlatform)
       .subscribe((res: any) => {
         this.dashboard = res;

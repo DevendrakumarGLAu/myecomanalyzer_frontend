@@ -1,9 +1,9 @@
-.sidebar {
+.app-sidebar {
   position: fixed;
-  top: 56px;        // navbar height
+  top: 60px;        // navbar height
   left: 0;
   width: 250px;     // same width for all screens
-  height: calc(100vh - 56px);
+  height: calc(100vh - 60px);
   background-color: #2d3033;
   overflow-y: auto;
   z-index: 1050;
@@ -25,10 +25,13 @@
   }
 }
 
-// Sidebar visible on mobile
-// .sidebar.show {
-//   transform: translateX(0);
-// }
-.sidebar.collapsed {
+// Sidebar visible on mobile when not collapsed
+.app-sidebar:not(.collapsed) {
+  @media (max-width: 992px) {
+    transform: translateX(0);
+  }
+}
+
+.app-sidebar.collapsed {
   width: 80px; // collapse width on desktop
 }
