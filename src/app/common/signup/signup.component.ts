@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule, NgIf } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [CommonModule, NgIf, ReactiveFormsModule],
+  imports: [CommonModule, NgIf, ReactiveFormsModule, RouterModule],
   templateUrl: './signup.component.html',
 })
 export class SignupComponent {
@@ -18,7 +19,8 @@ export class SignupComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,   // ✅ inject service
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {
     this.signupForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(150)]],
@@ -48,12 +50,15 @@ export class SignupComponent {
   this.authService.signupMethod(formValue).subscribe({
     next: (res) => {
       console.log('Signup successful', res);
+      this.toastService.success(res.message || 'Signup successful! Please log in.');
       this.router.navigate(['/login']);
     },
     error: (err) => {
       console.error(err);
 
       if (err.error?.detail) {
+        this.toastService.error("Signup failed: Something went wrong")
+        // this.toastService.error(Array.isArray(err.error.detail) ? err.error.detail.map((e: any) => e.msg).join(', ') : err.error.detail);
         if (Array.isArray(err.error.detail)) {
           this.errorMessage = err.error.detail
             .map((e: any) => e.msg)

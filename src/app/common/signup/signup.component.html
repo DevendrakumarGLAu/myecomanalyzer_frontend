@@ -1,17 +1,19 @@
-<div class="container-fluid">
-    <header class="sticky-top bg-white border-bottom mb-3">
-        <div class="container d-flex justify-content-between align-items-center py-3">
-            <div class="d-flex align-items-center gap-2">
-                <div class="bg-primary text-white rounded p-2 d-flex align-items-center justify-content-center">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <span class="h4 mb-0">SellerPulse</span>
-            </div>
-            <a routerLink="/login" class="btn btn-outline-primary btn-sm">Login</a>
-            <a routerLink="/signup" class="btn btn-outline-primary btn-sm">signup</a>
+<div class="container-fluid min-vh-100 d-flex flex-column bg-surface">
+  <header class="sticky-top bg-white border-bottom">
+    <div class="container d-flex justify-content-between align-items-center py-3">
+      <div class="d-flex align-items-center gap-2">
+        <div class="bg-primary text-white rounded p-2 d-flex align-items-center justify-content-center">
+          <i class="fas fa-chart-line"></i>
         </div>
-    </header>
-    <div class="row h-100 p-3">
+        <span class="h4 mb-0">SellerPulse</span>
+      </div>
+      <div class="d-flex gap-2">
+        <a routerLink="/login" class="btn btn-outline-primary btn-sm">Login</a>
+        <a routerLink="/signup" class="btn btn-outline-primary btn-sm">Signup</a>
+      </div>
+    </div>
+  </header>
+  <div class="row flex-grow-1 g-0">
 
         <!-- Left side: Info / Marketing -->
          <div class="col-md-6 d-none d-md-flex flex-column justify-content-center align-items-start p-5 text-white"
@@ -28,99 +30,83 @@
                 <li class="mb-2">✔ Real-time profit tracking</li>
             </ul>
         </div>
-        <!-- Right side: Login form -->
-        <div class="col-md-6 d-flex align-items-center justify-content-center p-5 bg-light">
-            <div class="card shadow-sm w-100" >
-                <div class="card-body">
-                    <h3 class="card-title mb-4 text-center"  style="color: #10b77f;">Sign Up</h3>
-
-                    <form [formGroup]="signupForm" (ngSubmit)="signup()">
-
-                        <!-- Username -->
-                         <div class="row">
-
-                        
-                        <div class="mb-3 col-md-6 ">
-                            <label class="form-label">Username *</label>
-                            <input formControlName="username" type="text" class="form-control"
-                                [ngClass]="{'is-invalid': signupForm.controls['username'].invalid && signupForm.controls['username'].touched}">
-                            <div class="invalid-feedback">
-                                Username is required (3-150 chars)
-                            </div>
-                        </div>
-
-                        <!-- First Name -->
-                        <div class="mb-3 col-md-6 ">
-                            <label class="form-label">First Name</label>
-                            <input formControlName="first_name" type="text" class="form-control">
-                        </div>
-
-                        <!-- Last Name -->
-                        <div class="mb-3 col-md-6 ">
-                            <label class="form-label">Last Name</label>
-                            <input formControlName="last_name" type="text" class="form-control">
-                        </div>
-
-                        <!-- Email -->
-                        <div class="mb-3 col-md-6 ">
-                            <label class="form-label">Email *</label>
-                            <input formControlName="email" type="email" class="form-control"
-                                [ngClass]="{'is-invalid': signupForm.controls['email'].invalid && signupForm.controls['email'].touched}">
-                            <div class="invalid-feedback">
-                                Valid email is required
-                            </div>
-                        </div>
-
-                        <!-- Mobile Number -->
-                        <div class="mb-3 col-md-6 ">
-                            <label class="form-label">Mobile Number</label>
-                            <input formControlName="mobile_number" type="text" class="form-control">
-                        </div>
-
-                        <!-- Password -->
-                        <div class="mb-3 col-md-6 ">
-                            <label class="form-label">Password *</label>
-                            <input formControlName="password" type="password" class="form-control"
-                                [ngClass]="{'is-invalid': signupForm.controls['password'].invalid && signupForm.controls['password'].touched}">
-                            <div class="invalid-feedback">
-                                Password must be at least 6 characters
-                            </div>
-                        </div>
-
-                        <!-- Confirm Password -->
-                        <div class="mb-3 col-md-6 ">
-                            <label class="form-label">Confirm Password *</label>
-                            <input formControlName="confirm_password" type="password" class="form-control">
-                        </div>
-
-                        <!-- Use Trial -->
-                        <div class="form-check mb-3">
-                            <input formControlName="use_trial" type="checkbox" class="form-check-input" id="useTrial">
-                            <label class="form-check-label" for="useTrial">Use Trial</label>
-                        </div>
-
-                        <!-- Submit -->
-                         <div class="d-flex justify-content-end">
-                        <span  class="btn w-50">Already have Account <a routerLink="/login">Login</a>  </span>
-                        <button type="submit" class="btn btn-primary w-50">Sign Up</button>
-
-                         </div>
-
-                        <!-- Error Message -->
-                        <div *ngIf="errorMessage" class="alert alert-danger mt-3">
-                            {{ errorMessage }}
-                        </div>
-                         </div>
-                    </form>
-                </div>
+        <div class="col-lg-6 d-flex align-items-center justify-content-center p-4 bg-surface">
+          <div class="auth-card w-100 mx-auto" style="max-width: 520px;">
+            <div class="auth-tab-switch d-flex gap-2 mb-3 p-2 bg-surface-container rounded-pill">
+              <a routerLink="/login" routerLinkActive="auth-tab-active" class="btn btn-sm flex-fill text-uppercase auth-tab">Login</a>
+              <a routerLink="/signup" routerLinkActive="auth-tab-active" [routerLinkActiveOptions]="{ exact: true }" class="btn btn-sm flex-fill text-uppercase auth-tab">Sign Up</a>
             </div>
+
+            <div class="text-center mb-3 px-4 pt-2">
+              <h2 class="h5 fw-bold mb-1 text-primary">Create your account</h2>
+              <p class="text-muted mb-0 small">Sign up once and manage every marketplace in one dashboard.</p>
+            </div>
+
+            <form class="d-flex flex-column" [formGroup]="signupForm" (ngSubmit)="signup()">
+              <div class="px-4 pb-2" style="overflow-y: auto; flex: 1;">
+              <div class="row gx-2">
+                <div class="mb-2 col-md-6">
+                  <label class="form-label small">Username *</label>
+                  <input formControlName="username" type="text" class="form-control form-control-sm" [ngClass]="{ 'is-invalid': signupForm.controls['username'].invalid && signupForm.controls['username'].touched }" />
+                  <div class="invalid-feedback small" *ngIf="signupForm.controls['username'].invalid && signupForm.controls['username'].touched">Username is required (3-150 chars)</div>
+                </div>
+
+                <div class="mb-2 col-md-6">
+                  <label class="form-label small">First Name</label>
+                  <input formControlName="first_name" type="text" class="form-control form-control-sm" />
+                </div>
+
+                <div class="mb-2 col-md-6">
+                  <label class="form-label small">Last Name</label>
+                  <input formControlName="last_name" type="text" class="form-control form-control-sm" />
+                </div>
+
+                <div class="mb-2 col-md-6">
+                  <label class="form-label small">Email *</label>
+                  <input formControlName="email" type="email" class="form-control form-control-sm" [ngClass]="{ 'is-invalid': signupForm.controls['email'].invalid && signupForm.controls['email'].touched }" />
+                  <div class="invalid-feedback small">Valid email is required</div>
+                </div>
+
+                <div class="mb-2 col-md-6">
+                  <label class="form-label small">Mobile Number</label>
+                  <input formControlName="mobile_number" type="text" class="form-control form-control-sm" />
+                </div>
+
+                <div class="mb-2 col-md-6">
+                  <label class="form-label small">Password *</label>
+                  <input formControlName="password" type="password" class="form-control form-control-sm" [ngClass]="{ 'is-invalid': signupForm.controls['password'].invalid && signupForm.controls['password'].touched }" />
+                  <div class="invalid-feedback small">Password must be at least 6 characters</div>
+                </div>
+
+                <div class="mb-2 col-md-6">
+                  <label class="form-label small">Confirm Password *</label>
+                  <input formControlName="confirm_password" type="password" class="form-control form-control-sm" />
+                </div>
+              </div>
+
+              <div class="form-check mb-2 ms-1">
+                <input formControlName="use_trial" type="checkbox" class="form-check-input" id="useTrial" />
+                <label class="form-check-label small" for="useTrial">Use Trial</label>
+              </div>
+
+              <div *ngIf="errorMessage" class="alert alert-danger mt-2 mb-0 small">{{ errorMessage }}</div>
+              </div>
+
+              <div class="px-4 pt-2 border-top d-flex flex-column flex-sm-row gap-2 align-items-center justify-content-between" style="flex-shrink: 0;">
+                <a routerLink="/login" class="btn btn-link btn-sm text-primary fw-semibold">Already have an account? Login</a>
+                <button type="submit" class="btn btn-primary btn-sm px-4">Sign Up</button>
+              </div>
+            </form>
+          </div>
         </div>
-    </div>
+      </div>
 
-
-
-    <!-- </div> -->
-  <footer class="bg-white border-top py-3 text-center text-muted">
-        © 2026 SellerPulse. Built for marketplace sellers.
-    </footer>
+  <footer class="bg-white border-top py-3 text-center text-muted mt-auto">
+    © 2026 SellerPulse. Built for marketplace sellers.
+  </footer>
 </div>
+
+<br>
+<br>
+<br>
+<br>

@@ -1,5 +1,5 @@
-<div class="container-fluid">
-      <header class="sticky-top bg-white border-bottom">
+<div class="container-fluid min-vh-100 d-flex flex-column bg-surface">
+  <header class="sticky-top bg-white border-bottom">
     <div class="container d-flex justify-content-between align-items-center py-3">
       <div class="d-flex align-items-center gap-2">
         <div class="bg-primary text-white rounded p-2 d-flex align-items-center justify-content-center">
@@ -7,11 +7,13 @@
         </div>
         <span class="h4 mb-0">SellerPulse</span>
       </div>
-      <a routerLink="/login" class="btn btn-outline-primary btn-sm">Login</a>
-      <a routerLink="/signup" class="btn btn-outline-primary btn-sm">signup</a>
+      <div class="d-flex gap-2">
+        <a routerLink="/login" class="btn btn-outline-primary btn-sm">Login</a>
+        <a routerLink="/signup" class="btn btn-outline-primary btn-sm">Signup</a>
+      </div>
     </div>
   </header>
-    <div class="row h-100">
+  <div class="row flex-grow-1 g-0">
 
         <!-- Left side: Info / Marketing -->
         <div class="col-md-6 d-none d-md-flex flex-column justify-content-center align-items-start p-5 text-white"
@@ -29,47 +31,52 @@
             </ul>
         </div>
 
-        <!-- Right side: Login form -->
-        <div class="col-md-6 d-flex align-items-center justify-content-center p-5 bg-light">
-            <div class="w-100" style="max-width: 400px;">
-                <h2 class="mb-4 text-center" style="color: #10b77f;">Login</h2>
-                <form [formGroup]="loginForm" (ngSubmit)="login()">
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
-                        <input type="email" id="email" class="form-control" formControlName="email"
-                            placeholder="Enter email">
-                        <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
-                            class="text-danger small mt-1">
-                            <div *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</div>
-                            <div *ngIf="loginForm.get('email')?.errors?.['email']">Enter a valid email.</div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" id="password" class="form-control" formControlName="password"
-                            placeholder="Enter password">
-                        <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
-                            class="text-danger small mt-1">
-                            Password is required.
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn w-100" style="background-color: #10b77f; color: #fff;">
-                        Login
-                    </button>
-
-                    <div class="text-center mt-3">
-                        <button routerLink="/signup" class="btn" style="color:#0d6efd;">Go to Signup</button>
-                        <button routerLink="/" class="btn" style="color:#0d6efd;">Back to Home</button>
-                    </div>
-                </form>
+        <div class="col-lg-6 d-flex align-items-center justify-content-center p-4 bg-surface">
+          <div class="auth-card w-100 mx-auto" style="max-width: 480px;">
+            <div class="auth-tab-switch d-flex gap-2 mb-4 p-2 bg-surface-container rounded-pill">
+              <a routerLink="/login" routerLinkActive="auth-tab-active" [routerLinkActiveOptions]="{ exact: true }" class="btn btn-sm flex-fill text-uppercase auth-tab">Login</a>
+              <a routerLink="/signup" routerLinkActive="auth-tab-active" class="btn btn-sm flex-fill text-uppercase auth-tab">Sign Up</a>
             </div>
+
+            <div class="text-center mb-4">
+              <h2 class="h4 fw-bold mb-1 text-primary">Welcome back</h2>
+              <p class="text-muted mb-0">Enter your details to access your account</p>
+            </div>
+
+            <form class="p-4" [formGroup]="loginForm" (ngSubmit)="login()">
+              <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" id="email" class="form-control" formControlName="email" placeholder="Enter email" />
+                <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid" class="text-danger small mt-1">
+                  <div *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</div>
+                  <div *ngIf="loginForm.get('email')?.errors?.['email']">Enter a valid email.</div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <label for="password" class="form-label mb-0">Password</label>
+                  <a routerLink="#" class="small text-primary">Forgot password?</a>
+                </div>
+                <input type="password" id="password" class="form-control" formControlName="password" placeholder="Enter password" />
+                <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid" class="text-danger small mt-1">
+                  Password is required.
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100 py-3">Login</button>
+            </form>
+
+            <div class="text-center mt-4 text-muted">
+              Don’t have an account?
+              <a routerLink="/signup" class="fw-semibold text-primary">Sign up here</a>
+            </div>
+          </div>
         </div>
 
-    </div>
-    <!-- Footer -->
-    <footer class="bg-white border-top py-3 text-center text-muted">
-        © 2026 SellerPulse. Built for marketplace sellers.
-    </footer>
+      </div>
+
+  <footer class="bg-white border-top py-3 text-center text-muted mt-auto">
+    © 2026 SellerPulse. Built for marketplace sellers.
+  </footer>
 </div>

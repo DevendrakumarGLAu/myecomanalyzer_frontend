@@ -13,6 +13,7 @@ export class ToastService {
       panelClass: ['success-snackbar']
     });
   }
+  
 
   error(message: string) {
     this.snackBar.open(message, 'Close', {

@@ -12,6 +12,7 @@ import { PaymentExcelComponent } from './pages/payment_invoice/payment_invoice.c
 import { UserDashboardComponent } from './pages/dashboard/dashboard.component';
 import { OrderStatusUploadComponent } from './pages/order_status_invoice_upload/order-status-upload.component';
 import { DispatchInvoiceComponent } from './pages/orders/dispatch-invoice.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 export const routes: Routes = [
 
@@ -34,9 +35,8 @@ export const routes: Routes = [
       {path:'category',component:CategoryComponent},
       { path: 'order-status', component: OrderStatusUploadComponent },
       { path: 'dispatch-invoice', component: DispatchInvoiceComponent },
+      { path: 'profile', component: ProfileComponent },
       // add more sidebar routes here
-      // { path: 'products', component: ProductsComponent },
-      // { path: 'platforms', component: PlatformsComponent },
     ]
   },
 

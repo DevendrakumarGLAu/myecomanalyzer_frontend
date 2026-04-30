@@ -32,7 +32,9 @@ export class SidebarComponent implements OnInit {
   handleClick(event: MouseEvent) {
     if (window.innerWidth < 992 && !this.isCollapsed) {
       const sidebar = document.querySelector('.app-sidebar');
-      if (sidebar && !sidebar.contains(event.target as Node)) {
+      const burgerBtn = document.querySelector('.app-header .nav-link[role="button"]');
+      const target = event.target as Node;
+      if (sidebar && !sidebar.contains(target) && !(burgerBtn && burgerBtn.contains(target))) {
         this.sidebarService.setCollapsed(true);
         document.body.classList.remove('sidebar-open');
       }

@@ -1,9 +1,80 @@
+:root {
+  --surface: #f8f9ff;
+  --surface-bright: #f8f9ff;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #eff4ff;
+  --surface-container-high: #dce9ff;
+  --surface-container-highest: #d3e4fe;
+  --outline: #777587;
+  --primary: #3525cd;
+  --primary-container: #4f46e5;
+  --secondary: #00687a;
+  --secondary-container: #57dffe;
+  --secondary-fixed: #acedff;
+  --tertiary: #005523;
+  --tertiary-fixed: #6bff8f;
+  --on-surface: #0b1c30;
+  --on-surface-variant: #464555;
+  --on-primary: #ffffff;
+  --background: #f8f9ff;
+  --error: #ba1a1a;
+}
+
 html, body {
   height: 100%;
   margin: 0;
   overflow: hidden;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: var(--bs-body-bg);
+  background-color: var(--background);
+}
+
+.auth-card {
+  background: var(--surface-container-lowest);
+  border: 1px solid rgba(102, 112, 133, 0.16);
+  border-radius: 1.5rem;
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.08);
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.auth-tab-switch {
+  background: var(--surface-container-low);
+  border-radius: 999px;
+  padding: 0.35rem;
+}
+
+.auth-tab {
+  border-radius: 999px;
+  font-weight: 700;
+  color: var(--on-surface-variant);
+}
+
+.auth-tab.active,
+.auth-tab.active:hover,
+.auth-tab:hover {
+  color: var(--primary);
+}
+
+.auth-tab-active {
+  background: var(--surface-container-lowest) !important;
+  color: var(--primary) !important;
+}
+
+.auth-left-panel {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-container) 100%);
+}
+
+.auth-left-panel .feature-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.auth-left-panel .feature-card span {
+  color: var(--secondary-fixed);
+}
+
+.auth-card .form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(53, 37, 205, 0.16);
 }
 
 /* ------------------------
@@ -78,9 +149,13 @@ footer.app-footer {
 /* ------------------------
    SNACKBAR STYLES
 ------------------------ */
-::ng-deep .mat-mdc-snack-bar-container {
-  margin-top: 10px !important;
-  z-index: 3000 !important;
+/* The CDK overlay must sit above the header (z-index:1050) */
+.cdk-overlay-container {
+  z-index: 9999 !important;
+}
+
+.mat-mdc-snack-bar-container {
+  margin-top: 70px !important;   /* push below the 60px fixed header */
 }
 .success-snackbar {
   --mdc-snackbar-container-color: #28a745;
@@ -92,4 +167,57 @@ footer.app-footer {
   --mdc-snackbar-container-color: #dc3545;
   --mdc-snackbar-supporting-text-color: #ffffff;
   --mat-mdc-snack-bar-button-color: #ffffff;
+}
+body.dark-mode {
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+body.dark-mode .app-header,
+body.dark-mode .navbar,
+body.dark-mode .app-footer,
+body.dark-mode .app-sidebar,
+body.dark-mode .app-page-wrapper,
+body.dark-mode .dropdown-menu,
+body.dark-mode .user-header,
+body.dark-mode .table,
+body.dark-mode .card {
+  background-color: #111827 !important;
+  color: #e5e7eb !important;
+  border-color: #334155 !important;
+}
+
+body.dark-mode .app-header {
+  border-bottom-color: #1f2937 !important;
+}
+
+body.dark-mode .app-page-wrapper {
+  background: #0f172a !important;
+}
+
+body.dark-mode .nav-link,
+body.dark-mode .dropdown-item,
+body.dark-mode .user-footer a,
+body.dark-mode .btn-outline-secondary,
+body.dark-mode .form-control,
+body.dark-mode .table th,
+body.dark-mode .table td {
+  color: #e5e7eb !important;
+}
+
+body.dark-mode .btn-outline-secondary {
+  border-color: #9ca3af;
+}
+
+body.dark-mode .btn-outline-secondary:hover,
+body.dark-mode .btn-outline-secondary:focus {
+  background-color: #1f2937;
+}
+
+body.dark-mode .bg-body {
+  background-color: #111827 !important;
+}
+
+body.dark-mode .bg-body-secondary {
+  background-color: #0f172a !important;
 }

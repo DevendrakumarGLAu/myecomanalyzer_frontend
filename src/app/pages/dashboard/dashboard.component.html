@@ -1,232 +1,344 @@
 <div class="container-fluid mt-4 mb-4">
-    <!-- PLATFORM FILTER -->
 
-    <div class="row mb-3 ">
+  <!-- HEADER ROW: Title + Filter Button -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0 fw-bold text-dark">
+      <i class="fas fa-chart-bar me-2 text-primary"></i>Dashboard
+    </h4>
+    <button class="btn-filter-toggle" (click)="openFilterModal()">
+      <i class="fas fa-sliders-h me-1"></i> Filters
+      <span class="filter-count" *ngIf="getActiveFilterCount() > 0">
+        {{ getActiveFilterCount() }}
+      </span>
+    </button>
+  </div>
 
-        <div class="col-md-3">
+  <!-- ACTIVE FILTER BADGES -->
+  <div class="active-filters-bar" *ngIf="getActiveFiltersList().length > 0">
+    <span class="active-filters-label">
+      <i class="fas fa-filter me-1"></i>Active:
+    </span>
+    <span class="filter-badge" *ngFor="let f of getActiveFiltersList()">
+      {{ f.label }}: <strong>{{ f.value }}</strong>
+      <i class="fas fa-times filter-badge-remove" (click)="removeFilter(f.label)"></i>
+    </span>
+    <button class="btn-clear-all" (click)="resetFilters()">
+      <i class="fas fa-times-circle me-1"></i>Clear All
+    </button>
+  </div>
 
-            <!-- <select class="form-select" [(ngModel)]="platformId" (change)="changePlatform()"> -->
 
-            <select class="form-select" [(ngModel)]="selectedPlatform" (change)="changePlatform()">
-                <option value="">-- Select Platform --</option>
-                <option *ngFor=" let p of platforms" [value]="p.code">
-                    {{ p.name }}
-                </option>
-            </select>
+  <!-- SUMMARY CARDS -->
+  <div class="row mb-3 g-3" *ngIf="dashboard">
 
+    <div class="col-6 col-md-2">
+      <div class="card text-white bg-primary shadow">
+        <div class="card-body text-center">
+          <h6>Total Orders</h6>
+          <h4>{{dashboard.summary.total_orders}}</h4>
         </div>
+      </div>
+    </div>
 
+    <div class="col-6 col-md-2">
+      <div class="card text-white bg-success shadow">
+        <div class="card-body text-center">
+          <h6>Total Products</h6>
+          <h4>{{dashboard.summary.total_products}}</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-2">
+      <div class="card text-white bg-warning shadow">
+        <div class="card-body text-center">
+          <h6>Total Sales</h6>
+          <h4>₹{{dashboard.summary.total_sales}}</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-2">
+      <div class="card text-white bg-danger shadow">
+        <div class="card-body text-center">
+          <h6>Returns</h6>
+          <h4>₹{{dashboard.summary.total_returns}}</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-2">
+      <div class="card text-white bg-secondary shadow">
+        <div class="card-body text-center">
+          <h6>Claim Approved</h6>
+          <h4>₹{{dashboard.summary.total_claims}}</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-2">
+      <div class="card text-white bg-info shadow">
+        <div class="card-body text-center">
+          <h6>Settlement</h6>
+          <h4>₹{{dashboard.summary.total_settlement}}</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-2">
+      <div class="card text-white bg-dark shadow">
+        <div class="card-body text-center">
+          <h6>Low Stock</h6>
+          <h4>{{dashboard.summary.low_stock_products}}</h4>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ORDERS BY STATUS -->
+  <div class="row mt-4 g-3" *ngIf="dashboard">
+
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          Orders by Status
+        </div>
+        <table class="table table-hover table-sm m-3">
+          <tr>
+            <th>Status</th>
+            <th>Total</th>
+          </tr>
+          <tr *ngFor="let s of dashboard.orders_by_status">
+            <td>
+              <span class="badge bg-secondary">{{s.status}}</span>
+            </td>
+            <td><b>{{s.total}}</b></td>
+          </tr>
+        </table>
+      </div>
     </div>
 
 
-    <!-- SUMMARY CARDS -->
-
-    <div class="row mb-3 g-3" *ngIf="dashboard">
-
-        <div class="col-6 col-md-2">
-            <div class="card text-white bg-primary shadow">
-                <div class="card-body text-center">
-                    <h6>Total Orders</h6>
-                    <h4>{{dashboard.summary.total_orders}}</h4>
-                </div>
-            </div>
+    <!-- PLATFORM STATS -->
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+          Orders by Platform
         </div>
-
-        <div class="col-6 col-md-2">
-            <div class="card text-white bg-success shadow">
-                <div class="card-body text-center">
-                    <h6>Total Products</h6>
-                    <h4>{{dashboard.summary.total_products}}</h4>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-6 col-md-2">
-            <div class="card text-white bg-warning shadow">
-                <div class="card-body text-center">
-                    <h6>Total Sales</h6>
-                    <h4>₹{{dashboard.summary.total_sales}}</h4>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-6 col-md-2">
-            <div class="card text-white bg-danger shadow">
-                <div class="card-body text-center">
-                    <h6>Returns</h6>
-                    <h4>₹{{dashboard.summary.total_returns}}</h4>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-6 col-md-2">
-            <div class="card text-white bg-secondary shadow">
-                <div class="card-body text-center">
-                    <h6>Claim Approved</h6>
-                    <h4>₹{{dashboard.summary.total_claims}}</h4>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-6 col-md-2">
-            <div class="card text-white bg-info shadow">
-                <div class="card-body text-center">
-                    <h6>Settlement</h6>
-                    <h4>₹{{dashboard.summary.total_settlement}}</h4>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-6 col-md-2">
-            <div class="card text-white bg-dark shadow">
-                <div class="card-body text-center">
-                    <h6>Low Stock</h6>
-                    <h4>{{dashboard.summary.low_stock_products}}</h4>
-                </div>
-            </div>
-        </div>
-
+        <table class="table table-hover table-sm m-3">
+          <tr>
+            <th>Platform</th>
+            <th>Total</th>
+          </tr>
+          <tr *ngFor="let p of dashboard.orders_by_platform">
+            <td>{{p.platform}}</td>
+            <td><span class="badge bg-primary">{{p.total}}</span></td>
+          </tr>
+        </table>
+      </div>
     </div>
 
+  </div>
 
-    <!-- ORDERS BY STATUS -->
 
-    <div class="row mt-4 g-3" *ngIf="dashboard">
-
-        <div class="col-md-6">
-
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    Orders by Status
-                </div>
-
-                <table class="table table-hover table-sm m-3">
-                    <tr>
-                        <th>Status</th>
-                        <th>Total</th>
-                    </tr>
-
-                    <tr *ngFor="let s of dashboard.orders_by_status">
-                        <td>
-                            <span class="badge bg-secondary">{{s.status}}</span>
-                        </td>
-                        <td><b>{{s.total}}</b></td>
-                    </tr>
-                </table>
-            </div>
-
+  <!-- SALES TREND -->
+  <div class="row mt-4" *ngIf="dashboard">
+    <div class="col-md-12">
+      <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+          Sales Trend (Last 7 Days)
         </div>
+        <table class="table table-hover table-sm ">
+          <thead class="table-dark">
+            <tr>
+              <th>Date</th>
+              <th>Total Orders</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let t of dashboard.sales_trend">
+              <td>{{t.date}}</td>
+              <td><b>{{t.total_orders}}</b></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
-
-        <!-- PLATFORM STATS -->
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-header bg-success text-white">
-                    Orders by Platform
-                </div>
-
-                <table class="table table-hover table-sm m-3">
-                    <tr>
-                        <th>Platform</th>
-                        <th>Total</th>
-                    </tr>
-
-                    <tr *ngFor="let p of dashboard.orders_by_platform">
-                        <td>{{p.platform}}</td>
-                        <td><span class="badge bg-primary">{{p.total}}</span></td>
-                    </tr>
-                </table>
-            </div>
-
+  <!-- DELIVERY PARTNER STATS -->
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+          Delivery Partner Performance
         </div>
+        <div class="table-responsive">
+          <table class="table table-bordered table-sm text-center m-3">
+            <thead class="bg-primary text-white">
+              <tr>
+                <th>Partner</th>
+                <th>Total Orders</th>
+                <th>Shipped</th>
+                <th>Delivered</th>
+                <th>RTO</th>
+                <th>Cancelled</th>
+                <th>Customer Return</th>
+                <th>Success %</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let d of dashboard?.delivery_partner_stats">
+                <td>{{ d.partner }}</td>
+                <td>{{ d.total_orders }}</td>
+                <td><span class="badge bg-info text-dark">{{ d.ready_to_ship }}</span></td>
+                <td><span class="badge bg-success">{{ d.delivered }}</span></td>
+                <td><span class="badge bg-warning text-dark">{{ d.rto }}</span></td>
+                <td><span class="badge bg-danger">{{ d.cancelled }}</span></td>
+                <td><span class="badge bg-info text-dark">{{ d.customer_return }}</span></td>
+                <td>
+                  <span class="badge bg-dark">
+                    {{
+                    d.total_orders
+                    ? ((d.delivered / d.total_orders) * 100 | number:'1.0-0')
+                    : 0
+                    }}%
+                  </span>
+                </td>
+              </tr>
+              <tr *ngIf="!dashboard?.delivery_partner_stats?.length">
+                <td colspan="8" class="text-center py-4 text-muted">
+                  No data found
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 
+</div>
+
+
+<!-- ============================================
+     RIGHT-SIDE FILTER MODAL (Slide-in Drawer)
+     ============================================ -->
+
+<!-- Backdrop -->
+<div class="filter-backdrop"
+     [class.open]="isFilterOpen"
+     (click)="closeFilterModal()">
+</div>
+
+<!-- Drawer -->
+<div class="filter-drawer" [class.open]="isFilterOpen">
+
+  <!-- Drawer Header -->
+  <div class="filter-drawer-header">
+    <h5>
+      <i class="fas fa-sliders-h me-2"></i>Filters
+    </h5>
+    <button class="btn-close-drawer" (click)="closeFilterModal()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <!-- Drawer Body -->
+  <div class="filter-drawer-body">
+
+    <!-- Platform -->
+    <div class="filter-group">
+      <label class="filter-label">
+        <i class="fas fa-store me-1"></i> Platform
+      </label>
+      <select class="filter-select" [(ngModel)]="filters.platform_code">
+        <option value="">All Platforms</option>
+        <option *ngFor="let p of platforms" [value]="p.code">{{ p.name }}</option>
+      </select>
     </div>
 
-
-    <!-- SALES TREND -->
-
-    <div class="row mt-4" *ngIf="dashboard">
-
-        <div class="col-md-12">
-
-            <div class="card shadow-sm">
-
-                <div class="card-header bg-success text-white">
-                    Sales Trend (Last 7 Days)
-                </div>
-
-                <table class="table table-hover table-sm ">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Date</th>
-                            <th>Total Orders</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr *ngFor="let t of dashboard.sales_trend">
-                            <td>{{t.date}}</td>
-                            <td><b>{{t.total_orders}}</b></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-            </div>
-
+    <!-- Date Range -->
+    <div class="filter-group">
+      <label class="filter-label">
+        <i class="fas fa-calendar-alt me-1"></i> Date Range
+      </label>
+      <div class="date-range-row">
+        <div class="date-input-wrapper">
+          <label class="date-sub-label">From</label>
+          <input type="date" class="filter-input" [(ngModel)]="filters.date_from" />
         </div>
-
+        <div class="date-input-wrapper">
+          <label class="date-sub-label">To</label>
+          <input type="date" class="filter-input" [(ngModel)]="filters.date_to" />
+        </div>
+      </div>
     </div>
 
-    <!-- DELIVERY PARTNER STATS -->
-
-    <div class="row mt-4">
-        <div class="col-md-12">
-            <div class="card shadow-sm">
-                <div class="card-header bg-success text-white">
-                    Delivery Partner Performance
-                </div>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-sm text-center m-3">
-                        <thead class="bg-primary text-white">
-                            <tr>
-                                <th>Partner</th>
-                                <th>Total Orders</th>
-                                <th>Shipped</th>
-                                <th>Delivered</th>
-                                <th>RTO</th>
-                                <th>Cancelled</th>
-                                <th>Customer Return</th>
-                                <th>Success %</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let d of dashboard?.delivery_partner_stats">
-                                <td>{{ d.partner }}</td>
-                                <td>{{ d.total_orders }}</td>
-                                <td><span class="badge bg-info text-dark">{{ d.ready_to_ship }}</span></td>
-                                <td><span class="badge bg-success">{{ d.delivered }}</span></td>
-                                <td><span class="badge bg-warning text-dark">{{ d.rto }}</span></td>
-                                <td><span class="badge bg-danger">{{ d.cancelled }}</span></td>
-                                <td><span class="badge bg-info text-dark">{{ d.customer_return }}</span></td>
-                                <td>
-                                    <span class="badge bg-dark">
-                                        {{
-                                        d.total_orders
-                                        ? ((d.delivered / d.total_orders) * 100 | number:'1.0-0')
-                                        : 0
-                                        }}%
-                                    </span>
-                                </td>
-                            </tr>
-                            <tr *ngIf="!dashboard?.delivery_partner_stats?.length">
-                                <td colspan="7" class="text-center py-4 text-muted">
-                                    No data found
-                                </td>
-                            </tr>
-                    </table>
-                </div>
-
-            </div>
-        </div>
+    <!-- Order Status -->
+    <div class="filter-group">
+      <label class="filter-label">
+        <i class="fas fa-clipboard-list me-1"></i> Order Status
+      </label>
+      <select class="filter-select" [(ngModel)]="filters.order_status">
+        <option value="">All Statuses</option>
+        <option *ngFor="let s of orderStatuses" [value]="s.value">{{ s.label }}</option>
+      </select>
     </div>
+
+    <!-- Delivery Partner -->
+    <div class="filter-group">
+      <label class="filter-label">
+        <i class="fas fa-truck me-1"></i> Delivery Partner
+      </label>
+      <select class="filter-select" [(ngModel)]="filters.delivery_partner">
+        <option value="">All Partners</option>
+        <option *ngFor="let d of deliveryPartners" [value]="d.value">{{ d.label }}</option>
+      </select>
+    </div>
+
+    <!-- Order Amount Range -->
+    <div class="filter-group">
+      <label class="filter-label">
+        <i class="fas fa-rupee-sign me-1"></i> Order Amount Range
+      </label>
+      <div class="date-range-row">
+        <div class="date-input-wrapper">
+          <label class="date-sub-label">Min (₹)</label>
+          <input type="number" class="filter-input" [(ngModel)]="filters.min_order_amount" placeholder="0" min="0" />
+        </div>
+        <div class="date-input-wrapper">
+          <label class="date-sub-label">Max (₹)</label>
+          <input type="number" class="filter-input" [(ngModel)]="filters.max_order_amount" placeholder="0" min="0" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Applied Filters Summary (inside modal) -->
+    <div class="filter-group" *ngIf="getActiveFiltersList().length > 0">
+      <label class="filter-label">
+        <i class="fas fa-check-circle me-1"></i> Currently Applied
+      </label>
+      <div class="applied-summary">
+        <div class="applied-summary-item" *ngFor="let f of getActiveFiltersList()">
+          <span class="applied-key">{{ f.label }}:</span>
+          <span class="applied-val">{{ f.value }}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Drawer Footer -->
+  <div class="filter-drawer-footer">
+    <button class="btn-reset" (click)="resetFilters()">
+      <i class="fas fa-undo me-1"></i> Reset
+    </button>
+    <button class="btn-apply" (click)="applyFilters()">
+      <i class="fas fa-check me-1"></i> Apply Filters
+    </button>
+  </div>
+
 </div>
