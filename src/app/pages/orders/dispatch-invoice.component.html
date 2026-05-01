@@ -10,18 +10,18 @@
     </ul>
 
     <!-- Loader -->
-    <div *ngIf="loading" class="text-center my-4">
+    <!-- <div *ngIf="loading" class="text-center my-4">
         <div class="spinner-border text-primary"></div>
-    </div>
+    </div> -->
     <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
         <!-- Left: Search Input -->
         <div class="d-flex align-items-center">
             <input type="text" class="form-control form-control-sm" placeholder="Search..." [(ngModel)]="searchText"
-                (input)="onSearch()" style="width: 200px;">
+                (input)="onSearch()" style="width: 100%; max-width: 150px;">
         </div>
 
         <!-- Right: Add Button -->
-        <div class="d-flex gap-2">
+        <div class="d-flex flex-column flex-sm-row gap-2">
 
             <button class="btn btn-primary btn-sm" (click)="openModal('invoice')">
                 Add Invoice
@@ -40,49 +40,51 @@
         </div>
     </div>
     <!-- Table -->
-    <div class="card shadow-sm" *ngIf="!loading">
+    <div class="card shadow-sm" >
         <div class="card-body p-0" style="max-height: 400px; overflow-y: auto;">
-            <table class="table table-striped  table-hover mb-0" style="position: sticky;">
-                <thead class="table-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Order ID</th>
-                        <th class="text-nowrap">Order Date</th>
-                        <th>SKU</th>
-                        <th>Product Name</th>
-                        <th>Size</th>
-                        <th>Color</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let invoice of invoices;let i = index ">
-                        <td>{{i + 1}}</td>
-                        <td>{{ invoice.order_id }}</td>
-                        <td class="text-nowrap">{{ invoice.order_date | date }}</td>
-                        <td>{{ invoice.sku }}</td>
-                        <td>{{ invoice.product_name }}</td>
-                        <td>{{ invoice.size }}</td>
-                        <td>{{ invoice.color }}</td>
+            <div class="table-responsive">
+                <table class="table table-striped  table-hover mb-0" style="position: sticky;">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Order ID</th>
+                            <th class="text-nowrap">Order Date</th>
+                            <th>SKU</th>
+                            <th>Product Name</th>
+                            <th>Size</th>
+                            <th>Color</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let invoice of invoices;let i = index ">
+                            <td>{{i + 1}}</td>
+                            <td>{{ invoice.order_id }}</td>
+                            <td class="text-nowrap">{{ invoice.order_date | date }}</td>
+                            <td>{{ invoice.sku }}</td>
+                            <td>{{ invoice.product_name }}</td>
+                            <td>{{ invoice.size }}</td>
+                            <td>{{ invoice.color }}</td>
 
-                        <td>
-                            <span class="badge bg-success" *ngIf="invoice.status === 'completed'">
-                                Completed
-                            </span>
-                            <span class="badge bg-warning text-dark" *ngIf="invoice.status !== 'completed'">
-                                {{ invoice.status }}
-                            </span>
-                        </td>
-                    </tr>
+                            <td>
+                                <span class="badge bg-success" *ngIf="invoice.status === 'completed'">
+                                    Completed
+                                </span>
+                                <span class="badge bg-warning text-dark" *ngIf="invoice.status !== 'completed'">
+                                    {{ invoice.status }}
+                                </span>
+                            </td>
+                        </tr>
 
-                    <!-- Empty State -->
-                    <tr *ngIf="invoices.length === 0">
-                        <td colspan="9" class="text-center py-3">
-                            No data found
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                        <!-- Empty State -->
+                        <tr *ngIf="invoices.length === 0">
+                            <td colspan="9" class="text-center py-3">
+                                No data found
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

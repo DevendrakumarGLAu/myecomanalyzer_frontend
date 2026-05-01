@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
    isLoading = false;
   errorMessage = '';
+  showPassword = false;
 
   constructor(private fb: FormBuilder, private router: Router,
     private authService: AuthService
@@ -61,6 +62,10 @@ export class LoginComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
 }

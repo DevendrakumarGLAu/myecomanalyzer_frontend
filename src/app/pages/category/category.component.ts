@@ -13,6 +13,7 @@ import { ToastService } from '../../services/toast.service';
   standalone: true,
   imports: [FormsModule, NgFor, NgIf, CommonModule, MaterialModule],
   templateUrl: './category.component.html',
+  styleUrls: ['./category.component.scss'],
 })
 export class CategoryComponent implements OnInit {
   categories: Category[] = [];

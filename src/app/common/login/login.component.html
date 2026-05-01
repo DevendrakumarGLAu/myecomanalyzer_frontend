@@ -58,7 +58,12 @@
                   <label for="password" class="form-label mb-0">Password</label>
                   <a routerLink="#" class="small text-primary">Forgot password?</a>
                 </div>
-                <input type="password" id="password" class="form-control" formControlName="password" placeholder="Enter password" />
+                <div class="input-group">
+                  <input [type]="showPassword ? 'text' : 'password'" id="password" class="form-control" formControlName="password" placeholder="Enter password" />
+                  <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()" tabindex="-1">
+                    <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                  </button>
+                </div>
                 <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid" class="text-danger small mt-1">
                   Password is required.
                 </div>

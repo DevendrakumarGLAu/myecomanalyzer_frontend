@@ -1,0 +1,32 @@
+// Card body with scrollable table
+::ng-deep .card .card-body {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+// Dropdown menu positioning to prevent clipping
+::ng-deep .dropdown {
+  position: relative;
+}
+
+::ng-deep .dropdown-menu {
+  z-index: 1050 !important;
+}
+
+// Ensure proper Bootstrap dropdown display
+::ng-deep [data-bs-toggle="dropdown"] {
+  &::after {
+    display: none;
+  }
+}
+
+
+
+
+
+.category-table:has(.dropdown-menu.dropdown-menu-end.show) {
+    min-height: 150px;
+}
+.card-body:has(.dropdown-menu.show) {
+    max-height: none;
+}
