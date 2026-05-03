@@ -13,6 +13,7 @@ import { UserDashboardComponent } from './pages/dashboard/dashboard.component';
 import { OrderStatusUploadComponent } from './pages/order_status_invoice_upload/order-status-upload.component';
 import { DispatchInvoiceComponent } from './pages/orders/dispatch-invoice.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
 
@@ -25,6 +26,7 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
+    canActivate: [authGuard],
     children: [
       { path: 'dashboard', component: DashboardComponent },
       // UserDashboardComponent
@@ -37,6 +39,8 @@ export const routes: Routes = [
       { path: 'dispatch-invoice', component: DispatchInvoiceComponent },
       { path: 'profile', component: ProfileComponent },
       // add more sidebar routes here
+
+       { path: '**', component: NotFoundComponent }
     ]
   },
 

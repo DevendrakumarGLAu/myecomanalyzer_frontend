@@ -33,7 +33,7 @@ export class LoaderInterceptor implements HttpInterceptor {
     if (token) {
       authReq = req.clone({
         setHeaders: {
-          'access-token': `Bearer ${token}`,
+          'Authorization': `Bearer ${token}`,
         },
       });
     }

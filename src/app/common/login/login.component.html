@@ -60,7 +60,7 @@
                 </div>
                 <div class="input-group">
                   <input [type]="showPassword ? 'text' : 'password'" id="password" class="form-control" formControlName="password" placeholder="Enter password" />
-                  <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()" tabindex="-1">
+                  <button type="button" class="btn border-0 bg-transparent px-2" (click)="togglePasswordVisibility()" tabindex="-1">
                     <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
                   </button>
                 </div>
@@ -69,7 +69,7 @@
                 </div>
               </div>
 
-              <button type="submit" class="btn btn-primary w-100 py-3">Login</button>
+              <button type="submit" class="btn btn-primary w-100">Login</button>
             </form>
 
             <div class="text-center mt-4 text-muted">

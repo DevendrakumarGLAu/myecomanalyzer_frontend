@@ -1,0 +1,102 @@
+<div class="charts-page">
+
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="charts-title mb-1">
+        <i class="fas fa-chart-bar me-2"></i>Analytics Dashboard
+      </h2>
+      <p class="charts-subtitle mb-0">Visual insights into your business performance</p>
+    </div>
+
+    <!-- Period Selector -->
+    <div class="period-selector">
+      <label class="form-label me-2">Time Period:</label>
+      <select class="form-select" [(ngModel)]="selectedPeriod" (change)="onPeriodChange()">
+        <option *ngFor="let period of periods" [value]="period.value">
+          {{ period.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2 text-muted">Loading chart data...</p>
+  </div>
+
+  <!-- Charts Grid -->
+  <div *ngIf="!loading" class="charts-grid">
+
+    <!-- Sales Chart -->
+    <div class="chart-card">
+      <div class="card-header-custom">
+        <h3><i class="fas fa-coins me-2"></i>Sales Performance</h3>
+      </div>
+      <div class="card-body-custom">
+        <div class="chart-container">
+          <canvas baseChart
+                  [data]="salesChartData"
+                  [options]="salesChartOptions"
+                  [type]="salesChartType">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orders Chart -->
+    <div class="chart-card">
+      <div class="card-header-custom">
+        <h3><i class="fas fa-shopping-cart me-2"></i>Order Volume</h3>
+      </div>
+      <div class="card-body-custom">
+        <div class="chart-container">
+          <canvas baseChart
+                  [data]="ordersChartData"
+                  [options]="ordersChartOptions"
+                  [type]="ordersChartType">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Charts Row -->
+    <div class="chart-card">
+      <div class="card-header-custom">
+        <h3><i class="fas fa-chart-line me-2"></i>Growth Trends</h3>
+      </div>
+      <div class="card-body-custom">
+        <div class="chart-placeholder">
+          <div class="placeholder-icon">
+            <i class="fas fa-chart-area"></i>
+          </div>
+          <h4>Growth Analysis</h4>
+          <p>Monthly growth trends and projections</p>
+          <span class="badge bg-primary">Coming Soon</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Revenue Breakdown -->
+    <div class="chart-card">
+      <div class="card-header-custom">
+        <h3><i class="fas fa-pie-chart me-2"></i>Revenue Breakdown</h3>
+      </div>
+      <div class="card-body-custom">
+        <div class="chart-placeholder">
+          <div class="placeholder-icon">
+            <i class="fas fa-chart-pie"></i>
+          </div>
+          <h4>Revenue Sources</h4>
+          <p>Platform-wise revenue distribution</p>
+          <span class="badge bg-success">Coming Soon</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

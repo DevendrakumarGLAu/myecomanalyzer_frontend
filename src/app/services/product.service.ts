@@ -32,7 +32,7 @@ export class ProductService {
     const token = localStorage.getItem('token') || '';
     return new HttpHeaders({
       'Content-Type': 'application/json',
-      'access-token': `Bearer ${token}`
+      'authorization': `Bearer ${token}`
     });
   }
 
@@ -49,7 +49,7 @@ getProducts(filters: Record<string, any>): Observable<any> {
   });
 
   return this.http.get<any>(`${this.baseUrl}/getallproduct/`, {
-    headers: this.getHeaders(),
+    // headers: this.getHeaders(),
     params
   });
 }
@@ -67,7 +67,7 @@ getProducts(filters: Record<string, any>): Observable<any> {
     return this.http.put<Product>(
       `${this.baseUrl}/update?id=${id}`,
       product,
-      { headers: this.getHeaders() }
+      // { headers: this.getHeaders() }
     );
   }
 

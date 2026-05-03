@@ -21,6 +21,14 @@ export class DashboardService {
 
   constructor(private http: HttpClient) {}
 
+  private getHeaders(): HttpHeaders {
+  const token = localStorage.getItem('token') || '';
+  return new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  });
+}
+
   // Method to get dashboard summary with filters
   getDashboard(filters: DashboardFilters = {}) {
     let params = new HttpParams();
@@ -49,4 +57,4 @@ export class DashboardService {
 
     return this.http.get(`${this.baseUrl}/dashboard/summary`, { params });
   }
-}
+}

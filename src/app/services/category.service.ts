@@ -22,7 +22,7 @@ export class CategoryService {
     const token = localStorage.getItem('token') || '';
     return new HttpHeaders({
       'Content-Type': 'application/json',
-      'access-token': `Bearer ${token}`
+      'authorization': `Bearer ${token}`
     });
   }
 

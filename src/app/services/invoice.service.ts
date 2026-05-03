@@ -16,7 +16,7 @@ export class InvoiceService {
     private getAuthHeaders(): HttpHeaders {
         const token = localStorage.getItem('token') || '';
         return new HttpHeaders({
-            'access-token': `Bearer ${token}` // <-- FastAPI standard
+            'authorization': `Bearer ${token}` // <-- FastAPI standard
         });
     }
 
