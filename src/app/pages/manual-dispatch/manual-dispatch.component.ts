@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { InvoiceService } from '../../services/invoice.service';
 import { DELIVERY_PARTNERS, Product_COLORS, Product_PLATFORMS, SelectOption } from '../../common/constant/platform.constants';
 import { ToastService } from '../../services/toast.service';
+import { sanitizeFormValues } from '../../shared/form-sanitizer';
 
 interface FormField {
   name: string;
@@ -62,7 +64,8 @@ export class ManualDispatchComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private invoiceService: InvoiceService,
-    private toaster: ToastService
+    private toaster: ToastService,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit() {
@@ -110,7 +113,8 @@ export class ManualDispatchComponent implements OnInit {
     this.loading = true;
     this.message = '';
 
-    this.invoiceService.createSingleOrder(this.form.value).subscribe({
+    const sanitizedPayload = sanitizeFormValues(this.form.value, this.sanitizer);
+    this.invoiceService.createSingleOrder(sanitizedPayload).subscribe({
       next: (res: any) => {
         this.loading = false;
 

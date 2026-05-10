@@ -54,7 +54,7 @@ export class UserDashboardComponent implements OnInit {
 
   ngOnInit() {
     this.loadFiltersFromSession();
-    this.loadDashboard();
+    // this.loadDashboard();
   }
 
   // ---- Session Storage ----
@@ -68,6 +68,7 @@ export class UserDashboardComponent implements OnInit {
       } catch {}
     }
     this.appliedFilters = { ...this.filters };
+    this.loadDashboard()
   }
 
   saveFiltersToSession() {
@@ -184,4 +185,4 @@ export class UserDashboardComponent implements OnInit {
     this.filters = { ...this.appliedFilters };
     this.loadDashboard();
   }
-}
+}

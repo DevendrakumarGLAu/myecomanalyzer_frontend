@@ -1,0 +1,19 @@
+.notification .dropdown-menu-lg {
+  width: 380px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  white-space: normal;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.notification-item:hover {
+  background: #f8f9fa;
+}
+
+.notification-item .small {
+  line-height: 1.3;
+}

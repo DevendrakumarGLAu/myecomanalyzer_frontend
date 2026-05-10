@@ -36,11 +36,7 @@
             <!-- Message Start -->
             <div class="d-flex">
               <div class="flex-shrink-0">
-                <img
-                  src="assets/img/user1-128x128.jpg"
-                  alt="User Avatar"
-                  class="img-size-50 rounded-circle me-3"
-                />
+                <img src="assets/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 rounded-circle me-3" />
               </div>
               <div class="flex-grow-1">
                 <h3 class="dropdown-item-title">
@@ -62,11 +58,7 @@
             <!-- Message Start -->
             <div class="d-flex">
               <div class="flex-shrink-0">
-                <img
-                  src="assets/img/user8-128x128.jpg"
-                  alt="User Avatar"
-                  class="img-size-50 rounded-circle me-3"
-                />
+                <img src="assets/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 rounded-circle me-3" />
               </div>
               <div class="flex-grow-1">
                 <h3 class="dropdown-item-title">
@@ -88,11 +80,7 @@
             <!-- Message Start -->
             <div class="d-flex">
               <div class="flex-shrink-0">
-                <img
-                  src="assets/img/user3-128x128.jpg"
-                  alt="User Avatar"
-                  class="img-size-50 rounded-circle me-3"
-                />
+                <img src="assets/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 rounded-circle me-3" />
               </div>
               <div class="flex-grow-1">
                 <h3 class="dropdown-item-title">
@@ -110,11 +98,11 @@
             <!-- Message End -->
           </a>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+          <a routerLink="/notifications" class="dropdown-item dropdown-footer">See All Messages</a>
         </div>
       </li>
       <!-- Notifications Dropdown Menu -->
-      <li class="nav-item dropdown">
+      <!-- <li class="nav-item dropdown">
         <a class="nav-link" data-bs-toggle="dropdown" href="#">
           <i class="bi bi-bell-fill"></i>
           <span class="navbar-badge badge text-bg-warning">15</span>
@@ -141,28 +129,109 @@
             See All Notifications
           </a>
         </div>
+      </li> -->
+
+      <!-- Notifications Dropdown Menu -->
+      <li class="notification nav-item dropdown">
+
+        <a class="nav-link" data-bs-toggle="dropdown" href="#">
+          <i class="bi bi-bell-fill"></i>
+
+          <span *ngIf="unreadCount > 0" class="navbar-badge badge text-bg-warning">
+            {{ unreadCount }}
+          </span>
+        </a>
+
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+
+          <!-- Header -->
+          <div class="dropdown-item dropdown-header d-flex justify-content-between align-items-center">
+
+            <span>
+              {{ unreadCount }} Notifications
+            </span>
+
+            <button *ngIf="notifications.length > 0" class="btn btn-sm btn-link text-decoration-none"
+              (click)="markAllAsRead()">
+              Mark all read
+            </button>
+
+          </div>
+
+          <div class="dropdown-divider"></div>
+
+          <!-- Notifications -->
+
+          <ng-container *ngIf="notifications.length > 0; else noNotifications">
+
+            <a routerLink="/notifications" class="dropdown-item notification-item"
+              *ngFor="let notification of notifications" (click)="markAsRead(notification)">
+
+              <div class="d-flex">
+
+                <div class="me-2">
+
+                  <i class="bi fs-5" [ngClass]="getNotificationIcon(notification.type)"></i>
+
+                </div>
+
+                <div class="flex-grow-1">
+
+                  <div class="fw-semibold">
+
+                    {{ notification.title }}
+
+                  </div>
+
+                  <div class="small text-muted">
+
+                    {{ notification.message }}
+
+                  </div>
+
+                  <div class="small text-secondary mt-1">
+
+                    {{ timeAgo(notification.created_at) }}
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </a>
+
+            <div class="dropdown-divider"></div>
+
+          </ng-container>
+
+          <!-- Empty -->
+          <ng-template #noNotifications>
+
+            <div class="dropdown-item text-center text-muted py-3">
+
+              No unread notifications
+
+            </div>
+
+          </ng-template>
+
+        </div>
+
       </li>
       <li class="nav-item dropdown user-menu">
         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-          <img
-            src="assets/img/avatar.png"
-            class="user-image rounded-circle shadow"
-            alt="User Image"
-          />
+          <img src="assets/img/avatar.png" class="user-image rounded-circle shadow" alt="User Image" />
           <span class="d-none d-md-inline"> {{ username }}
-  <i class="fas fa-chevron-down ml-1"></i></span>
+            <i class="fas fa-chevron-down ml-1"></i></span>
         </a>
         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
           <!-- User image -->
           <li class="user-header text-bg-primary">
-            <img
-              src="assets/img/avatar.png"
-              class="rounded-circle shadow"
-              alt="User Image"
-            />
+            <img src="assets/img/avatar.png" class="rounded-circle shadow" alt="User Image" />
 
             <p>
-               {{ username }}
+              {{ username }}
               <small>Member since {{ createdAt | date:'dd MMM yyyy' }}</small>
             </p>
           </li>
@@ -182,11 +251,7 @@
             </div>
             <!--end::Row-->
             <div class="mt-2 text-center">
-              <button
-                type="button"
-                class="btn btn-sm btn-outline-secondary"
-                (click)="toggleDarkMode()"
-              >
+              <button type="button" class="btn btn-sm btn-outline-secondary" (click)="toggleDarkMode()">
                 <i class="bi" [ngClass]="isDarkMode ? 'bi-sun-fill' : 'bi-moon-fill'"></i>
                 {{ isDarkMode ? 'Light Mode' : 'Dark Mode' }}
               </button>
@@ -194,8 +259,8 @@
           </li>
           <!-- Menu Footer-->
           <li class="user-footer">
-             <a routerLink="/profile" class="btn btn-outline-secondary btn-flat">Profile</a>
-  <a class="btn btn-outline-danger btn-flat float-end" style="cursor:pointer;" (click)="logout()">Sign out</a>
+            <a routerLink="/profile" class="btn btn-outline-secondary btn-flat">Profile</a>
+            <a class="btn btn-outline-danger btn-flat float-end" style="cursor:pointer;" (click)="logout()">Sign out</a>
           </li>
         </ul>
       </li>

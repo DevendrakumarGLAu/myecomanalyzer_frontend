@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Product } from '../product.model';
 import { PLATFORMS, COLORS } from '../../../common/constant/platform.constants';
 import { CategoryService } from '../../../services/category.service';
 import { firstValueFrom } from 'rxjs';
+import { sanitizeFormValues } from '../../../shared/form-sanitizer';
 
 export interface ProductField {
   key: string;
@@ -81,10 +83,12 @@ export class ProductFormComponent implements OnInit, OnChanges {
     { "label": "Other", "value": "OTHER" }
   ]
 
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private categoryservice: CategoryService,
     public dialogRef: MatDialogRef<ProductFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Product | null
+    @Inject(MAT_DIALOG_DATA) public data: Product | null,
+    private sanitizer: DomSanitizer
   ) { }
 
 
@@ -304,7 +308,8 @@ export class ProductFormComponent implements OnInit, OnChanges {
       variants: variantsPayload
     };
 
-    this.dialogRef.close(payload);
+    const sanitizedPayload = sanitizeFormValues(payload, this.sanitizer);
+    this.dialogRef.close(sanitizedPayload);
   }
 
   cancel() {

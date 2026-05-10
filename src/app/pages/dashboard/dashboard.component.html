@@ -5,7 +5,7 @@
     <h4 class="mb-0 fw-bold text-dark">
       <i class="fas fa-chart-bar me-2 text-primary"></i>Dashboard
     </h4>
-    <button class="btn-filter-toggle" (click)="openFilterModal()">
+    <button  type="button" class="btn-filter-toggle" (click)="openFilterModal()">
       <i class="fas fa-sliders-h me-1"></i> Filters
       <span class="filter-count" *ngIf="getActiveFilterCount() > 0">
         {{ getActiveFilterCount() }}
@@ -22,7 +22,7 @@
       {{ f.label }}: <strong>{{ f.value }}</strong>
       <i class="fas fa-times filter-badge-remove" (click)="removeFilter(f.label)"></i>
     </span>
-    <button class="btn-clear-all" (click)="resetFilters()">
+    <button  type="button" class="btn-clear-all" (click)="resetFilters()">
       <i class="fas fa-times-circle me-1"></i>Clear All
     </button>
   </div>
@@ -241,7 +241,7 @@
     <h5>
       <i class="fas fa-sliders-h me-2"></i>Filters
     </h5>
-    <button class="btn-close-drawer" (click)="closeFilterModal()">
+    <button  type="button" class="btn-close-drawer" (click)="closeFilterModal()">
       <i class="fas fa-times"></i>
     </button>
   </div>
@@ -333,10 +333,10 @@
 
   <!-- Drawer Footer -->
   <div class="filter-drawer-footer">
-    <button class="btn-reset" (click)="resetFilters()">
+    <button  type="button" class="btn-reset" (click)="resetFilters()">
       <i class="fas fa-undo me-1"></i> Reset
     </button>
-    <button class="btn-apply" (click)="applyFilters()">
+    <button  type="button" class="btn-apply" (click)="applyFilters()">
       <i class="fas fa-check me-1"></i> Apply Filters
     </button>
   </div>

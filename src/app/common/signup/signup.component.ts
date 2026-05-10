@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule, NgIf } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
+import { sanitizeFormValues } from '../../shared/form-sanitizer';
 import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../services/toast.service';
 
@@ -20,7 +22,8 @@ export class SignupComponent {
     private fb: FormBuilder,
     private authService: AuthService,   // ✅ inject service
     private router: Router,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private sanitizer: DomSanitizer
   ) {
     this.signupForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(150)]],
@@ -40,7 +43,7 @@ export class SignupComponent {
     return;
   }
 
-  const formValue = this.signupForm.value;
+  const formValue = sanitizeFormValues(this.signupForm.value, this.sanitizer);
 
   if (formValue.password !== formValue.confirm_password) {
     this.errorMessage = 'Passwords do not match.';

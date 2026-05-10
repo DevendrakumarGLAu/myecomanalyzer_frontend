@@ -14,6 +14,7 @@ import { OrderStatusUploadComponent } from './pages/order_status_invoice_upload/
 import { DispatchInvoiceComponent } from './pages/orders/dispatch-invoice.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { authGuard } from './auth.guard';
+import { NotificationsComponent } from './pages/notifications/notifications.component';
 
 export const routes: Routes = [
 
@@ -38,7 +39,8 @@ export const routes: Routes = [
       { path: 'order-status', component: OrderStatusUploadComponent },
       { path: 'dispatch-invoice', component: DispatchInvoiceComponent },
       { path: 'profile', component: ProfileComponent },
-      // add more sidebar routes here
+      { path: 'notifications',component: NotificationsComponent},
+      // add more sidebar routes here,
 
        { path: '**', component: NotFoundComponent }
     ]

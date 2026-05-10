@@ -2,6 +2,8 @@ import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
+import { sanitizeFormValues } from '../../shared/form-sanitizer';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -16,8 +18,11 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
   showPassword = false;
 
-  constructor(private fb: FormBuilder, private router: Router,
-    private authService: AuthService
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -36,7 +41,8 @@ export class LoginComponent implements OnInit {
     this.isLoading = true;
     this.errorMessage = '';
 
-    const { email, password } = this.loginForm.value;
+    const sanitizedValue = sanitizeFormValues(this.loginForm.value, this.sanitizer);
+    const { email, password } = sanitizedValue;
 
     this.authService.login(email, password).subscribe({
       next: (response) => {
