@@ -86,6 +86,15 @@
     </div>
 
     <div class="col-6 col-md-2">
+      <div class="card text-white shadow" [ngClass]="getProfitCardClass()">
+        <div class="card-body text-center">
+          <h6>Total Profit</h6>
+          <h4>₹{{dashboard.summary.total_profit | number:'1.2-2'}}</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-2">
       <div class="card text-white bg-dark shadow">
         <div class="card-body text-center">
           <h6>Low Stock</h6>

@@ -185,4 +185,12 @@ export class UserDashboardComponent implements OnInit {
     this.filters = { ...this.appliedFilters };
     this.loadDashboard();
   }
+
+  getProfitCardClass(): string {
+    const profit = this.dashboard?.summary?.total_profit;
+    if (profit == null) {
+      return 'bg-secondary';
+    }
+    return profit < 0 ? 'bg-danger' : 'bg-success';
+  }
 }
