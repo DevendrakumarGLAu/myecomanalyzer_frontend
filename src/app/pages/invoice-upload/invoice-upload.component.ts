@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InvoiceService } from '../../services/invoice.service';
 import { PLATFORMS } from '../../common/constant/platform.constants';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-invoice-upload',
@@ -17,22 +18,41 @@ export class InvoiceUploadComponent {
   selectedPlatform: string = '';
   message: string = '';
   platforms = PLATFORMS;
-
+  fileError: string = '';
 
   constructor(private http: HttpClient,
-    private invoiceService: InvoiceService
+    private invoiceService: InvoiceService,
+    private toast: ToastService
   ) { }
 
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
+    const file = event.target.files[0];
+    if (file) {
+      const allowedTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel'];
+      const fileExtension = file.name.split('.').pop()?.toLowerCase();
+      const allowedExtensions = ['pdf'];
+
+      if (allowedTypes.includes(file.type) || allowedExtensions.includes(fileExtension)) {
+        this.selectedFile = file;
+        this.fileError = '';
+      } else {
+        this.selectedFile = null;
+        this.fileError = 'Invalid file type. Please select a PDF or Excel file.';
+        this.toast.error(this.fileError);
+      }
+    } else {
+      this.selectedFile = null;
+      this.fileError = '';
+    }
   }
   errorList: any[] = [];
   errorFileUrl: string | null = null;
   uploadFile() {
     console.log("Selected Platform:", this.selectedPlatform);
     console.log("Selected File:", this.selectedFile);
-    if (!this.selectedFile || !this.selectedPlatform) {
-      this.message = "Please select platform and file.";
+    if (!this.selectedFile || !this.selectedPlatform || this.fileError) {
+      this.message = "Please select platform and a valid file.";
+      
       return;
     }
 
@@ -54,9 +74,21 @@ export class InvoiceUploadComponent {
           // ✅ NEW: store detailed errors
           this.errorList = res?.data?.error_orders || [];
           this.errorFileUrl = res?.data?.error_file || null;
+          this.toast.success(this.message);
         },
         error: (err: any) => {
-          this.message = 'Upload failed: ' + (err.error?.message || err.message);
+          this.message =
+            err?.error?.detail?.message ||
+            err?.error?.message ||
+            err.message ||
+            'Upload failed';
+
+          // Optional: show allowed file types
+          if (err?.error?.detail?.details?.allowed_extensions) {
+            const allowed = err.error.detail.details.allowed_extensions.join(', ');
+            this.message += ` Allowed file types: ${allowed}`;
+            this.toast.error(this.message);
+          }
         }
       });
   }

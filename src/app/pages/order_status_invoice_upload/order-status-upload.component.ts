@@ -1,8 +1,8 @@
 import { CommonModule, NgFor } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InvoiceService } from '../../services/invoice.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-order-status-upload',
@@ -16,21 +16,37 @@ export class OrderStatusUploadComponent {
   message: string = '';
   errorList: any[] = [];
   notFoundList: any[] = [];
+  fileError: string = '';
 
-  constructor(private invoiceService: InvoiceService) {}
+  constructor(private invoiceService: InvoiceService,
+    private toast: ToastService
+  ) {}
 
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
+    const file = event.target.files[0];
+    if (file) {
+      const allowedTypes = ['text/csv', 'application/csv', 'application/vnd.ms-excel'];
+      const fileExtension = file.name.split('.').pop()?.toLowerCase();
+      const allowedExtensions = ['csv'];
+
+      if (allowedTypes.includes(file.type) || allowedExtensions.includes(fileExtension)) {
+        this.selectedFile = file;
+        this.fileError = '';
+      } else {
+        this.selectedFile = null;
+        this.fileError = 'Invalid file type. Please select a CSV file.';
+        this.toast.error(this.fileError);
+      }
+    } else {
+      this.selectedFile = null;
+      this.fileError = '';
+    }
   }
 
   uploadFile() {
-    if (!this.selectedFile) {
-      this.message = "Please select a CSV file.";
-      return;
-    }
-
-    if (!this.selectedFile.name.toLowerCase().endsWith('.csv')) {
-      this.message = "Only CSV files are allowed.";
+    if (!this.selectedFile || this.fileError) {
+      this.message = "Please select a valid CSV file.";
+      this.toast.error(this.message);
       return;
     }
 
@@ -53,6 +69,7 @@ export class OrderStatusUploadComponent {
           this.message = 'Upload failed: ' + (err.error?.message || err.message);
           this.errorList = [];
           this.notFoundList = [];
+          this.toast.error(this.message);
         }
       });
   }

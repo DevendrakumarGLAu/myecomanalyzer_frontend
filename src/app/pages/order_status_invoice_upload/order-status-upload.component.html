@@ -12,6 +12,7 @@
              class="form-control"
              (change)="onFileSelected($event)"
              accept=".csv" />
+      <div *ngIf="fileError" class="text-danger mt-1">{{ fileError }}</div>
     </div>
 
     <!-- Upload Button -->

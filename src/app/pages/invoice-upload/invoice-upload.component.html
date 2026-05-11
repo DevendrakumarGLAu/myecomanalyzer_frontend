@@ -19,11 +19,12 @@
 
       <!-- File -->
       <div class="mb-3">
-        <input type="file" class="form-control" (change)="onFileSelected($event)" accept=".pdf" />
+        <input type="file" class="form-control" (change)="onFileSelected($event)" accept=".pdf,.xlsx,.xls" />
+        <div *ngIf="fileError" class="text-danger mt-1">{{ fileError }}</div>
       </div>
 
       <!-- Upload Button -->
-      <div class="d-grid mb-3">
+      <div class="d-grid mb-3"> 
         <button class="btn btn-primary btn-sm" (click)="uploadFile()">
           ⬆ Upload Invoice
         </button>

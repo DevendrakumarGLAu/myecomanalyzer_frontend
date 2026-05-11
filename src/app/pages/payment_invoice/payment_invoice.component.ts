@@ -20,6 +20,7 @@ export class PaymentExcelComponent {
   platforms = PLATFORMS;
 
   message = '';
+  fileError = '';
 
   // ✅ RESPONSE STATE
   responseData: any = null;
@@ -33,25 +34,28 @@ export class PaymentExcelComponent {
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
-    if (!file) return;
+    if (file) {
+      const allowedTypes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel'];
+      const fileExtension = file.name.split('.').pop()?.toLowerCase();
+      const allowedExtensions = ['xlsx', 'xls'];
 
-    const allowedTypes = [
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'application/vnd.ms-excel'
-    ];
-
-    if (!allowedTypes.includes(file.type)) {
-      this.message = "❌ Please upload a valid Excel file (.xlsx or .xls)";
-      return;
+      if (allowedTypes.includes(file.type) || allowedExtensions.includes(fileExtension)) {
+        this.selectedFile = file;
+        this.fileError = '';
+      } else {
+        this.selectedFile = null;
+        this.fileError = 'Invalid file type. Please select an Excel file (.xlsx or .xls).';
+        this.toast.error(this.fileError);
+      }
+    } else {
+      this.selectedFile = null;
+      this.fileError = '';
     }
-
-    this.selectedFile = file;
-    this.message = '';
   }
 
   uploadFile() {
-    if (!this.selectedFile || !this.selectedPlatform) {
-      this.message = "Please select platform and file.";
+    if (!this.selectedFile || !this.selectedPlatform || this.fileError) {
+      this.message = "Please select platform and a valid file.";
       return;
     }
 

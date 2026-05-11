@@ -19,6 +19,7 @@
         (change)="onFileSelected($event)"
         accept=".xlsx,.xls"
       />
+      <div *ngIf="fileError" class="text-danger mt-1">{{ fileError }}</div>
     </div>
 
     <!-- BUTTON -->
