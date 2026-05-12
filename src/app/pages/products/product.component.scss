@@ -2,12 +2,43 @@
     max-height: 31.25rem;       /* vertical scroll max height */
     overflow-y: auto;
     overflow-x: auto;        /* horizontal scroll for many columns */
+  -webkit-overflow-scrolling: touch;
+
 }
 
-.table-wrapper table {
-     min-width: 56.25rem;        /* ensures horizontal scroll appears if needed */
+// .table-wrapper table {
+//      min-width: 56.25rem;        /* ensures horizontal scroll appears if needed */
+// }
+
+table {
+  min-width: 1200px;
+  white-space: nowrap;
 }
 
+td,
+th {
+  vertical-align: middle;
+}
+.pagination-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+
+  .pagination-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .pagination {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+}
 .sticky-top1 th {
     position: sticky;
     top: 0;
