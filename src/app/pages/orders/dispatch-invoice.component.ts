@@ -20,7 +20,8 @@ declare var bootstrap: any;
         PaymentExcelComponent, DatePipe,ManualDispatchComponent
 
     ],
-    templateUrl: './dispatch-invoice.component.html'
+    templateUrl: './dispatch-invoice.component.html',
+    styleUrls: ['./dispatch-invoice.component.scss']
 })
 export class DispatchInvoiceComponent implements OnInit, OnDestroy {
 

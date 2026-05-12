@@ -1,0 +1,13 @@
+.sticky-top1 {
+    position: sticky;
+    top: 0;
+    background-color: #28a745;
+    color: white;
+    z-index: 10;
+}
+
+@media (max-width: 767px) {
+    .pagination {
+        justify-content: flex-end;
+    }
+}
