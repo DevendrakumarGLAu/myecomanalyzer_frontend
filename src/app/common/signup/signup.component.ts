@@ -6,11 +6,13 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { sanitizeFormValues } from '../../shared/form-sanitizer';
 import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../services/toast.service';
+import { PublicHeaderComponent } from '../../shared/public-header/public-header.component';
+import { PublicFooterComponent } from '../../shared/public-footer/public-footer.component';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [CommonModule, NgIf, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, NgIf, ReactiveFormsModule, RouterModule, PublicHeaderComponent, PublicFooterComponent],
   templateUrl: './signup.component.html',
 })
 export class SignupComponent {

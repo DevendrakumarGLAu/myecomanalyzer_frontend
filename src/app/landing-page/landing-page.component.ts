@@ -1,11 +1,13 @@
-import { NgFor } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { PublicFooterComponent } from '../shared/public-footer/public-footer.component';
+import { PublicHeaderComponent } from '../shared/public-header/public-header.component';
 
 @Component({
   selector: 'app-landing-page',
   standalone: true,
-  imports: [NgFor, RouterModule],
+  imports: [NgFor, RouterModule, PublicHeaderComponent, PublicFooterComponent, NgClass,NgFor, NgIf],
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.scss']
 })
@@ -22,31 +24,57 @@ features = [
 
 plans = [
   {
-    name: "Starter",
-    price: "₹999/mo",
+    name: "Basic",
+    price: "₹199",
+    period: "/month",
+    badge: "",
+    button: "Start Basic",
+    popular: false,
     features: [
-      "Up to 500 orders",
-      "2 Marketplaces",
-      "Basic Profit Calculator"
+      "1 Marketplace Integration",
+      "1000 Orders / Month",
+      "Settlement Excel Upload",
+      "Dispatch PDF Parsing",
+      "Profit Calculation",
+      "Basic Analytics",
+      "Email Support",
+      "No Hidden Charges"
+    ]
+  },
+  {
+    name: "Growth",
+    price: "₹399",
+    period: "/month",
+    badge: "Most Popular",
+    button: "Start Growth",
+    popular: true,
+    features: [
+      "2 Marketplace Integrations",
+      "3000 Orders / Month",
+      "Advanced Profit Analytics",
+      "Return & RTO Tracking",
+      "Marketplace Fee Breakdown",
+      "Priority Support",
+      "Fast Processing",
+      "Export Reports"
     ]
   },
   {
     name: "Pro",
-    price: "₹2499/mo",
+    price: "₹799",
+    period: "/month",
+    badge: "",
+    button: "Start Pro",
+    popular: false,
     features: [
-      "5000 orders",
-      "All marketplaces",
-      "PDF auto processing",
-      "Advanced analytics"
-    ]
-  },
-  {
-    name: "Enterprise",
-    price: "Custom",
-    features: [
-      "Unlimited orders",
-      "Multi warehouse",
-      "Custom integrations"
+      "5 Marketplace Integrations",
+      "10000 Orders / Month",
+      "AI Profit Insights",
+      "Team Access",
+      "Custom Reports",
+      "Advanced Dashboard",
+      "Premium Support",
+      "API Access"
     ]
   }
 ];

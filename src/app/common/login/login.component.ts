@@ -5,11 +5,13 @@ import { Router, RouterModule } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { sanitizeFormValues } from '../../shared/form-sanitizer';
 import { AuthService } from '../../services/auth.service';
+import { PublicHeaderComponent } from '../../shared/public-header/public-header.component';
+import { PublicFooterComponent } from '../../shared/public-footer/public-footer.component';
 
 @Component({
   selector: 'app-login',
   standalone:true,
-  imports:[ReactiveFormsModule, NgIf,RouterModule],
+  imports:[ReactiveFormsModule, NgIf,RouterModule,PublicHeaderComponent, PublicFooterComponent],
   templateUrl: './login.component.html',
 })
 export class LoginComponent implements OnInit {

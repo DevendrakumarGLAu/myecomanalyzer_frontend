@@ -1,23 +1,5 @@
-<div class="min-vh-100 bg-light">
-
-  <!-- Header -->
-  <header class="sticky-top bg-white border-bottom">
-    <div class="container d-flex justify-content-between align-items-center py-3">
-      
-      <div class="d-flex align-items-center gap-2">
-        <div class="bg-primary text-white rounded p-2 d-flex align-items-center justify-content-center">
-          <i class="fas fa-chart-line"></i>
-        </div>
-        <span class="h4 mb-0 fw-bold">SellerPulse</span>
-      </div>
-
-      <div class="d-flex gap-2">
-        <a routerLink="/login" class="btn btn-outline-primary btn-sm">Login</a>
-        <a routerLink="/signup" class="btn btn-primary btn-sm">Signup</a>
-      </div>
-
-    </div>
-  </header>
+<div class=" bg-light">
+  <app-public-header></app-public-header>
 
 
   <!-- Hero Section -->
@@ -126,37 +108,75 @@
 
 
   <!-- Pricing -->
-  <section class="bg-white py-5 border-top">
+  <!-- Pricing -->
+  <section class="pricing-section py-5 bg-white border-top">
 
     <div class="container">
 
       <div class="text-center mb-5">
-        <h2 class="fw-bold">Plans for every stage</h2>
-        <p class="text-muted">Scale your business with transparent pricing</p>
+
+        <span class="badge bg-primary-subtle text-primary px-3 py-2 mb-3">
+          Transparent Pricing
+        </span>
+
+        <h2 class="fw-bold display-6">
+          Simple plans for every seller
+        </h2>
+
+        <p class="text-muted">
+          Start small and scale as your orders grow.
+          No hidden charges. Cancel anytime.
+        </p>
+
       </div>
 
-      <div class="row g-4">
+      <div class="row g-4 justify-content-center">
 
-        <div *ngFor="let p of plans" class="col-md-4">
+        <div *ngFor="let p of plans" class="col-lg-4 col-md-6">
 
-          <div class="card h-100 shadow-sm border text-center">
+          <div class="card pricing-card h-100 border-0 shadow-sm position-relative" [class.popular-card]="p.popular">
 
-            <div class="card-body">
+            <!-- Badge -->
+            <div *ngIf="p.badge" class="popular-badge">
 
-              <h5 class="fw-bold">{{ p.name }}</h5>
+              {{ p.badge }}
 
-              <h2 class="text-primary my-3">{{ p.price }}</h2>
+            </div>
 
-              <ul class="list-unstyled text-muted mb-4">
+            <div class="card-body p-4">
 
-                <li *ngFor="let f of p.features" class="mb-2">
-                  ✔ {{ f }}
+              <h5 class="fw-bold mb-3">
+                {{ p.name }}
+              </h5>
+
+              <div class="mb-4">
+
+                <span class="display-5 fw-bold text-primary">
+                  {{ p.price }}
+                </span>
+
+                <span class="text-muted">
+                  {{ p.period }}
+                </span>
+
+              </div>
+
+              <ul class="list-unstyled mb-4">
+
+                <li *ngFor="let f of p.features" class="mb-3 d-flex align-items-start">
+
+                  <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+
+                  <span>{{ f }}</span>
+
                 </li>
 
               </ul>
 
-              <button class="btn btn-primary w-100">
-                Get Started
+              <button class="btn w-100" [ngClass]="p.popular ? 'btn-primary' : 'btn-outline-primary'">
+
+                {{ p.button }}
+
               </button>
 
             </div>
@@ -164,6 +184,14 @@
           </div>
 
         </div>
+
+      </div>
+
+      <!-- Bottom Trust Text -->
+      <div class="text-center mt-5 text-muted small">
+
+        Trusted by marketplace sellers across Amazon,
+        Flipkart, Meesho & Myntra.
 
       </div>
 
@@ -194,9 +222,5 @@
   </section>
 
 
-  <!-- Footer -->
-  <footer class="bg-white border-top py-3 text-center text-muted">
-    © 2026 SellerPulse. Built for marketplace sellers.
-  </footer>
-
+  <app-public-footer></app-public-footer>
 </div>

@@ -23,10 +23,17 @@
 html, body {
   height: 100%;
   margin: 0;
-  overflow: hidden;
+    overflow-x: hidden;
+  overflow-y: auto;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: var(--background);
 }
+// html,
+// body {
+//   min-height: 100%;
+//   overflow-x: hidden;
+//   overflow-y: auto;
+// }
 
 .auth-card {
   background: var(--surface-container-lowest);
