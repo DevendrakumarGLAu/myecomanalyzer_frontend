@@ -1,0 +1,49 @@
+<div class="chatbot-container">
+    <!-- Chatbot Header -->
+    <div class="chatbot-header" *ngIf="isOpen">
+        <div class="header-content">
+            <span class="chatbot-title">💬 Chat Assistant</span>
+            <div class="header-actions">
+                <button class="btn-clear" (click)="clearChat()" title="Clear chat">🗑️</button>
+                <button class="btn-close " (click)="toggleChatbot()" title="Close">✕</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot Body -->
+    <div class="chatbot-body" *ngIf="isOpen">
+        <!-- Messages Container -->
+        <div class="chat-messages">
+            <div *ngFor="let message of chatMessages" [ngClass]="'message message-' + message.sender">
+                <div class="message-content">
+                    <span *ngIf="message.sender === 'bot'" class="message-icon">
+                        <i class="fa-solid fa-robot"></i>
+                    </span>
+                    <span *ngIf="message.sender === 'user'" class="message-icon">
+                        <i class="fa-solid fa-user"></i>
+                    </span>
+                    <p class="message-text">{{ message.text }}</p>
+                </div>
+                <small class="message-time">{{ message.timestamp | date: 'short' }}</small>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <form class="chat-input-area" (ngSubmit)="sendMessage()">
+            <input type="text" [(ngModel)]="userInput" name="chatInput" placeholder="Type your message..."
+                class="chat-input" [disabled]="isLoading" />
+            <!-- <button type="submit" class="btn-send" [disabled]="isLoading">
+        {{ isLoading ? '...' : '<i class="fa fa-paper-plane"></i>' }}
+      </button> -->
+            <button type="submit" class="btn-send" [disabled]="isLoading">
+                <span *ngIf="isLoading">...</span>
+                <i *ngIf="!isLoading" class="fa-solid fa-paper-plane"></i>
+            </button>
+        </form>
+    </div>
+
+    <!-- Collapsed View -->
+    <div class="chatbot-collapsed" *ngIf="!isOpen" (click)="toggleChatbot()">
+        <span class="chat-icon">💬</span>
+    </div>
+</div>

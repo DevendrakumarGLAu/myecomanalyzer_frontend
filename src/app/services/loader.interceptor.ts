@@ -25,16 +25,25 @@ export class LoaderInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    this.loaderService.show();
+    // Skip loader if this is a chatbot request
+    const skipLoader = req.headers.has('X-Skip-Loader');
+    
+    if (!skipLoader) {
+      this.loaderService.show();
+    }
 
     // Auto-attach the token if available
     const token = localStorage.getItem('token');
-    let authReq = req;
-    if (token) {
-      authReq = req.clone({
-        setHeaders: {
-          'Authorization': `Bearer ${token}`,
-        },
+    let authReq = req.clone({
+      setHeaders: {
+        'Authorization': `Bearer ${token || ''}`,
+      },
+    });
+    
+    // Remove the skip-loader header before sending to backend
+    if (skipLoader) {
+      authReq = authReq.clone({
+        headers: authReq.headers.delete('X-Skip-Loader')
       });
     }
 

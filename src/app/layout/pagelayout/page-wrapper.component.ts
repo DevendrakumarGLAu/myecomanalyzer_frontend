@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { ChatbotComponent } from '../../chatbot/chatbot.component';
 // import { BreadcrumbComponent } from '../breadcum/breadcrumb.component';
 
 @Component({
@@ -7,11 +8,14 @@ import { RouterOutlet } from '@angular/router';
   imports: [
       RouterOutlet,
         // BreadcrumbComponent
+        ChatbotComponent
     ],
   template: `
   <!-- <app-breadcrumb></app-breadcrumb> -->
     <div class="app-page-wrapper overflow-auto">
       <router-outlet></router-outlet>
+<app-chatbot></app-chatbot>
+      
     </div>
   `,
   styleUrls: ['./page-wrapper.component.scss']
