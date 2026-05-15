@@ -2,19 +2,20 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { InvoiceService } from '../../services/invoice.service';
-import { CurrencyPipe, DatePipe, NgClass, NgFor, NgIf, TitleCasePipe } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe, NgClass, NgFor, NgIf, NgStyle, TitleCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
 import { InvoiceUploadComponent } from '../invoice-upload/invoice-upload.component';
 import { OrderStatusUploadComponent } from '../order_status_invoice_upload/order-status-upload.component';
 import { PaymentExcelComponent } from '../payment_invoice/payment_invoice.component';
 import { ManualDispatchComponent } from '../manual-dispatch/manual-dispatch.component';
+import { PLATFORM_COLORS } from '../../common/constant/platform.constants';
 declare var bootstrap: any;
 
 @Component({
     selector: 'app-dispatch-invoice',
     standalone: true,
-    imports: [NgIf, NgFor, TitleCasePipe, FormsModule, NgClass,
+    imports: [NgIf, NgFor, TitleCasePipe, FormsModule, NgClass, NgStyle, CommonModule,
         InvoiceUploadComponent,
         OrderStatusUploadComponent,
         PaymentExcelComponent, DatePipe, ManualDispatchComponent, CurrencyPipe
@@ -27,7 +28,7 @@ export class DispatchInvoiceComponent implements OnInit, OnDestroy {
 
     platforms = ['meesho', 'amazon', 'flipkart'];
     selectedPlatform = 'meesho';
-
+    platformColors = PLATFORM_COLORS;
     invoices: any[] = [];
     columns: string[] = [];
 
@@ -174,7 +175,10 @@ export class DispatchInvoiceComponent implements OnInit, OnDestroy {
     }
 
     getStatusClass(code: string): string {
-        switch (code) {
+
+        const status = code?.toUpperCase();
+
+        switch (status) {
 
             case 'DELIVERED':
                 return 'green';
@@ -200,5 +204,49 @@ export class DispatchInvoiceComponent implements OnInit, OnDestroy {
             default:
                 return 'gray';
         }
+    }
+    getPlatformColor(platform: string): string {
+        return this.platformColors[platform.toUpperCase()] || '#888888';
+    }
+
+    getColorStyle(color: string) {
+        const hex = this.getColorHex(color);
+        const upper = color?.toUpperCase();
+
+        const isLight = ['WHITE', 'BEIGE', 'SILVER'].includes(upper);
+
+        return {
+            'background-color': isLight ? hex : hex + '33',
+            'color': isLight ? '#111827' : hex,
+            'border-color': hex
+        };
+    }
+    getColorHex(color: string): string {
+
+        const colors: Record<string, string> = {
+
+            RED: '#ef4444',
+            BLUE: '#3b82f6',
+            GREEN: '#22c55e',
+            BLACK: '#111827',
+            WHITE: '#d1d5db',
+            YELLOW: '#eab308',
+            PINK: '#ec4899',
+            PURPLE: '#8b5cf6',
+            ORANGE: '#f97316',
+            GREY: '#6b7280',
+            GRAY: '#6b7280',
+            BROWN: '#92400e',
+            MAROON: '#800000',
+            NAVY_BLUE: '#1e3a8a',
+            SKY_BLUE: '#0ea5e9',
+            BEIGE: '#d6c6a5',
+            GOLD: '#ca8a04',
+            SILVER: '#9ca3af',
+            MULTICOLOR: '#7c3aed',
+            OTHER: '#64748b'
+        };
+
+        return colors[color?.toUpperCase()] || '#64748b';
     }
 }

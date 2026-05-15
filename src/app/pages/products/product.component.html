@@ -166,7 +166,7 @@
         </div>
         <div class="pagination-container mt-3">
             <!-- Items per page dropdown -->
-            <div class="d-flex align-items-center gap-2 flex-wrap">
+            <div class="d-flex align-items-center gap-2 ">
                 <label class="mb-0">Show:</label>
                 <select class="form-select form-select-sm" [(ngModel)]="itemsPerPage" (change)="onPageSizeChange()">
                     <option *ngFor="let size of pageSizeOptions" [ngValue]="size">{{ size }}</option>
@@ -174,7 +174,7 @@
                 <!-- <span class="mb-0">per page</span> -->
             </div>
             <!-- Go to page -->
-            <div class="d-flex align-items-center gap-2 flex-wrap">
+            <div class="d-flex align-items-center gap-2">
                 <label class="mb-0">Go:</label>
                 <input type="number" class="form-control form-control-sm" style="width: 70px;"
                     [(ngModel)]="gotoPageNumber" (keyup.enter)="goToPage(gotoPageNumber)" />

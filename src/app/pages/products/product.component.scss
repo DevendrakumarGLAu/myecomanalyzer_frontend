@@ -24,6 +24,7 @@ th {
   align-items: center;
   gap: 16px;
   flex-wrap: wrap;
+  justify-content: end;
 }
 
 @media (max-width: 768px) {
