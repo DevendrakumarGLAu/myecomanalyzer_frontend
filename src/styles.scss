@@ -18,6 +18,82 @@
   --on-primary: #ffffff;
   --background: #f8f9ff;
   --error: #ba1a1a;
+
+  // chatbot colors 
+  --chat-primary: #667eea;
+  --chat-secondary: #764ba2;
+
+    --chat-bg: #f5f7fa;
+  --chat-border: #e0e0e0;
+
+  --chat-text: #333;
+  --chat-muted: #999;
+
+  --radius: 12px;
+  --transition: all 0.2s ease;
+
+  // dashboard colors
+  --primary-light: #6380f5;
+  --primary-dark: #3451d1;
+
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+
+  --dark: #1e293b;
+
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-500: #64748b;
+  --gray-600: #475569;
+  --gray-700: #334155;
+
+  --radius-sm: 8px;
+
+  // --radius: 16px;
+  --radius-sm: 10px;
+
+  --shadow:
+    0 1px 3px rgba(0, 0, 0, 0.06),
+    0 1px 2px rgba(0, 0, 0, 0.04);
+
+  --shadow-md:
+    0 4px 6px -1px rgba(0, 0, 0, 0.07),
+    0 2px 4px -2px rgba(0, 0, 0, 0.05);
+
+  --shadow-lg:
+    0 10px 15px -3px rgba(0, 0, 0, 0.08),
+    0 4px 6px -4px rgba(0, 0, 0, 0.04);
+
+}
+
+:root {
+  --primary: #4361ee;
+  --primary-light: #6380f5;
+  --primary-dark: #3451d1;
+
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+
+  --dark: #1e293b;
+
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-500: #64748b;
+  --gray-600: #475569;
+  --gray-700: #334155;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+
+  --transition: all 0.2s ease;
 }
 
 html, body {
@@ -28,12 +104,6 @@ html, body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: var(--background);
 }
-// html,
-// body {
-//   min-height: 100%;
-//   overflow-x: hidden;
-//   overflow-y: auto;
-// }
 
 .auth-card {
   background: var(--surface-container-lowest);
