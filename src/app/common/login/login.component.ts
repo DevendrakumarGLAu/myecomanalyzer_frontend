@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+import { isPlatformBrowser, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -7,7 +7,7 @@ import { sanitizeFormValues } from '../../shared/form-sanitizer';
 import { AuthService, CaptchaResponse, LoginPayload } from '../../services/auth.service';
 import { PublicHeaderComponent } from '../../shared/public-header/public-header.component';
 import { PublicFooterComponent } from '../../shared/public-footer/public-footer.component';
-
+import { inject, PLATFORM_ID } from '@angular/core';
 @Component({
   selector: 'app-login',
   standalone:true,
@@ -15,6 +15,8 @@ import { PublicFooterComponent } from '../../shared/public-footer/public-footer.
   templateUrl: './login.component.html',
 })
 export class LoginComponent implements OnInit {
+  private platformId = inject(PLATFORM_ID);
+
   loginForm!: FormGroup;
   isLoading = false;
   errorMessage = '';
@@ -38,7 +40,10 @@ export class LoginComponent implements OnInit {
       captchaAnswer: ['', Validators.required],
     });
 
+    // this.loadCaptcha();
+    if (isPlatformBrowser(this.platformId)) {
     this.loadCaptcha();
+  }
   }
 
   loadCaptcha(): void {
