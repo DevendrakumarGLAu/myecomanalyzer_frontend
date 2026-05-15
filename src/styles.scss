@@ -298,3 +298,64 @@ body.dark-mode .bg-body {
 body.dark-mode .bg-body-secondary {
   background-color: #0f172a !important;
 }
+
+
+// badges color
+.badge-soft {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+
+  padding: 2px 8px;
+  border-radius: 6px;
+
+  border: 1px solid transparent;
+  cursor: default;
+
+  white-space: nowrap;
+}
+
+/* Blue */
+.badge-soft.blue {
+  background-color: rgba(59, 130, 246, 0.10);
+  color: rgb(59, 130, 246);
+  border-color: rgb(59, 130, 246);
+}
+
+/* Yellow */
+.badge-soft.yellow {
+  background-color: rgba(234, 179, 8, 0.10);
+  color: rgb(234, 179, 8);
+  border-color: rgb(234, 179, 8);
+}
+
+/* Green */
+.badge-soft.green {
+  background-color: rgba(34, 197, 94, 0.10);
+  color: rgb(34, 197, 94);
+  border-color: rgb(34, 197, 94);
+}
+
+/* Red */
+.badge-soft.red {
+  background-color: rgba(239, 68, 68, 0.10);
+  color: rgb(239, 68, 68);
+  border-color: rgb(239, 68, 68);
+}
+
+/* Indigo */
+.badge-soft.indigo {
+  background-color: rgba(99, 102, 241, 0.10);
+  color: rgb(99, 102, 241);
+  border-color: rgb(99, 102, 241);
+}
+
+/* Gray fallback */
+.badge-soft.gray {
+  background-color: rgba(100, 116, 139, 0.10);
+  color: rgb(100, 116, 139);
+  border-color: rgb(100, 116, 139);
+}

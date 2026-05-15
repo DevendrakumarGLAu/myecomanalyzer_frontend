@@ -40,7 +40,7 @@
         </div>
     </div>
     <!-- Table -->
-    <div class="card shadow-sm" >
+    <div class="card shadow-sm">
         <div class="card-body p-0" style="max-height: 400px; overflow-y: auto;">
             <div class="table-responsive">
                 <table class="table table-striped  table-hover mb-0" style="position: sticky;">
@@ -51,6 +51,8 @@
                             <th class="sticky-top1 text-nowrap">Order Date</th>
                             <th class="sticky-top1">SKU</th>
                             <th class="sticky-top1">Product Name</th>
+                            <th class="sticky-top1">Platform</th>
+                            <th class="sticky-top1">Settlement Amount</th>
                             <th class="sticky-top1">Size</th>
                             <th class="sticky-top1">Color</th>
                             <th class="sticky-top1">Status</th>
@@ -65,12 +67,20 @@
                             <td>{{ invoice.product_name }}</td>
                             <td>{{ invoice.size }}</td>
                             <td>{{ invoice.color }}</td>
+                            <td>{{ selectedPlatform }}</td>
+                            <td>{{ invoice.settlement_amount | currency:'INR':'symbol' }}</td>
 
-                            <td>
+
+                            <!-- <td>
                                 <span class="badge bg-success" *ngIf="invoice.status === 'completed'">
                                     Completed
                                 </span>
                                 <span class="badge bg-warning text-dark" *ngIf="invoice.status !== 'completed'">
+                                    {{ invoice.status }}
+                                </span>
+                            </td> -->
+                            <td>
+                                <span class="badge" [ngClass]="getStatusClass(invoice.status)">
                                     {{ invoice.status }}
                                 </span>
                             </td>
@@ -93,13 +103,14 @@
                         <!-- 1. Go To Page -->
                         <li class="page-item d-flex align-items-center me-3">
                             <span class="me-1 small">Page</span>
-                            <input type="number" class="form-control form-control-sm" style="width: 70px;" [value]="page"
-                                min="1" [max]="totalPages" (change)="goToPageInput($event)">
+                            <input type="number" class="form-control form-control-sm" style="width: 70px;"
+                                [value]="page" min="1" [max]="totalPages" (change)="goToPageInput($event)">
                         </li>
                         <!-- Page Size Dropdown -->
                         <li class="page-item d-flex align-items-center ms-3">
                             <span class="me-1 small">Show</span>
-                            <select class="form-select form-select-sm" [value]="limit" (change)="onPageSizeChange($event)">
+                            <select class="form-select form-select-sm" [value]="limit"
+                                (change)="onPageSizeChange($event)">
                                 <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
                             </select>
                             <!-- <span class="ms-1 small">per page</span> -->
@@ -107,7 +118,8 @@
                         <!-- 2. Showing Records -->
                         <li class="page-item disabled me-3">
                             <span class="page-link border-0 bg-transparent text-muted">
-                                <span class="ms-1 small"> Show:</span> {{ startRecord }} - {{ endRecord }} of {{ totalOrders }}
+                                <span class="ms-1 small"> Show:</span> {{ startRecord }} - {{ endRecord }} of {{
+                                totalOrders }}
                             </span>
                         </li>
 
@@ -140,22 +152,22 @@
     </div>
 </div>
 <div class="modal fade" id="mainModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <!-- Header -->
-      <div class="modal-header">
-        <h5 class="modal-title">{{ modalTitle }}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <!-- Body -->
-      <div class="modal-body" style="max-height: 75vh; overflow-y: auto;">
-        <app-invoice-upload *ngIf="activeModal === 'invoice'"></app-invoice-upload>
-        <app-order-status-upload *ngIf="activeModal === 'status'"></app-order-status-upload>
-        <app-payment-invoice-upload *ngIf="activeModal === 'excel'"></app-payment-invoice-upload>
-        <app-manual-dispatch *ngIf="activeModal === 'manual'"></app-manual-dispatch>
-      </div>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <!-- Header -->
+            <div class="modal-header">
+                <h5 class="modal-title">{{ modalTitle }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- Body -->
+            <div class="modal-body" style="max-height: 75vh; overflow-y: auto;">
+                <app-invoice-upload *ngIf="activeModal === 'invoice'"></app-invoice-upload>
+                <app-order-status-upload *ngIf="activeModal === 'status'"></app-order-status-upload>
+                <app-payment-invoice-upload *ngIf="activeModal === 'excel'"></app-payment-invoice-upload>
+                <app-manual-dispatch *ngIf="activeModal === 'manual'"></app-manual-dispatch>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <br>
 <br>

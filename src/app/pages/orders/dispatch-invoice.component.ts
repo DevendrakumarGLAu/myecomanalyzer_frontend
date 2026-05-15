@@ -2,7 +2,7 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { InvoiceService } from '../../services/invoice.service';
-import { DatePipe, NgFor, NgIf, TitleCasePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe, NgClass, NgFor, NgIf, TitleCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
 import { InvoiceUploadComponent } from '../invoice-upload/invoice-upload.component';
@@ -14,10 +14,10 @@ declare var bootstrap: any;
 @Component({
     selector: 'app-dispatch-invoice',
     standalone: true,
-    imports: [NgIf, NgFor, TitleCasePipe, FormsModule,
+    imports: [NgIf, NgFor, TitleCasePipe, FormsModule, NgClass,
         InvoiceUploadComponent,
         OrderStatusUploadComponent,
-        PaymentExcelComponent, DatePipe,ManualDispatchComponent
+        PaymentExcelComponent, DatePipe, ManualDispatchComponent, CurrencyPipe
 
     ],
     templateUrl: './dispatch-invoice.component.html',
@@ -171,5 +171,34 @@ export class DispatchInvoiceComponent implements OnInit, OnDestroy {
         const modalEl = document.getElementById('mainModal');
         const modal = new bootstrap.Modal(modalEl);
         modal.show();
+    }
+
+    getStatusClass(code: string): string {
+        switch (code) {
+
+            case 'DELIVERED':
+                return 'green';
+
+            case 'READY_TO_SHIP':
+                return 'blue';
+
+            case 'RTO_COMPLETE':
+                return 'yellow';
+
+            case 'CUSTOMER_RETURN':
+                return 'yellow';
+
+            case 'CANCELLED':
+                return 'red';
+
+            case 'LOST':
+                return 'red';
+
+            case 'DOOR_STEP_EXCHANGED':
+                return 'indigo';
+
+            default:
+                return 'gray';
+        }
     }
 }
