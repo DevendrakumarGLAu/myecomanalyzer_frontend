@@ -2,71 +2,93 @@
   <app-public-header></app-public-header>
   <div class="row flex-grow-1 g-0">
 
-        <!-- Left side: Info / Marketing -->
-        <div class="col-md-6 d-none d-md-flex flex-column justify-content-center align-items-start p-5 text-white"
-            style="background: linear-gradient(135deg, #10b77f 0%, #0d6efd 100%);">
-            <h1 class="display-4 fw-bold mb-3">Welcome to SellerPulse</h1>
-            <p class="lead mb-4">
-                Manage your multi-marketplace profits, track inventory, scan barcodes, and analyze P&L — all in one
-                dashboard.
-            </p>
-            <ul class="list-unstyled">
-                <li class="mb-2">✔ Multi-marketplace inventory</li>
-                <li class="mb-2">✔ PDF dispatch import</li>
-                <li class="mb-2">✔ Barcode scanning</li>
-                <li class="mb-2">✔ Real-time profit tracking</li>
-            </ul>
+    <!-- Left side: Info / Marketing -->
+    <div class="col-md-6 d-none d-md-flex flex-column justify-content-center align-items-start p-5 text-white"
+      style="background: linear-gradient(135deg, #10b77f 0%, #0d6efd 100%);">
+      <h1 class="display-4 fw-bold mb-3">Welcome to SellerPulse</h1>
+      <p class="lead mb-4">
+        Manage your multi-marketplace profits, track inventory, scan barcodes, and analyze P&L — all in one
+        dashboard.
+      </p>
+      <ul class="list-unstyled">
+        <li class="mb-2">✔ Multi-marketplace inventory</li>
+        <li class="mb-2">✔ PDF dispatch import</li>
+        <li class="mb-2">✔ Barcode scanning</li>
+        <li class="mb-2">✔ Real-time profit tracking</li>
+      </ul>
+    </div>
+
+    <div class="col-lg-6 d-flex align-items-center justify-content-center p-4 bg-surface">
+      <div class="auth-card w-100 mx-auto" style="max-width: 480px;">
+        <div class="auth-tab-switch d-flex gap-2 mb-4 p-2 bg-surface-container rounded-pill">
+          <a routerLink="/login" routerLinkActive="auth-tab-active" [routerLinkActiveOptions]="{ exact: true }"
+            class="btn btn-sm flex-fill text-uppercase auth-tab">Login</a>
+          <a routerLink="/signup" routerLinkActive="auth-tab-active"
+            class="btn btn-sm flex-fill text-uppercase auth-tab">Sign Up</a>
         </div>
 
-        <div class="col-lg-6 d-flex align-items-center justify-content-center p-4 bg-surface">
-          <div class="auth-card w-100 mx-auto" style="max-width: 480px;">
-            <div class="auth-tab-switch d-flex gap-2 mb-4 p-2 bg-surface-container rounded-pill">
-              <a routerLink="/login" routerLinkActive="auth-tab-active" [routerLinkActiveOptions]="{ exact: true }" class="btn btn-sm flex-fill text-uppercase auth-tab">Login</a>
-              <a routerLink="/signup" routerLinkActive="auth-tab-active" class="btn btn-sm flex-fill text-uppercase auth-tab">Sign Up</a>
-            </div>
+        <div class="text-center mb-4">
+          <h2 class="h4 fw-bold mb-1 text-primary">Welcome back</h2>
+          <p class="text-muted mb-0">Enter your details to access your account</p>
+        </div>
 
-            <div class="text-center mb-4">
-              <h2 class="h4 fw-bold mb-1 text-primary">Welcome back</h2>
-              <p class="text-muted mb-0">Enter your details to access your account</p>
-            </div>
-
-            <form class="p-4" [formGroup]="loginForm" (ngSubmit)="login()">
-              <div class="mb-3">
-                <label for="email" class="form-label">Email address</label>
-                <input type="email" id="email" class="form-control" formControlName="email" placeholder="Enter email" />
-                <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid" class="text-danger small mt-1">
-                  <div *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</div>
-                  <div *ngIf="loginForm.get('email')?.errors?.['email']">Enter a valid email.</div>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <label for="password" class="form-label mb-0">Password</label>
-                  <a routerLink="#" class="small text-primary">Forgot password?</a>
-                </div>
-                <div class="input-group">
-                  <input [type]="showPassword ? 'text' : 'password'" id="password" class="form-control" formControlName="password" placeholder="Enter password" />
-                  <button type="button" class="btn border-0 bg-transparent px-2" (click)="togglePasswordVisibility()" tabindex="-1">
-                    <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-                  </button>
-                </div>
-                <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid" class="text-danger small mt-1">
-                  Password is required.
-                </div>
-              </div>
-
-              <button type="submit" class="btn btn-primary w-100">Login</button>
-            </form>
-
-            <div class="text-center mb-4 text-muted">
-              Don’t have an account?
-              <a routerLink="/signup" class="fw-semibold text-primary">Sign up here</a>
+        <form class="p-4" [formGroup]="loginForm" (ngSubmit)="login()">
+          <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" id="email" class="form-control" formControlName="email" placeholder="Enter email" />
+            <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
+              class="text-danger small mt-1">
+              <div *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</div>
+              <div *ngIf="loginForm.get('email')?.errors?.['email']">Enter a valid email.</div>
             </div>
           </div>
-        </div>
 
+          <div class="mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <label for="password" class="form-label mb-0">Password</label>
+              <a routerLink="#" class="small text-primary">Forgot password?</a>
+            </div>
+            <div class="input-group">
+              <input [type]="showPassword ? 'text' : 'password'" id="password" class="form-control"
+                formControlName="password" placeholder="Enter password" />
+              <button type="button" class="btn border-0 bg-transparent px-2" (click)="togglePasswordVisibility()"
+                tabindex="-1">
+                <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+              </button>
+            </div>
+            <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+              class="text-danger small mt-1">
+              Password is required.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <!-- <label class="form-label">Captcha</label> -->
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <img *ngIf="captchaImageUrl" [src]="captchaImageUrl" alt="Captcha" class="border rounded"
+                style="width: 180px; height: 70px; object-fit: contain;" />
+              <button type="button" class="btn btn-outline-secondary btn-sm" (click)="refreshCaptcha()"><i
+                  class="fas fa-sync-alt"></i></button>
+            </div>
+            <input type="text" class="form-control" formControlName="captchaAnswer" placeholder="Enter captcha text" />
+            <div *ngIf="loginForm.get('captchaAnswer')?.touched && loginForm.get('captchaAnswer')?.invalid"
+              class="text-danger small mt-1">
+              Captcha answer is required.
+            </div>
+            <div *ngIf="captchaError" class="text-danger small mt-1">{{ captchaError }}</div>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+
+        <div class="text-center mb-4 text-muted">
+          Don’t have an account?
+          <a routerLink="/signup" class="fw-semibold text-primary">Sign up here</a>
+        </div>
       </div>
+    </div>
+
+  </div>
 
   <app-public-footer></app-public-footer>
 </div>

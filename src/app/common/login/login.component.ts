@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterModule } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { sanitizeFormValues } from '../../shared/form-sanitizer';
-import { AuthService } from '../../services/auth.service';
+import { AuthService, CaptchaResponse, LoginPayload } from '../../services/auth.service';
 import { PublicHeaderComponent } from '../../shared/public-header/public-header.component';
 import { PublicFooterComponent } from '../../shared/public-footer/public-footer.component';
 
@@ -16,9 +16,13 @@ import { PublicFooterComponent } from '../../shared/public-footer/public-footer.
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
-   isLoading = false;
+  isLoading = false;
   errorMessage = '';
   showPassword = false;
+  captchaId = '';
+  captchaImageUrl: string | null = null;
+  captchaExpiresIn = 0;
+  captchaError = '';
 
   constructor(
     private fb: FormBuilder,
@@ -31,7 +35,30 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
+      captchaAnswer: ['', Validators.required],
     });
+
+    this.loadCaptcha();
+  }
+
+  loadCaptcha(): void {
+    this.authService.generateCaptcha().subscribe({
+      next: (captcha: CaptchaResponse) => {
+        this.captchaId = captcha.captcha_id;
+        this.captchaExpiresIn = captcha.expires_in;
+        this.captchaImageUrl = captcha.captcha_image;
+        this.captchaError = '';
+      },
+      error: (error) => {
+        console.error('Captcha load error:', error);
+        this.captchaError = 'Unable to load captcha. Please try again.';
+      }
+    });
+  }
+
+  refreshCaptcha(): void {
+    this.loginForm.patchValue({ captchaAnswer: '' });
+    this.loadCaptcha();
   }
 
   login() {
@@ -40,30 +67,40 @@ export class LoginComponent implements OnInit {
       return;
     }
 
+    if (!this.captchaId) {
+      this.captchaError = 'Please refresh the page to load captcha.';
+      return;
+    }
+
     this.isLoading = true;
     this.errorMessage = '';
+    this.captchaError = '';
 
     const sanitizedValue = sanitizeFormValues(this.loginForm.value, this.sanitizer);
-    const { email, password } = sanitizedValue;
+    const payload: LoginPayload = {
+      email: sanitizedValue.email,
+      password: sanitizedValue.password,
+      captcha_id: this.captchaId,
+      captcha_answer: sanitizedValue.captchaAnswer,
+    };
 
-    this.authService.login(email, password).subscribe({
+    this.authService.login(payload).subscribe({
       next: (response) => {
         console.log('Login success:', response);
 
-        // Example: store token if backend returns it
         if (response?.access_token) {
           localStorage.setItem('token', response.access_token);
           localStorage.setItem('username', response.username || '');
           localStorage.setItem('first_name', response.first_name || '');
           localStorage.setItem('last_name', response.last_name || '');
-          localStorage.setItem('created_at', response.created_at || '');
         }
 
         this.router.navigate(['/user-dashboard']);
       },
       error: (error) => {
         console.error('Login error:', error);
-        this.errorMessage = 'Invalid email or password';
+        this.errorMessage = 'Invalid email, password, or captcha answer.';
+        this.captchaAnswerReset();
         this.isLoading = false;
       },
       complete: () => {
@@ -72,8 +109,12 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  captchaAnswerReset(): void {
+    this.loginForm.patchValue({ captchaAnswer: '' });
+    this.loadCaptcha();
+  }
+
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
-
 }
