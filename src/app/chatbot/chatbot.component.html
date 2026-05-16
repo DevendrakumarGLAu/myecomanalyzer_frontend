@@ -29,9 +29,16 @@
                     <span *ngIf="message.sender === 'user'" class="message-icon">
                         <i class="fa-solid fa-user"></i>
                     </span>
-                    <p class="message-text">{{ message.text }}</p>
+                    <!-- Animated typing indicator while loading -->
+                    <div class="typing-indicator" *ngIf="message.text === '...'">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <!-- Normal message text -->
+                    <p class="message-text" *ngIf="message.text !== '...'">{{ message.text }}</p>
                 </div>
-                <small class="message-time">{{ message.timestamp | date: 'short' }}</small>
+                <small class="message-time" *ngIf="message.text !== '...'">{{ message.timestamp | date: 'short' }}</small>
             </div>
         </div>
 

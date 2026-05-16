@@ -104,55 +104,48 @@
         </div>
 
         <!-- Pagination -->
-        <div class="d-flex justify-content-end mt-3">
+        <div class="pagination-wrapper">
             <nav aria-label="Page navigation">
-                <ul class="pagination mb-0 align-items-center">
+                <ul class="pagination pagination-sm mb-0 align-items-center flex-nowrap">
+
                     <!-- 1. Go To Page -->
-                    <li class="page-item d-flex align-items-center me-3">
-                        <span class="me-1 small">Page</span>
-                        <input type="number" class="form-control form-control-sm" style="width: 70px;" [value]="page"
+                    <li class="page-item d-flex align-items-center me-2">
+                        <span class="me-1 small text-nowrap">Page</span>
+                        <input type="number" class="form-control form-control-sm pg-input" [value]="page"
                             min="1" [max]="totalPages" (change)="goToPageInput($event)">
                     </li>
+
                     <!-- Page Size Dropdown -->
-                    <li class="page-item d-flex align-items-center ms-3">
-                        <span class="me-1 small">Show</span>
-                        <select class="form-select form-select-sm" [value]="limit" (change)="onPageSizeChange($event)">
+                    <li class="page-item d-flex align-items-center me-2">
+                        <select class="form-select form-select-sm size-select" [value]="limit" (change)="onPageSizeChange($event)">
                             <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
                         </select>
-                        <!-- <span class="ms-1 small">per page</span> -->
                     </li>
-                    <!-- 2. Showing Records -->
-                    <li class="page-item disabled me-3">
-                        <span class="page-link border-0 bg-transparent text-muted">
-                            <span class="ms-1 small"> Show:</span> {{ startRecord }} - {{ endRecord }} of {{
-                            totalOrders }}
+
+                    <!-- 2. Showing Records (abbreviated) -->
+                    <li class="page-item disabled me-1">
+                        <span class="page-link border-0 bg-transparent text-muted text-nowrap px-1 record-info">
+                            {{ startRecord }}-{{ endRecord }} of {{ totalOrders }}
                         </span>
                     </li>
 
                     <!-- 3. Previous -->
                     <li class="page-item" [class.disabled]="page === 1">
-                        <a class="page-link" href="javascript:void(0)" (click)="prevPage()">
-                            &laquo;
-                        </a>
+                        <a class="page-link" href="javascript:void(0)" (click)="prevPage()">&laquo;</a>
                     </li>
 
                     <!-- 4. Current Page -->
                     <li class="page-item active">
-                        <span class="page-link">
-                            {{ page }}
-                        </span>
+                        <span class="page-link">{{ page }}</span>
                     </li>
 
                     <!-- 5. Next -->
                     <li class="page-item" [class.disabled]="page === totalPages">
-                        <a class="page-link" href="javascript:void(0)" (click)="nextPage()">
-                            &raquo;
-                        </a>
+                        <a class="page-link" href="javascript:void(0)" (click)="nextPage()">&raquo;</a>
                     </li>
 
                 </ul>
             </nav>
-
         </div>
     </div>
 </div>

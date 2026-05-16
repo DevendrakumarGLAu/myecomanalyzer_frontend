@@ -6,21 +6,83 @@
     z-index: 10;
 }
 
-@media (max-width: 767px) {
-    .pagination {
+/* ===== PAGINATION WRAPPER ===== */
+.pagination-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 8px 12px;
+    overflow-x: auto;        /* scrolls horizontally if still too wide */
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Compact page number input */
+.pg-input {
+    width: 50px;
+    min-width: 50px;
+    padding: 2px 4px;
+    font-size: 12px;
+    text-align: center;
+}
+
+/* Compact page-size select */
+.size-select {
+    width: 58px;
+    min-width: 58px;
+    padding: 2px 4px;
+    font-size: 12px;
+}
+
+/* Compact record info text */
+.record-info {
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+/* Shrink page-link buttons */
+.pagination .page-link {
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 576px) {
+    .pagination-wrapper {
+        padding: 6px 8px;
         justify-content: flex-end;
+    }
+
+    .pg-input {
+        width: 42px;
+        min-width: 42px;
+        font-size: 11px;
+    }
+
+    .size-select {
+        width: 50px;
+        min-width: 50px;
+        font-size: 11px;
+    }
+
+    .record-info {
+        font-size: 10px;
+    }
+
+    .pagination .page-link {
+        padding: 3px 6px;
+        font-size: 11px;
     }
 }
 
-
+/* ===== PLATFORM BADGE ===== */
 .platform-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.2rem 0.6rem;
-  font-size: 0.7rem;
-  font-weight: 600;
-  border-radius: 9999px; /* fully rounded */
-  border: 1px solid;
-  text-transform: capitalize;
-}
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    border: 1px solid;
+    text-transform: capitalize;
+}
