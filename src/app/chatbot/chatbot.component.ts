@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DragDropModule } from '@angular/cdk/drag-drop';
+import { DragDropModule, CdkDrag } from '@angular/cdk/drag-drop';
 import { ChatbotService, ChatMessage } from '../services/chatbot.service';
 
 @Component({
@@ -11,11 +11,13 @@ import { ChatbotService, ChatMessage } from '../services/chatbot.service';
   templateUrl: './chatbot.component.html',
   styleUrls: ['./chatbot.component.scss']
 })
-export class ChatbotComponent implements OnInit {
+export class ChatbotComponent implements OnInit, AfterViewInit {
   isOpen = false;
   userInput = '';
   chatMessages: ChatMessage[] = [];
   isLoading = false;
+
+  @ViewChild('chatDrag') dragRef!: CdkDrag;
 
   constructor(private chatbotService: ChatbotService) {}
 
@@ -25,8 +27,16 @@ export class ChatbotComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit(): void {
+    // dragRef available after view init
+  }
+
   toggleChatbot(): void {
     this.isOpen = !this.isOpen;
+    if (this.isOpen && this.dragRef) {
+      // Always snap back to default bottom-right position when opening
+      this.dragRef.reset();
+    }
   }
 
   sendMessage(): void {

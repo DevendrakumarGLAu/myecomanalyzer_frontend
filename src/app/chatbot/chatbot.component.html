@@ -1,8 +1,11 @@
-<div class="chatbot-container" cdkDrag>
+<div class="chatbot-container" cdkDrag #chatDrag="cdkDrag">
     <!-- Chatbot Header -->
-    <div class="chatbot-header" *ngIf="isOpen" cdkDragHandle>
+    <div class="chatbot-header" *ngIf="isOpen">
         <div class="header-content">
-            <span class="chatbot-title">💬 Chat Assistant</span>
+            <div class="chatbot-title">
+                <i class="fa-solid fa-robot header-icon"></i>
+                <span>Chat Assistant</span>
+            </div>
             <div class="header-actions">
                 <button class="btn-clear" (click)="clearChat()" title="Clear chat">
                     <i class="fa fa-trash"></i>
