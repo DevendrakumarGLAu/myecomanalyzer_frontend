@@ -309,8 +309,12 @@ body.dark-mode .bg-body-secondary {
   font-size: 0.875rem;
   line-height: 1.25rem;
 
-  padding: 2px 8px;
-  border-radius: 6px;
+  // padding: 2px 8px;
+  // border-radius: 6px;
+  padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
 
   border: 1px solid transparent;
   cursor: default;

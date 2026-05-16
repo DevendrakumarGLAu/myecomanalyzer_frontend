@@ -1,55 +1,218 @@
-.sticky-top1 {
-    position: sticky;
-    top: 0;
-    background-color: #28a745;
-    color: white;
-    z-index: 10;
+/* =====================================================
+   PREMIUM SAAS TABLE — dispatch-invoice
+   Primary: #4361ee → #6380f5  (matches dashboard filter)
+   ===================================================== */
+
+$primary:       #4361ee;
+$primary-light: #6380f5;
+$primary-shadow: rgba(67, 97, 238, 0.18);
+$primary-hover-bg: rgba(67, 97, 238, 0.06);
+
+/* ── Card ─────────────────────────────────────────── */
+.saas-card {
+    background: #fff;
+    border: 1px solid #eef0ff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px $primary-shadow;
+    overflow: hidden;       /* clips table corners */
 }
 
-/* ===== PAGINATION WRAPPER ===== */
+/* ── Table ────────────────────────────────────────── */
+.saas-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 13.5px;
+
+    /* ── Header ── */
+    thead tr {
+        background: linear-gradient(135deg, $primary, $primary-light);
+    }
+
+    .th-primary {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: linear-gradient(135deg, $primary, $primary-light);
+        color: #fff;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        white-space: nowrap;
+        padding: 13px 14px;
+        border: none;
+
+        /* Bottom separator */
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(255,255,255,0.15);
+        }
+    }
+
+    /* ── Body ── */
+    tbody {
+        tr {
+            transition: background 0.15s ease;
+
+            &:hover {
+                background: $primary-hover-bg;
+            }
+        }
+
+        td {
+            padding: 11px 14px;
+            vertical-align: middle;
+            border-top: 1px solid #f0f1fb;
+            color: #374151;
+            font-size: 13px;
+        }
+
+        /* Serial number column — muted */
+        td:first-child {
+            color: #9ca3af;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* Empty state */
+        .empty-state-icon {
+            font-size: 36px;
+            opacity: 0.25;
+        }
+    }
+}
+
+/* ── Platform / Color Badge ───────────────────────── */
+.platform-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 50px;
+    border: 1px solid;
+    text-transform: capitalize;
+    letter-spacing: 0.3px;
+}
+
+/* ── Status badge (soft) ──────────────────────────── */
+.badge-soft {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+/* ── Pagination Wrapper ───────────────────────────── */
 .pagination-wrapper {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding: 8px 12px;
-    overflow-x: auto;        /* scrolls horizontally if still too wide */
+    padding: 10px 16px;
+    border-top: 1px solid #eef0ff;
+    background: #fafbff;
+    overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
 
-/* Compact page number input */
+/* ul overrides */
+.pagination {
+    gap: 3px;
+
+    .page-item {
+        .page-link {
+            border: 1px solid #e5e7ff;
+            border-radius: 8px !important;
+            color: $primary;
+            background: #fff;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            line-height: 1.4;
+
+            &:hover {
+                background: $primary-hover-bg;
+                border-color: $primary;
+                color: $primary;
+            }
+        }
+
+        &.active .page-link {
+            background: linear-gradient(135deg, $primary, $primary-light);
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 2px 8px $primary-shadow;
+        }
+
+        &.disabled .page-link {
+            background: transparent;
+            border-color: transparent;
+            color: #9ca3af;
+        }
+    }
+}
+
+/* Compact page-jump input */
 .pg-input {
     width: 50px;
     min-width: 50px;
-    padding: 2px 4px;
+    padding: 4px 6px;
     font-size: 12px;
     text-align: center;
+    border: 1px solid #e5e7ff;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s;
+
+    &:focus {
+        border-color: $primary;
+        box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+    }
 }
 
 /* Compact page-size select */
 .size-select {
-    width: 58px;
-    min-width: 58px;
-    padding: 2px 4px;
+    width: 60px;
+    min-width: 60px;
+    padding: 4px 4px;
     font-size: 12px;
+    border: 1px solid #e5e7ff;
+    border-radius: 8px;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+
+    &:focus {
+        border-color: $primary;
+        box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+    }
 }
 
-/* Compact record info text */
+/* Record info text */
 .record-info {
-    font-size: 11px;
+    font-size: 11.5px;
+    color: #6b7280;
     white-space: nowrap;
+    font-weight: 500;
 }
 
-/* Shrink page-link buttons */
-.pagination .page-link {
-    padding: 4px 8px;
-    font-size: 12px;
-}
+/* Helper */
+.cursor-pointer { cursor: pointer; }
 
-/* ===== MOBILE ===== */
+/* ── Mobile ───────────────────────────────────────── */
 @media (max-width: 576px) {
     .pagination-wrapper {
-        padding: 6px 8px;
-        justify-content: flex-end;
+        padding: 8px 10px;
     }
 
     .pg-input {
@@ -59,30 +222,27 @@
     }
 
     .size-select {
-        width: 50px;
-        min-width: 50px;
+        width: 52px;
+        min-width: 52px;
+        font-size: 11px;
+    }
+
+    .pagination .page-link {
+        padding: 4px 8px;
         font-size: 11px;
     }
 
     .record-info {
-        font-size: 10px;
+        font-size: 10.5px;
     }
 
-    .pagination .page-link {
-        padding: 3px 6px;
+    .saas-table .th-primary {
         font-size: 11px;
+        padding: 10px 10px;
+    }
+
+    .saas-table tbody td {
+        padding: 9px 10px;
+        font-size: 12px;
     }
 }
-
-/* ===== PLATFORM BADGE ===== */
-.platform-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.2rem 0.6rem;
-    font-size: 0.7rem;
-    font-weight: 600;
-    border-radius: 9999px;
-    border: 1px solid;
-    text-transform: capitalize;
-}
