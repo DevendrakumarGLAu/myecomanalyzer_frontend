@@ -35,3 +35,76 @@
 .app-sidebar.collapsed {
   width: 80px; // collapse width on desktop
 }
+// sidebar saas if needed else not needed
+.sidebar-brand {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  padding: 14px;
+}
+
+.sidebar-brand a {
+  color: #fff !important;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.brand-image {
+  border-radius: 8px;
+}
+/* Menu */
+.sidebar-menu .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  margin: 4px 10px;
+  border-radius: 10px;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+/* Hover */
+.sidebar-menu .nav-link:hover {
+  background: rgba(67, 97, 238, 0.08);
+  color: var(--primary);
+}
+
+/* Active route */
+.sidebar-menu .nav-link.active {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #fff !important;
+  box-shadow: 0 4px 12px rgba(67, 97, 238, 0.25);
+}
+
+/* Icons */
+.sidebar-menu .nav-icon {
+  font-size: 14px;
+  width: 18px;
+  text-align: center;
+}
+
+/* Submenu */
+.nav-treeview .nav-link {
+  margin-left: 12px;
+  font-size: 12.5px;
+  padding: 8px 12px;
+}
+
+/* Collapse animation feel */
+.nav-treeview {
+  border-left: 2px solid rgba(67, 97, 238, 0.15);
+  margin-left: 14px;
+  padding-left: 6px;
+}
+
+/* Arrow icon */
+.nav-arrow {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* Sidebar hover effect */
+.app-sidebar:hover {
+  box-shadow: 2px 0 25px rgba(67, 97, 238, 0.12);
+}
