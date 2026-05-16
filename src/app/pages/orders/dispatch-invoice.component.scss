@@ -13,7 +13,7 @@ $primary-hover-bg: rgba(67, 97, 238, 0.06);
     background: #fff;
     border: 1px solid #eef0ff;
     border-radius: 16px;
-    box-shadow: 0 4px 24px $primary-shadow;
+    box-shadow: 0 4px 24px var(--primary-shadow);
     overflow: hidden;       /* clips table corners */
 }
 
@@ -26,14 +26,14 @@ $primary-hover-bg: rgba(67, 97, 238, 0.06);
 
     /* ── Header ── */
     thead tr {
-        background: linear-gradient(135deg, $primary, $primary-light);
+        background: linear-gradient(135deg, var(--primary), var(--primary-light));
     }
 
     .th-primary {
         position: sticky;
         top: 0;
         z-index: 10;
-        background: linear-gradient(135deg, $primary, $primary-light);
+        background: linear-gradient(135deg, var(--primary), var(--primary-light));
         color: #fff;
         font-size: 12px;
         font-weight: 700;
@@ -61,12 +61,12 @@ $primary-hover-bg: rgba(67, 97, 238, 0.06);
             transition: background 0.15s ease;
 
             &:hover {
-                background: $primary-hover-bg;
+                background: var(--primary-hover-bg);
             }
         }
 
         td {
-            padding: 11px 14px;
+            // padding: 11px 14px;
             vertical-align: middle;
             border-top: 1px solid #f0f1fb;
             color: #374151;
@@ -132,7 +132,7 @@ $primary-hover-bg: rgba(67, 97, 238, 0.06);
         .page-link {
             border: 1px solid #e5e7ff;
             border-radius: 8px !important;
-            color: $primary;
+            color: var(--primary);
             background: #fff;
             padding: 5px 10px;
             font-size: 12px;
@@ -141,17 +141,17 @@ $primary-hover-bg: rgba(67, 97, 238, 0.06);
             line-height: 1.4;
 
             &:hover {
-                background: $primary-hover-bg;
-                border-color: $primary;
-                color: $primary;
+                background: var(--primary-hover-bg);
+                border-color: var(--primary);
+                color: var(--primary);
             }
         }
 
         &.active .page-link {
-            background: linear-gradient(135deg, $primary, $primary-light);
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
             border-color: transparent;
-            color: #fff;
-            box-shadow: 0 2px 8px $primary-shadow;
+            color: #fff !important;
+            box-shadow: 0 2px 8px var(--primary-shadow);
         }
 
         &.disabled .page-link {
@@ -175,7 +175,7 @@ $primary-hover-bg: rgba(67, 97, 238, 0.06);
     transition: border-color 0.2s;
 
     &:focus {
-        border-color: $primary;
+        border-color: var(--primary);
         box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
     }
 }
@@ -193,7 +193,7 @@ $primary-hover-bg: rgba(67, 97, 238, 0.06);
     transition: border-color 0.2s;
 
     &:focus {
-        border-color: $primary;
+        border-color: var(--primary);
         box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
     }
 }

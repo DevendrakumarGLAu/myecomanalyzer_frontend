@@ -59,3 +59,24 @@ th {
   border: 1px solid;
   text-transform: capitalize;
 }
+
+.dropdown-menu {
+    min-width: 160px;
+    border-radius: 12px;
+    padding: 6px;
+}
+
+.dropdown-item {
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+    transition: all 0.15s ease;
+}
+
+.dropdown-item:hover {
+    background: #f8f9fa;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}

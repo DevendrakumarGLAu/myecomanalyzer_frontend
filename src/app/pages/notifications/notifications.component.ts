@@ -32,7 +32,7 @@ export class NotificationsComponent implements OnInit {
 
   constructor(
     private notificationService: NotificationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadNotifications();
@@ -57,6 +57,8 @@ export class NotificationsComponent implements OnInit {
             this.notifications.filter(n => n.is_read);
 
           this.loading = false;
+          this.currentUnreadPage = 1;
+this.currentReadPage = 1;
         },
 
         error: (err) => {
@@ -80,7 +82,9 @@ export class NotificationsComponent implements OnInit {
             this.unreadNotifications.filter(
               n => n.id !== notification.id
             );
-
+            if (this.currentUnreadPage > this.unreadTotalPages) {
+  this.currentUnreadPage = this.unreadTotalPages || 1;
+}
           this.readNotifications.unshift(notification);
         },
 
@@ -117,22 +121,36 @@ export class NotificationsComponent implements OnInit {
 
   // Badge color
   getBadgeClass(type: string): string {
-
-    switch (type) {
-
+    switch (type?.toLowerCase()) {
       case 'success':
-        return 'bg-success';
-
+        return 'success';
       case 'error':
-        return 'bg-danger';
-
+        return 'error';
+      case 'warning':
+        return 'warning';
       case 'info':
-        return 'bg-primary';
-
+        return 'info';
       default:
-        return 'bg-secondary';
+        return 'default';
     }
   }
+  // getBadgeClass(type: string): string {
+
+  //   switch (type) {
+
+  //     case 'success':
+  //       return 'bg-success';
+
+  //     case 'error':
+  //       return 'bg-danger';
+
+  //     case 'info':
+  //       return 'bg-primary';
+
+  //     default:
+  //       return 'bg-secondary';
+  //   }
+  // }
 
   // PAGINATION HELPERS
 

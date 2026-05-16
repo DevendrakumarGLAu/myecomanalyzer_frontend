@@ -1,12 +1,195 @@
-.table td,
-.table th {
-  vertical-align: middle;
+/* ================================
+   NOTIFICATION SAAS UI SYSTEM
+   ================================ */
+
+.saas-container {
+  padding: 16px;
+  background: #f7f8fc;
 }
 
-.nav-tabs .nav-link {
-  cursor: pointer;
+/* Card */
+.saas-notification-card {
+  border: 1px solid #eef0ff;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(67, 97, 238, 0.08);
+  overflow: hidden;
 }
 
-.card-title {
+/* Header */
+.saas-notification-card .card-header {
+  background: #fff;
+  border-bottom: 1px solid #eef0ff;
+  padding: 14px 16px;
+}
+
+.saas-notification-card .card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Buttons */
+.saas-btn {
+  border-radius: 10px;
   font-weight: 600;
+  font-size: 13px;
+  padding: 6px 12px;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.saas-btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #fff;
+}
+
+.saas-btn-primary:hover {
+  opacity: 0.9;
+}
+
+.saas-btn-outline-success {
+  background: rgba(34, 197, 94, 0.08);
+  color: #16a34a;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+/* Tabs */
+.nav-tabs .nav-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 10px 14px;
+}
+
+.nav-tabs .nav-link.active {
+  color: var(--primary);
+  border-bottom: 2px solid var(--primary);
+  background: transparent;
+}
+
+/* Tables */
+.saas-notification-card table {
+  font-size: 13px;
+}
+
+.saas-notification-card thead th {
+  background: #fafbff;
+  font-size: 12px;
+  font-weight: 700;
+  color: #374151;
+  border-bottom: 1px solid #eef0ff;
+  white-space: nowrap;
+}
+
+.saas-notification-card tbody td {
+  padding: 10px 12px;
+  border-color: #f0f1fb;
+}
+
+/* Badge system (SaaS style) */
+.saas-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+
+.saas-badge-primary {
+  background: rgba(67, 97, 238, 0.12);
+  color: var(--primary);
+  border-color: rgba(67, 97, 238, 0.25);
+}
+
+.saas-badge-success {
+  background: rgba(34, 197, 94, 0.12);
+  color: #16a34a;
+  border-color: rgba(34, 197, 94, 0.25);
+}
+
+.saas-badge-danger {
+  background: rgba(239, 68, 68, 0.12);
+  color: #dc2626;
+  border-color: rgba(239, 68, 68, 0.25);
+}
+
+.saas-badge-secondary {
+  background: rgba(107, 114, 128, 0.12);
+  color: #6b7280;
+  border-color: rgba(107, 114, 128, 0.25);
+}
+
+/* Pagination (reuse your system style) */
+.pagination {
+  gap: 4px;
+}
+
+.pagination .page-link {
+  border-radius: 8px !important;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid #e5e7ff;
+  color: var(--primary);
+}
+
+.pagination .page-item.active .page-link {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+/* Empty state */
+.text-muted {
+  font-size: 13px;
+}
+
+.notification-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  border: 1px solid transparent;
+  line-height: 1;
+}
+
+/* INFO */
+.notification-badge.info {
+  background: rgba(59, 130, 246, 0.12);
+  color: #2563eb;
+  border-color: rgba(59, 130, 246, 0.25);
+}
+
+/* SUCCESS */
+.notification-badge.success {
+  background: rgba(34, 197, 94, 0.12);
+  color: #16a34a;
+  border-color: rgba(34, 197, 94, 0.25);
+}
+
+/* WARNING */
+.notification-badge.warning {
+  background: rgba(245, 158, 11, 0.12);
+  color: #d97706;
+  border-color: rgba(245, 158, 11, 0.25);
+}
+
+/* ERROR */
+.notification-badge.error {
+  background: rgba(239, 68, 68, 0.12);
+  color: #dc2626;
+  border-color: rgba(239, 68, 68, 0.25);
+}
+
+/* DEFAULT */
+.notification-badge.default {
+  background: rgba(107, 114, 128, 0.12);
+  color: #6b7280;
+  border-color: rgba(107, 114, 128, 0.25);
 }

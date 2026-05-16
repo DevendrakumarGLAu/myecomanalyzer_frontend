@@ -8,22 +8,23 @@
     </div>
 
     <div class="col-md-9 text-end">
-      <button class="btn" [style.background-color]="colors.buttons.add" style="color: white;" (click)="openDialog()">
+      <button class="btn btn-primary" (click)="openDialog()">
         <i class="fas fa-plus me-1"></i> Add Category
       </button>
     </div>
   </div>
 
   <!-- Table Card -->
-  <div class="card shadow-sm">
-    <div class="card-body p-0" style="max-height: 500px; overflow-y: auto;">
-      <table class="category-table table table-bordered table-hover mb-0">
-          <thead class="table-light position-sticky" style="top: 0; z-index: 10;">
+  <div class="saas-card">
+    <div class="card-body p-0">
+      <div class="table-responsive" style="max-height: 420px; overflow-y: auto;">
+        <table class="table saas-table mb-0">
+          <thead>
             <tr>
-              <th width="15%" class="text-center">Actions</th>
-              <th width="10%">ID</th>
-              <th width="40%">Name</th>
-              <th width="20%">Status</th>
+              <th class="th-primary">Actions</th>
+              <th class="th-primary">ID</th>
+              <th class="th-primary">Name</th>
+              <th class="th-primary">Status</th>
             </tr>
           </thead>
 
@@ -32,7 +33,8 @@
               <!-- Actions Dropdown -->
               <td class="text-center align-middle">
                 <div class="dropdown">
-                  <button class="btn btn-sm btn-link text-dark" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside">
+                  <button class="btn btn-sm btn-link text-dark" type="button" data-bs-toggle="dropdown"
+                    data-bs-auto-close="outside">
                     <i class="fas fa-ellipsis-h"></i>
                   </button>
                   <ul class="dropdown-menu dropdown-menu-end">
@@ -50,10 +52,15 @@
                 </div>
               </td>
 
-              <td class="align-middle">{{ cat.id }}</td>
-              <td class="align-middle">{{ cat.name }}</td>
-              <td class="align-middle">
+              <td>{{ cat.id }}</td>
+              <td>{{ cat.name }}</td>
+              <!-- <td >
                 <span class="badge" [ngClass]="cat.is_active ? 'bg-success' : 'bg-danger'">
+                  {{ cat.is_active ? 'Active' : 'Inactive' }}
+                </span>
+              </td> -->
+              <td>
+                <span class="status-badge" [ngClass]="cat.is_active ? 'is-active' : 'is-inactive'">
                   {{ cat.is_active ? 'Active' : 'Inactive' }}
                 </span>
               </td>
@@ -61,58 +68,64 @@
 
             <!-- No Data -->
             <tr *ngIf="categories.length === 0">
-              <td colspan="4" class="text-center text-muted py-4">
-                No categories found
+              <td colspan="4" class="text-center py-4">
+                No data found
               </td>
             </tr>
           </tbody>
         </table>
+      </div>
+
     </div>
+    <!-- Pagination -->
+    <div class="saas-pagination-wrapper">
+      <nav aria-label="Page navigation">
+        <ul class="pagination pagination-sm mb-0 align-items-center flex-nowrap">
+          <!-- Go To Page -->
+          <li class="page-item d-flex align-items-center me-2">
+            <span class="me-1 small text-nowrap">Go</span>
+            <input type="number" class="form-control form-control-sm pg-input" style="width: 70px;" [value]="page"
+              min="1" [max]="totalPages" (change)="goToPageInput($event)">
+          </li>
+
+          <!-- Page Size -->
+          <li class="page-item d-flex align-items-center me-2">
+            <span class="me-1 small text-nowrap">Show</span>
+            <select class="form-select form-select-sm size-select" [value]="limit" (change)="onPageSizeChange($event)">
+              <option *ngFor="let size of pageSizes" [value]="size">
+                {{ size }}
+              </option>
+            </select>
+          </li>
+
+          <!-- Showing Records -->
+          <li class="page-item disabled me-1">
+            <span class="page-link border-0 bg-transparent text-muted text-nowrap px-1 record-info">
+              {{ startRecord }} - {{ endRecord }} of {{ total }}
+            </span>
+          </li>
+
+          <!-- Previous -->
+          <li class="page-item" [class.disabled]="page === 1">
+            <a class="page-link" href="javascript:void(0)" (click)="prevPage()">
+              <i class="fa fa-chevron-left"></i>
+            </a>
+
+          </li>
+
+          <!-- Current -->
+          <li class="page-item active">
+            <span class="page-link">{{ page }}</span>
+          </li>
+
+          <!-- Next -->
+          <li class="page-item" [class.disabled]="page === totalPages">
+            <a class="page-link" href="javascript:void(0)" (click)="nextPage()">
+              <i class="fa fa-chevron-right"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
   </div>
-  <!-- Pagination -->
-  <div class="d-flex justify-content-end mt-4">
-    <nav aria-label="Page navigation">
-      <ul class="pagination mb-0 align-items-center">
-        <!-- Go To Page -->
-        <li class="page-item d-flex align-items-center me-3">
-          <span class="me-1 small">Page</span>
-          <input type="number" class="form-control form-control-sm" style="width: 70px;" [value]="page" min="1"
-            [max]="totalPages" (change)="goToPageInput($event)">
-        </li>
-
-        <!-- Page Size -->
-        <li class="page-item d-flex align-items-center ms-3">
-          <span class="me-1 small">Show</span>
-          <select class="form-select form-select-sm" [value]="limit" (change)="onPageSizeChange($event)">
-            <option *ngFor="let size of pageSizes" [value]="size">
-              {{ size }}
-            </option>
-          </select>
-        </li>
-
-        <!-- Showing Records -->
-        <li class="page-item disabled me-3">
-          <span class="page-link border-0 bg-transparent text-muted">
-            Show: {{ startRecord }} - {{ endRecord }} of {{ total }}
-          </span>
-        </li>
-
-        <!-- Previous -->
-        <li class="page-item" [class.disabled]="page === 1">
-          <a class="page-link" href="javascript:void(0)" (click)="prevPage()">&laquo;</a>
-        </li>
-
-        <!-- Current -->
-        <li class="page-item active">
-          <span class="page-link">{{ page }}</span>
-        </li>
-
-        <!-- Next -->
-        <li class="page-item" [class.disabled]="page === totalPages">
-          <a class="page-link" href="javascript:void(0)" (click)="nextPage()">&raquo;</a>
-        </li>
-      </ul>
-    </nav>
-  </div>
-
-</div>

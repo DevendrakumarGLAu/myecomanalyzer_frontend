@@ -1,4 +1,4 @@
-<div class="container my-4">
+<div class="container mt-4">
 
     <!-- Header & Add Button -->
     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -10,42 +10,14 @@
     </div>
 
     <div class="card p-4">
-        <!-- Search + Delete All -->
-        <!-- <div class="d-flex justify-content-between align-items-center mb-3">
-
-            LEFT SIDE
-            <div class="d-flex align-items-center">
-                <input type="text" placeholder="Search..." [(ngModel)]="searchTerm" (input)="applyFilter()"
-                    class="form-control" style="width: 16rem;">
-            </div>
-
-            RIGHT SIDE
-            <div class="d-flex align-items-center gap-2">
-
-                <select class="form-select" style="width: 7rem;" [(ngModel)]="selectedPlatform"
-                    (change)="applyFilter()">
-                    <option value="">All Platforms</option>
-                    <option *ngFor="let platform of platforms" [value]="platform.code">
-                        {{ platform.name }}
-                    </option>
-                </select>
-
-                <button class="btn" [style.background-color]="colors.buttons.add" style="color: white;"
-                    (click)="openDialog()">
-                    <i class="fas fa-plus me-1"></i> Add
-                </button>
-
-            </div>
-
-        </div> -->
 
         <!-- Search + Filter + Add -->
         <div class="row g-3 align-items-center mb-3">
 
             <!-- Search -->
-            <div class="col-12 col-md">
+            <div class="col-6 col-md">
                 <input type="text" placeholder="Search..." [(ngModel)]="searchTerm" (input)="applyFilter()"
-                    class="form-control">
+                    class="form-control" style="width: 100%; max-width: 150px;">
             </div>
 
             <!-- Platform Select -->
@@ -65,7 +37,7 @@
 
             <!-- Add Button -->
             <div class="col-6 col-md-auto">
-                <button class="btn w-100" [style.background-color]="colors.buttons.add" style="color: white;"
+                <button class="btn btn-primary"
                     (click)="openDialog()">
 
                     <i class="fas fa-plus me-1"></i>
@@ -76,140 +48,187 @@
 
         </div>
         <!-- Products Table -->
-        <div class="table-responsive table-wrapper">
-            <table class="table table-bordered table-hover">
-                <thead class="table-light sticky-top1">
-                    <tr>
-                        <th>Actions</th>
-                        <th *ngFor="let col of columns">{{ col.label }}</th>
+        <div class="saas-card">
+            <div class="card-body p-0">
+                <!-- <table class="table table-bordered table-hover"> -->
+                <div class="table-responsive" style="max-height: 420px; overflow-y: auto;">
+                    <table class="table saas-table mb-0">
+                        <thead>
+                            <tr>
+                                <th class="th-primary">Actions</th>
+                                <th class="th-primary" *ngFor="let col of columns">{{ col.label }}</th>
 
-                    </tr>
-                </thead>
-                <tbody>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-    <tr *ngFor="let product of filteredProducts">
+                            <tr *ngFor="let product of filteredProducts">
 
-        <!-- Actions -->
-        <td>
-            <button mat-icon-button [matMenuTriggerFor]="menu">
-                <i class="fas fa-ellipsis-h"></i>
-            </button>
+                                <!-- Actions -->
+                                <td>
+                                    <!-- <button mat-icon-button [matMenuTriggerFor]="menu">
+                                        <i class="fas fa-ellipsis-h"></i>
+                                    </button>
 
-            <mat-menu #menu="matMenu">
+                                    <mat-menu #menu="matMenu">
 
-                <button mat-menu-item (click)="openDialog(product)">
-                    <i class="fas fa-pencil-alt text-primary me-2"></i>
-                    Edit
-                </button>
+                                        <button mat-menu-item (click)="openDialog(product)">
+                                            <i class="fas fa-pencil-alt text-primary me-2"></i>
+                                            Edit
+                                        </button>
 
-                <button mat-menu-item (click)="deleteProduct(product)">
-                    <i class="fas fa-trash text-danger me-2"></i>
-                    Delete
-                </button>
+                                        <button mat-menu-item (click)="deleteProduct(product)">
+                                            <i class="fas fa-trash text-danger me-2"></i>
+                                            Delete
+                                        </button>
 
-            </mat-menu>
-        </td>
+                                    </mat-menu> -->
+                                    
+                                    
+                                    <div class="dropdown">
 
-        <!-- Dynamic Columns -->
-        <td *ngFor="let col of columns">
+                                        <button class="btn btn-sm btn-light border-0 shadow-none action-btn" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
 
-            <!-- TEXT -->
-            <span
-                *ngIf="col.type === 'text'"
-                [title]="col.tooltip ? product[col.key] : ''">
+                                            <i class="fas fa-ellipsis-h"></i>
 
-                {{ product[col.key] || '' }}
+                                        </button>
 
-            </span>
+                                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
 
-            <!-- CURRENCY -->
-            <span *ngIf="col.type === 'currency'">
-                ₹{{ product[col.key] ?? 0 }}
-            </span>
+                                            <li>
+                                                <button class="dropdown-item d-flex align-items-center"
+                                                    (click)="openDialog(product)">
 
-            <!-- PERCENT -->
-            <span *ngIf="col.type === 'percent'">
-                {{ product[col.key] ?? 0 }}%
-            </span>
+                                                    <i class="fas fa-pencil-alt text-primary me-2"></i>
+                                                    Edit
 
-            <!-- STOCK -->
-            <span
-                *ngIf="col.type === 'stock'"
-                [class.text-danger]="product[col.key] < 30"
-                [class.text-success]="product[col.key] >= 30">
+                                                </button>
+                                            </li>
 
-                {{ product[col.key] ?? 0 }}
+                                            <li>
+                                                <button class="dropdown-item d-flex align-items-center text-danger"
+                                                    (click)="deleteProduct(product)">
 
-            </span>
+                                                    <i class="fas fa-trash me-2"></i>
+                                                    Delete
 
-            <!-- PLATFORM -->
-            <span
-                *ngIf="col.type === 'platform'"
-                class="platform-badge"
-                [ngStyle]="{
-                  'background-color': getPlatformColor(product[col.key]) + '33',
-                  'color': getPlatformColor(product[col.key]),
-                  'border-color': getPlatformColor(product[col.key]) + '55'
-                }">
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
 
-                {{ getPlatformName(product[col.key]) }}
+                                <!-- Dynamic Columns -->
+                                <td *ngFor="let col of columns">
 
-            </span>
+                                    <!-- TEXT -->
+                                    <span *ngIf="col.type === 'text'" [title]="col.tooltip ? product[col.key] : ''">
 
-        </td>
+                                        {{ product[col.key] || '' }}
 
-    </tr>
+                                    </span>
 
-</tbody>
-            </table>
+                                    <!-- CURRENCY -->
+                                    <span *ngIf="col.type === 'currency'">
+                                        ₹{{ product[col.key] ?? 0 }}
+                                    </span>
 
-        </div>
-        <div class="pagination-container mt-3">
-            <!-- Items per page dropdown -->
-            <div class="d-flex align-items-center gap-2 ">
-                <label class="mb-0">Show:</label>
-                <select class="form-select form-select-sm" [(ngModel)]="itemsPerPage" (change)="onPageSizeChange()">
-                    <option *ngFor="let size of pageSizeOptions" [ngValue]="size">{{ size }}</option>
-                </select>
-                <!-- <span class="mb-0">per page</span> -->
+                                    <!-- PERCENT -->
+                                    <span *ngIf="col.type === 'percent'">
+                                        {{ product[col.key] ?? 0 }}%
+                                    </span>
+
+                                    <!-- STOCK -->
+                                    <span *ngIf="col.type === 'stock'" [class.text-danger]="product[col.key] < 30"
+                                        [class.text-success]="product[col.key] >= 30">
+
+                                        {{ product[col.key] ?? 0 }}
+
+                                    </span>
+
+                                    <!-- PLATFORM -->
+                                    <span *ngIf="col.type === 'platform'" class="platform-badge" [ngStyle]="{
+                                            'background-color': getPlatformColor(product[col.key]) + '33',
+                                            'color': getPlatformColor(product[col.key]),
+                                            'border-color': getPlatformColor(product[col.key]) + '55'
+                                            }">
+
+                                        {{ getPlatformName(product[col.key]) }}
+
+                                    </span>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <!-- Go to page -->
-            <div class="d-flex align-items-center gap-2">
-                <label class="mb-0">Go:</label>
-                <input type="number" class="form-control form-control-sm" style="width: 70px;"
-                    [(ngModel)]="gotoPageNumber" (keyup.enter)="goToPage(gotoPageNumber)" />
-                <!-- <button class="btn btn-sm btn-primary" (click)="goToPage(gotoPageNumber)">Go</button> -->
+            <div class="saas-pagination-wrapper">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination pagination-sm mb-0 align-items-center flex-nowrap">
+
+                        <!-- Go To Page -->
+                        <li class="page-item d-flex align-items-center me-2">
+                            <span class="me-1 small text-nowrap">Go</span>
+
+                            <input type="number" class="form-control form-control-sm pg-input" style="width: 70px;"
+                                [(ngModel)]="gotoPageNumber" (keyup.enter)="goToPage(gotoPageNumber)" />
+                        </li>
+
+                        <!-- Page Size Dropdown -->
+                        <li class="page-item d-flex align-items-center me-2">
+                            <span class="me-1 small text-nowrap">Show</span>
+
+                            <select class="form-select form-select-sm size-select" [(ngModel)]="itemsPerPage"
+                                (change)="onPageSizeChange()">
+
+                                <option *ngFor="let size of pageSizeOptions" [ngValue]="size">
+                                    {{ size }}
+                                </option>
+
+                            </select>
+                        </li>
+
+                        <!-- Showing Records -->
+                        <li class="page-item disabled me-1">
+                            <span class="page-link border-0 bg-transparent text-muted text-nowrap px-1 record-info">
+                                {{ totalItems > 0 ? startIndex + 1 : 0 }}
+                                -
+                                {{ endIndex }}
+                                of
+                                {{ totalItems }}
+                            </span>
+                        </li>
+
+                        <!-- Previous -->
+                        <li class="page-item" [class.disabled]="currentPage === 1">
+                            <a class="page-link" href="javascript:void(0)" (click)="goToPage(currentPage - 1)">
+
+                                <i class="fa fa-chevron-left"></i>
+
+                            </a>
+                        </li>
+
+                        <!-- Current Page -->
+                        <li class="page-item active">
+                            <span class="page-link">
+                                {{ currentPage }}
+                            </span>
+                        </li>
+
+                        <!-- Next -->
+                        <li class="page-item" [class.disabled]="currentPage === totalPages">
+                            <a class="page-link" href="javascript:void(0)" (click)="goToPage(currentPage + 1)">
+
+                                <i class="fa fa-chevron-right"></i>
+
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
             </div>
-
-            <!-- Total records and showing range -->
-            <div>
-                Showing {{ totalItems > 0 ? startIndex + 1 : 0 }} - {{ endIndex }} of {{ totalItems }}
-            </div>
-
-            <!-- Pagination controls -->
-            <nav>
-                <ul class="pagination mb-0">
-
-                    <!-- Previous -->
-                    <li class="page-item" [class.disabled]="currentPage === 1">
-                        <a class="page-link" (click)="goToPage(currentPage - 1)"><i class="fa fa-chevron-left"></i></a>
-                    </li>
-
-                    <!-- Page numbers -->
-                    <li class="page-item" *ngFor="let page of getPages()" [class.active]="currentPage === page">
-                        <a class="page-link" [style.background-color]="currentPage === page ? colors.buttons.add : ''"
-                            [style.color]="currentPage === page ? 'white' : ''" (click)="goToPage(page)">{{ page
-                            }}</a>
-                    </li>
-
-                    <!-- Next -->
-                    <li class="page-item" [class.disabled]="currentPage === totalPages">
-                        <a class="page-link" (click)="goToPage(currentPage + 1)"> <i
-                                class="fa fa-chevron-right"></i></a>
-                    </li>
-
-                </ul>
-            </nav>
         </div>
     </div>
 </div>
