@@ -7,12 +7,12 @@
                 <span>Chat Assistant</span>
             </div>
             <div class="header-actions">
-                <button class="btn-clear mr-2" (click)="clearChat()" title="Clear chat">
+                <span class="btn-clear" (click)="clearChat()" title="Clear chat">
                     <i class="fa fa-trash"></i>
-                </button>
-                <button class="btn-close " (click)="toggleChatbot()" title="Close">
-                    <i class="fa fa-times"></i>
-                </button>
+                </span>
+                <span class="btn-close1 " (click)="toggleChatbot()" title="Close">
+                    <i class="fa fa-times-circle"></i>
+                </span>
             </div>
         </div>
     </div>
@@ -23,17 +23,33 @@
         <div class="chat-messages">
             <div *ngFor="let message of chatMessages" [ngClass]="'message message-' + message.sender">
                 <div class="message-content">
-                    <span *ngIf="message.sender === 'bot'" class="message-icon">
+                    <!-- <span *ngIf="message.sender === 'bot'" class="message-icon">
                         <i class="fa-solid fa-robot"></i>
-                    </span>
+                    </span> -->
                     <span *ngIf="message.sender === 'user'" class="message-icon">
                         <i class="fa-solid fa-user"></i>
                     </span>
                     <!-- Animated typing indicator while loading -->
-                    <div class="typing-indicator" *ngIf="message.text === '...'">
-                        <span></span>
-                        <span></span>
-                        <span></span>
+                    <div class="typing-wrapper" *ngIf="message.text === '...'">
+
+                        <div class="typing-avatar">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+
+                        <!-- <div class="typing-bubble"> -->
+
+                            <div class="typing-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+
+                            <!-- <div class="typing-text">
+                                AI is typing...
+                            </div> -->
+
+                        <!-- </div> -->
+
                     </div>
                     <!-- Normal message text -->
                     <p class="message-text" *ngIf="message.text !== '...'">{{ message.text }}</p>
