@@ -1,16 +1,16 @@
-<div class="chatbot-container" cdkDrag #chatDrag="cdkDrag">
+<div class="chatbot-container">
     <!-- Chatbot Header -->
     <div class="chatbot-header" *ngIf="isOpen">
         <div class="header-content">
             <div class="chatbot-title">
-                <i class="fa-solid fa-robot header-icon"></i>
+                <!-- <i class="fa-solid fa-robot header-icon"></i> -->
                 <span>Chat Assistant</span>
             </div>
             <div class="header-actions">
-                <button class="btn-clear" (click)="clearChat()" title="Clear chat">
+                <button class="btn-clear mr-2" (click)="clearChat()" title="Clear chat">
                     <i class="fa fa-trash"></i>
                 </button>
-                <button class="btn-close" (click)="toggleChatbot()" title="Close">
+                <button class="btn-close " (click)="toggleChatbot()" title="Close">
                     <i class="fa fa-times"></i>
                 </button>
             </div>
@@ -38,7 +38,8 @@
                     <!-- Normal message text -->
                     <p class="message-text" *ngIf="message.text !== '...'">{{ message.text }}</p>
                 </div>
-                <small class="message-time" *ngIf="message.text !== '...'">{{ message.timestamp | date: 'short' }}</small>
+                <small class="message-time" *ngIf="message.text !== '...'">{{ message.timestamp | date: 'short'
+                    }}</small>
             </div>
         </div>
 
@@ -46,18 +47,18 @@
         <form class="chat-input-area" (ngSubmit)="sendMessage()">
             <input type="text" [(ngModel)]="userInput" name="chatInput" placeholder="Type your message..."
                 class="chat-input" [disabled]="isLoading" />
-            <!-- <button type="submit" class="btn-send" [disabled]="isLoading">
-        {{ isLoading ? '...' : '<i class="fa fa-paper-plane"></i>' }}
-      </button> -->
             <button type="submit" class="btn-send" [disabled]="isLoading">
-                <span *ngIf="isLoading">...</span>
+                <span *ngIf="isLoading">
+                    <i class="fa-solid fa-stop"></i>
+                </span>
                 <i *ngIf="!isLoading" class="fa-solid fa-paper-plane"></i>
             </button>
         </form>
     </div>
 
     <!-- Collapsed View -->
-    <div class="chatbot-collapsed" *ngIf="!isOpen" (click)="toggleChatbot()">
+    <div class="chatbot-collapsed" *ngIf="!isOpen" cdkDrag (cdkDragStarted)="onDragStarted()"
+        (cdkDragEnded)="onDragEnded()" (click)="openChat()">
         <span class="chat-icon">💬</span>
     </div>
 </div>

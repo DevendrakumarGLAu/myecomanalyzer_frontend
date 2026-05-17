@@ -19,7 +19,7 @@ export class ChatbotComponent implements OnInit, AfterViewInit {
 
   @ViewChild('chatDrag') dragRef!: CdkDrag;
 
-  constructor(private chatbotService: ChatbotService) {}
+  constructor(private chatbotService: ChatbotService) { }
 
   ngOnInit(): void {
     this.chatbotService.getDummyChatbotMessages().subscribe(messages => {
@@ -42,7 +42,7 @@ export class ChatbotComponent implements OnInit, AfterViewInit {
   sendMessage(): void {
     if (this.userInput.trim()) {
       const userText = this.userInput;
-      
+
       // Add user message immediately
       this.chatMessages.push({
         id: Math.random().toString(),
@@ -50,7 +50,7 @@ export class ChatbotComponent implements OnInit, AfterViewInit {
         sender: 'user',
         timestamp: new Date()
       });
-      
+
       // Show loading indicator
       this.isLoading = true;
       const loadingMessageId = Math.random().toString();
@@ -60,10 +60,10 @@ export class ChatbotComponent implements OnInit, AfterViewInit {
         sender: 'bot',
         timestamp: new Date()
       });
-      
+
       this.userInput = '';
       this.scrollToBottom();
-      
+
       // Get bot response
       this.chatbotService.getChatbotResponse(userText).subscribe({
         next: (response) => {
@@ -72,12 +72,12 @@ export class ChatbotComponent implements OnInit, AfterViewInit {
           if (loadingIndex !== -1) {
             this.chatMessages.splice(loadingIndex, 1);
           }
-          
+
           // Add actual response
           if (response.messages && response.messages.length > 0) {
             this.chatMessages.push(response.messages[0]);
           }
-          
+
           this.isLoading = false;
           this.scrollToBottom();
         },
@@ -87,7 +87,7 @@ export class ChatbotComponent implements OnInit, AfterViewInit {
           if (loadingIndex !== -1) {
             this.chatMessages.splice(loadingIndex, 1);
           }
-          
+
           // Add error message
           this.chatMessages.push({
             id: Math.random().toString(),
@@ -95,7 +95,7 @@ export class ChatbotComponent implements OnInit, AfterViewInit {
             sender: 'bot',
             timestamp: new Date()
           });
-          
+
           this.isLoading = false;
           this.scrollToBottom();
         }
@@ -117,5 +117,26 @@ export class ChatbotComponent implements OnInit, AfterViewInit {
     this.chatbotService.getDummyChatbotMessages().subscribe(messages => {
       this.chatMessages = messages;
     });
+  }
+
+  isDragging = false;
+
+  onDragStarted(): void {
+    this.isDragging = true;
+  }
+
+  onDragEnded(): void {
+
+    // small timeout so click won't trigger
+    setTimeout(() => {
+      this.isDragging = false;
+    }, 100);
+  }
+
+  openChat(): void {
+    if (this.isDragging) {
+      return;
+    }
+    this.toggleChatbot();
   }
 }
