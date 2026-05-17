@@ -5,7 +5,7 @@
     <h4 class="mb-0 fw-bold text-dark">
       <i class="fas fa-chart-bar me-2 text-primary"></i>Dashboard
     </h4>
-    <button  type="button" class="btn-filter-toggle" (click)="openFilterModal()">
+    <button type="button" class="btn-filter-toggle" (click)="openFilterModal()">
       <i class="fas fa-sliders-h me-1"></i> Filters
       <span class="filter-count" *ngIf="getActiveFilterCount() > 0">
         {{ getActiveFilterCount() }}
@@ -22,7 +22,7 @@
       {{ f.label }}: <strong>{{ f.value }}</strong>
       <i class="fas fa-times filter-badge-remove" (click)="removeFilter(f.label)"></i>
     </span>
-    <button  type="button" class="btn-clear-all" (click)="resetFilters()">
+    <button type="button" class="btn-clear-all" (click)="resetFilters()">
       <i class="fas fa-times-circle me-1"></i>Clear All
     </button>
   </div>
@@ -110,40 +110,63 @@
   <div class="row mt-4 g-3" *ngIf="dashboard">
 
     <div class="col-md-6">
-      <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
+      <div class="saas-card shadow-sm">
+
+        <div class="saas-card-header">
           Orders by Status
         </div>
-        <table class="table table-hover table-sm m-3">
-          <tr>
-            <th>Status</th>
-            <th>Total</th>
-          </tr>
-          <tr *ngFor="let s of dashboard.orders_by_status">
-            <td>
-              <span class="badge bg-secondary">{{s.status}}</span>
-            </td>
-            <td><b>{{s.total}}</b></td>
-          </tr>
+
+        <table class="saas-table table-hover table-sm m-3">
+          <thead>
+            <tr>
+              <th class="th-primary">Status</th>
+              <th class="th-primary">Total</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let s of dashboard.orders_by_status">
+              <td>
+                <span class="badge-soft" [ngClass]="getStatusClass(s.status)">
+                  {{ s.status }}
+                </span>
+              </td>
+
+              <td>
+                <b>{{ s.total }}</b>
+              </td>
+            </tr>
+          </tbody>
         </table>
+
       </div>
     </div>
 
 
     <!-- PLATFORM STATS -->
     <div class="col-md-6">
-      <div class="card shadow-sm">
-        <div class="card-header bg-success text-white">
+      <div class="saas-card shadow-sm ">
+
+        <div class="saas-card-header">
           Orders by Platform
         </div>
-        <table class="table table-hover table-sm m-3">
+        <table class="saas-table table-hover table-sm m-3">
           <tr>
-            <th>Platform</th>
-            <th>Total</th>
+            <th class="th-primary">Platform</th>
+            <th class="th-primary">Total</th>
           </tr>
           <tr *ngFor="let p of dashboard.orders_by_platform">
-            <td>{{p.platform}}</td>
-            <td><span class="badge bg-primary">{{p.total}}</span></td>
+            <!-- <td class="platform-badge" >{{p.platform}}</td> -->
+            <td>
+              <span class="platform-badge" [ngStyle]="{
+                                        'background-color': getPlatformColor(p.platform) + '33',
+                                        'color': getPlatformColor(p.platform),
+                                        'border-color': getPlatformColor(p.platform) + '55'
+                                        }">
+                {{ p.platform | titlecase }}
+              </span>
+            </td>
+            <td><span class="badge-soft bg-primary text-white">{{p.total}}</span></td>
           </tr>
         </table>
       </div>
@@ -155,15 +178,15 @@
   <!-- SALES TREND -->
   <div class="row mt-4" *ngIf="dashboard">
     <div class="col-md-12">
-      <div class="card shadow-sm">
-        <div class="card-header bg-success text-white">
+      <div class="saas-card shadow-sm">
+        <div class="saas-card-header text-white">
           Sales Trend (Last 7 Days)
         </div>
-        <table class="table table-hover table-sm ">
-          <thead class="table-dark">
+        <table class="saas-table table-hover table-sm m-3 ">
+          <thead>
             <tr>
-              <th>Date</th>
-              <th>Total Orders</th>
+              <th class="th-primary">Date</th>
+              <th class="th-primary">Total Orders</th>
             </tr>
           </thead>
           <tbody>
@@ -180,33 +203,33 @@
   <!-- DELIVERY PARTNER STATS -->
   <div class="row mt-4">
     <div class="col-md-12">
-      <div class="card shadow-sm">
-        <div class="card-header bg-success text-white">
+      <div class="saas-card shadow-sm">
+        <div class="saas-card-header bg-primary text-white">
           Delivery Partner Performance
         </div>
         <div class="table-responsive">
-          <table class="table table-bordered table-sm text-center m-3">
-            <thead class="bg-primary text-white">
+          <table class="table saas-table table-bordered table-sm text-center m-3">
+            <thead>
               <tr>
-                <th>Partner</th>
-                <th>Total Orders</th>
-                <th>Shipped</th>
-                <th>Delivered</th>
-                <th>RTO</th>
-                <th>Cancelled</th>
-                <th>Customer Return</th>
-                <th>Success %</th>
+                <th class="th-primary">Partner</th>
+                <th class="th-primary">Total Orders</th>
+                <th class="th-primary">Shipped</th>
+                <th class="th-primary">Delivered</th>
+                <th class="th-primary">RTO</th>
+                <th class="th-primary">Cancelled</th>
+                <th class="th-primary">Customer Return</th>
+                <th class="th-primary">Success %</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let d of dashboard?.delivery_partner_stats">
                 <td>{{ d.partner }}</td>
                 <td>{{ d.total_orders }}</td>
-                <td><span class="badge bg-info text-dark">{{ d.ready_to_ship }}</span></td>
-                <td><span class="badge bg-success">{{ d.delivered }}</span></td>
-                <td><span class="badge bg-warning text-dark">{{ d.rto }}</span></td>
-                <td><span class="badge bg-danger">{{ d.cancelled }}</span></td>
-                <td><span class="badge bg-info text-dark">{{ d.customer_return }}</span></td>
+                <td><span class="badge-soft bg-info text-dark">{{ d.ready_to_ship }}</span></td>
+                <td><span class="badge-soft bg-success">{{ d.delivered }}</span></td>
+                <td><span class="badge-soft bg-warning text-dark">{{ d.rto }}</span></td>
+                <td><span class="badge-soft bg-danger">{{ d.cancelled }}</span></td>
+                <td><span class="badge-soft bg-info text-dark">{{ d.customer_return }}</span></td>
                 <td>
                   <span class="badge bg-dark">
                     {{
@@ -237,9 +260,7 @@
      ============================================ -->
 
 <!-- Backdrop -->
-<div class="filter-backdrop"
-     [class.open]="isFilterOpen"
-     (click)="closeFilterModal()">
+<div class="filter-backdrop" [class.open]="isFilterOpen" (click)="closeFilterModal()">
 </div>
 
 <!-- Drawer -->
@@ -250,7 +271,7 @@
     <h5>
       <i class="fas fa-sliders-h me-2"></i>Filters
     </h5>
-    <button  type="button" class="btn-close-drawer" (click)="closeFilterModal()">
+    <button type="button" class="btn-close-drawer" (click)="closeFilterModal()">
       <i class="fas fa-times"></i>
     </button>
   </div>
@@ -342,10 +363,10 @@
 
   <!-- Drawer Footer -->
   <div class="filter-drawer-footer">
-    <button  type="button" class="btn-reset" (click)="resetFilters()">
+    <button type="button" class="btn-reset" (click)="resetFilters()">
       <i class="fas fa-undo me-1"></i> Reset
     </button>
-    <button  type="button" class="btn-apply" (click)="applyFilters()">
+    <button type="button" class="btn-apply" (click)="applyFilters()">
       <i class="fas fa-check me-1"></i> Apply Filters
     </button>
   </div>

@@ -6,6 +6,7 @@ import { provideClientHydration, withEventReplay } from '@angular/platform-brows
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { LoaderInterceptor } from './services/loader.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { HtmlDecodeInterceptor } from './services/html-decode.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,6 +21,11 @@ export const appConfig: ApplicationConfig = {
       useClass: LoaderInterceptor,
       multi: true
     },
+     {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HtmlDecodeInterceptor,
+      multi: true
+    }
     // {
     //   provide: HTTP_INTERCEPTORS,
     //   useClass: ToastInterceptor,

@@ -575,3 +575,18 @@ body.dark-mode .bg-body-secondary {
     border-color: rgba(239, 68, 68, 0.25);
 }
 // used for category status in product table
+
+
+/* ── Platform / Color Badge ───────────────────────── */
+.platform-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 50px;
+    border: 1px solid;
+    text-transform: capitalize;
+    letter-spacing: 0.3px;
+}

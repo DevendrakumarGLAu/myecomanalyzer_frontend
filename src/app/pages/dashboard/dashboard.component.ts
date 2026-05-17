@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { DashboardService, DashboardFilters } from '../../services/dashboard.service';
 import { CommonModule, isPlatformBrowser, NgFor, NgIf } from '@angular/common';
-import { PLATFORMS, DELIVERY_PARTNERS } from '../../common/constant/platform.constants';
+import { PLATFORMS, DELIVERY_PARTNERS, PLATFORM_COLORS } from '../../common/constant/platform.constants';
 import { FormsModule } from '@angular/forms';
 
 const SESSION_KEY = 'dashboard_filters';
@@ -24,6 +24,8 @@ const ORDER_STATUSES = [
   styleUrls: ['./dashboard.component.scss'],
 })
 export class UserDashboardComponent implements OnInit {
+  //  platforms = ['meesho', 'amazon', 'flipkart'];
+      platformColors = PLATFORM_COLORS;
   dashboard: any;
   message: string = '';
 
@@ -91,6 +93,43 @@ export class UserDashboardComponent implements OnInit {
     });
   }
 
+  getPlatformColor(platform: string): string {
+        return this.platformColors[platform.toUpperCase()] || '#888888';
+    }
+
+  getStatusClass(code: string): string {
+        const status = code?.toUpperCase();
+
+        switch (status) {
+
+            case 'DELIVERED':
+                return 'green';
+
+            case 'SHIPPED':
+                return 'blue';
+            
+            case 'READY TO SHIP':
+                return 'blue';
+
+            case 'RTO COMPLETE':
+                return 'yellow';
+
+            case 'CUSTOMER RETURN':
+                return 'yellow';
+
+            case 'CANCELLED':
+                return 'red';
+
+            case 'LOST':
+                return 'red';
+
+            case 'DOOR STEP EXCHANGED':
+                return 'indigo';
+
+            default:
+                return 'gray';
+        }
+    }
   // ---- Modal Controls ----
   openFilterModal() {
     // Copy applied filters into the form so the modal shows current state
