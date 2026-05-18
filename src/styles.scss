@@ -44,6 +44,11 @@
 
   --dark: #1e293b;
 
+    --bg: #ffffff;
+  --text: #1e293b;
+  --card: #ffffff;
+  --border: #e2e8f0;
+
   --gray-50: #f8fafc;
   --gray-100: #f1f5f9;
   --gray-200: #e2e8f0;
@@ -77,12 +82,33 @@
 html, body {
   height: 100%;
   margin: 0;
-    overflow-x: hidden;
+  overflow-x: hidden;
   overflow-y: auto;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: var(--background);
 }
 
+body.dark-mode {
+  --bg: #0f172a;
+  --text: #f1f5f9;
+  --card: #111827;
+  --border: #334155;
+}
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode label {
+  color: var(--text) !important;
+}
+
+body.dark-mode .table td {
+    color: var(--text) !important;
+}
 .auth-card {
   background: var(--surface-container-lowest);
   border: 1px solid rgba(102, 112, 133, 0.16);
