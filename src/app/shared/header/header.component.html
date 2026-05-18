@@ -226,8 +226,7 @@
             <i class="fas fa-chevron-down ml-1"></i></span>
         </a>
         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-          <!-- User image -->
-          <li class="user-header text-bg-primary">
+          <li class="user-header th-primary">
             <img src="assets/img/avatar.png" class="rounded-circle shadow" alt="User Image" />
 
             <p>
@@ -235,9 +234,7 @@
               <small>Member since {{ createdAt | date:'dd MMM yyyy' }}</small>
             </p>
           </li>
-          <!-- Menu Body -->
           <li class="user-body">
-            <!--begin::Row-->
             <div class="row">
               <div class="col-4 text-center">
                 <a href="#">Followers</a>
@@ -249,18 +246,16 @@
                 <a href="#">Friends</a>
               </div>
             </div>
-            <!--end::Row-->
             <div class="mt-2 text-center">
-              <button type="button" class="btn btn-sm btn-outline-secondary" (click)="toggleDarkMode()">
+              <button type="button" class="btn btn-sm th-primary" (click)="toggleDarkMode()">
                 <i class="bi" [ngClass]="isDarkMode ? 'bi-sun-fill' : 'bi-moon-fill'"></i>
                 {{ isDarkMode ? 'Light Mode' : 'Dark Mode' }}
               </button>
             </div>
           </li>
-          <!-- Menu Footer-->
           <li class="user-footer">
-            <a routerLink="/profile" class="btn btn-outline-secondary btn-flat">Profile</a>
-            <a class="btn btn-outline-danger btn-flat float-end" style="cursor:pointer;" (click)="logout()">Sign out</a>
+            <a routerLink="/profile" class="btn th-primary btn-flat">Profile</a>
+            <a class="btn btn-danger btn-flat float-end" style="cursor:pointer;" (click)="logout()">Sign out</a>
           </li>
         </ul>
       </li>

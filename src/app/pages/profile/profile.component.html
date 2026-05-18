@@ -178,19 +178,19 @@
       </div>
       <div class="card-body-custom">
         <div class="quick-actions-grid">
-          <a routerLink="/user-dashboard" class="quick-action-item">
+          <a  [routerLink]="['/user-dashboard']" target="_blank" class="quick-action-item">
             <div class="qa-icon qa-blue"><i class="fas fa-tachometer-alt"></i></div>
             <span>Dashboard</span>
           </a>
-          <a routerLink="/products" class="quick-action-item">
+          <a [routerLink]="['/products']" target="_blank"  class="quick-action-item">
             <div class="qa-icon qa-green"><i class="fas fa-box"></i></div>
             <span>Products</span>
           </a>
-          <a routerLink="/category" class="quick-action-item">
+          <a [routerLink]="['/category']" target="_blank" class="quick-action-item">
             <div class="qa-icon qa-purple"><i class="fas fa-list"></i></div>
             <span>Categories</span>
           </a>
-          <a routerLink="/dispatch-invoice" class="quick-action-item">
+          <a [routerLink]="['/dispatch-invoice']" target="_blank" class="quick-action-item">
             <div class="qa-icon qa-orange"><i class="fas fa-file-invoice"></i></div>
             <span>Invoices</span>
           </a>
