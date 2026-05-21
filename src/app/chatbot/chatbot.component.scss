@@ -259,9 +259,22 @@
 
 /* ================= RESPONSIVE ================= */
 
+@media (max-width: 768px) {
+  .chatbot-container {
+    /* Option A: Take up a larger fixed portion of the screen */
+    height: 80vh !important; /* 80% of the viewport height */
+    
+    /* Option B: Take up the full screen on mobile */
+    /* height: 100vh !important; */
+    /* width: 100% !important; */
+    /* bottom: 0; */
+  }
+}
+
 @media (max-width: 480px) {
   .chatbot-container {
     right: 10px;
+
     // left: 10px;
     // max-width: none;
   }
