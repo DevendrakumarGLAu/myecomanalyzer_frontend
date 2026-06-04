@@ -55,7 +55,6 @@ export class LoginComponent implements OnInit {
         this.captchaError = '';
       },
       error: (error) => {
-        console.error('Captcha load error:', error);
         this.captchaError = 'Unable to load captcha. Please try again.';
       }
     });
@@ -104,7 +103,8 @@ export class LoginComponent implements OnInit {
       },
       error: (error) => {
         console.error('Login error:', error);
-        this.errorMessage = 'Invalid email, password, or captcha answer.';
+        this.errorMessage = error?.error?.message || 'Login failed. Please check your credentials and try again.';
+        // this.errorMessage = 'Invalid email, password, or captcha answer.';
         this.captchaAnswerReset();
         this.isLoading = false;
       },

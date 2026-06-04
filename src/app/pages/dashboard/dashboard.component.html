@@ -28,8 +28,20 @@
   </div>
 
 
+  <!-- SUMMARY CARDS SKELETON -->
+  <div class="row mb-3 g-3" *ngIf="isLoading">
+    <div class="col-6 col-md-2" *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8]">
+      <div class="card skeleton-card shadow">
+        <div class="card-body text-center">
+          <div class="skeleton-line skeleton-title mx-auto mb-2"></div>
+          <div class="skeleton-line skeleton-value mx-auto"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- SUMMARY CARDS -->
-  <div class="row mb-3 g-3" *ngIf="dashboard">
+  <div class="row mb-3 g-3" *ngIf="!isLoading && dashboard">
 
     <div class="col-6 col-md-2">
       <div class="card text-white bg-primary shadow">
@@ -106,8 +118,42 @@
   </div>
 
 
+  <!-- ORDERS & PLATFORM STATS SKELETON -->
+  <div class="row mt-4 g-3" *ngIf="isLoading">
+    <!-- Orders by Status Skeleton -->
+    <div class="col-md-6">
+      <div class="saas-card shadow-sm">
+        <div class="saas-card-header skeleton-header">
+          <div class="skeleton-line skeleton-header-title"></div>
+        </div>
+        <div class="m-3">
+          <div class="skeleton-table-row" *ngFor="let row of [1, 2, 3, 4, 5]">
+            <div class="skeleton-line skeleton-table-cell-left"></div>
+            <div class="skeleton-line skeleton-table-cell-right"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orders by Platform Skeleton -->
+    <div class="col-md-6">
+      <div class="saas-card shadow-sm">
+        <div class="saas-card-header skeleton-header">
+          <div class="skeleton-line skeleton-header-title"></div>
+        </div>
+        <div class="m-3">
+          <div class="skeleton-table-row" *ngFor="let row of [1, 2, 3]">
+            <div class="skeleton-line skeleton-table-cell-left"></div>
+            <div class="skeleton-line skeleton-table-cell-right"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <!-- ORDERS BY STATUS -->
-  <div class="row mt-4 g-3" *ngIf="dashboard">
+  <div class="row mt-4 g-3" *ngIf="!isLoading && dashboard">
 
     <div class="col-md-6">
       <div class="saas-card shadow-sm">
@@ -175,8 +221,26 @@
   </div>
 
 
+  <!-- SALES TREND SKELETON -->
+  <div class="row mt-4" *ngIf="isLoading">
+    <div class="col-md-12">
+      <div class="saas-card shadow-sm">
+        <div class="saas-card-header skeleton-header">
+          <div class="skeleton-line skeleton-header-title"></div>
+        </div>
+        <div class="m-3">
+          <div class="skeleton-table-row" *ngFor="let row of [1, 2, 3, 4, 5, 6, 7]">
+            <div class="skeleton-line skeleton-table-cell-left"></div>
+            <div class="skeleton-line skeleton-table-cell-right"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <!-- SALES TREND -->
-  <div class="row mt-4" *ngIf="dashboard">
+  <div class="row mt-4" *ngIf="!isLoading && dashboard">
     <div class="col-md-12">
       <div class="saas-card shadow-sm">
         <div class="saas-card-header text-white">
@@ -200,8 +264,49 @@
     </div>
   </div>
 
+
+  <!-- DELIVERY PARTNER STATS SKELETON -->
+  <div class="row mt-4" *ngIf="isLoading">
+    <div class="col-md-12">
+      <div class="saas-card shadow-sm">
+        <div class="saas-card-header skeleton-header">
+          <div class="skeleton-line skeleton-header-title"></div>
+        </div>
+        <div class="table-responsive p-3">
+          <table class="table saas-table table-bordered table-sm text-center m-0">
+            <thead>
+              <tr>
+                <th class="th-primary"><div class="skeleton-line skeleton-th mx-auto"></div></th>
+                <th class="th-primary"><div class="skeleton-line skeleton-th mx-auto"></div></th>
+                <th class="th-primary"><div class="skeleton-line skeleton-th mx-auto"></div></th>
+                <th class="th-primary"><div class="skeleton-line skeleton-th mx-auto"></div></th>
+                <th class="th-primary"><div class="skeleton-line skeleton-th mx-auto"></div></th>
+                <th class="th-primary"><div class="skeleton-line skeleton-th mx-auto"></div></th>
+                <th class="th-primary"><div class="skeleton-line skeleton-th mx-auto"></div></th>
+                <th class="th-primary"><div class="skeleton-line skeleton-th mx-auto"></div></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of [1, 2, 3]">
+                <td><div class="skeleton-line skeleton-td-text mx-auto"></div></td>
+                <td><div class="skeleton-line skeleton-td-text mx-auto"></div></td>
+                <td><div class="skeleton-line skeleton-td-badge mx-auto"></div></td>
+                <td><div class="skeleton-line skeleton-td-badge mx-auto"></div></td>
+                <td><div class="skeleton-line skeleton-td-badge mx-auto"></div></td>
+                <td><div class="skeleton-line skeleton-td-badge mx-auto"></div></td>
+                <td><div class="skeleton-line skeleton-td-badge mx-auto"></div></td>
+                <td><div class="skeleton-line skeleton-td-badge mx-auto"></div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <!-- DELIVERY PARTNER STATS -->
-  <div class="row mt-4">
+  <div class="row mt-4" *ngIf="!isLoading && dashboard">
     <div class="col-md-12">
       <div class="saas-card shadow-sm">
         <div class="saas-card-header bg-primary text-white">

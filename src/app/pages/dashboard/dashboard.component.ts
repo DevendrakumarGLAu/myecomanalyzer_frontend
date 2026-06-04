@@ -28,6 +28,7 @@ export class UserDashboardComponent implements OnInit {
       platformColors = PLATFORM_COLORS;
   dashboard: any;
   message: string = '';
+  isLoading = false;
 
   // Filter options
   platforms = PLATFORMS;
@@ -80,15 +81,18 @@ export class UserDashboardComponent implements OnInit {
 
   // ---- API ----
   loadDashboard() {
+    this.isLoading = true;
     this.appliedFilters = { ...this.filters };
     this.saveFiltersToSession();
 
     this.dashboardService.getDashboard(this.filters).subscribe({
       next: (res: any) => {
         this.dashboard = res;
+        this.isLoading = false;
       },
       error: () => {
         this.message = 'Failed to load dashboard data.';
+        this.isLoading = false;
       },
     });
   }

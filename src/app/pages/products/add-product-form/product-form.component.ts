@@ -127,6 +127,7 @@ export class ProductFormComponent implements OnInit, OnChanges {
       product.variants.forEach((v: any) => {
         this.variantsArray.push(
           this.fb.group({
+             id: [v.id],
             size: [v.size || ''],
             cost_price: [v.cost_price || 0],
             selling_price: [v.selling_price || 0],
@@ -240,6 +241,7 @@ export class ProductFormComponent implements OnInit, OnChanges {
   createVariant(): FormGroup {
 
   return this.fb.group({
+    id: [null],
     size: [''],
     cost_price: [0, Validators.required],
     selling_price: [0, Validators.required],
@@ -285,6 +287,7 @@ export class ProductFormComponent implements OnInit, OnChanges {
 
     // Map variants: add sku and color from main product
     const variantsPayload = this.variantsArray.value.map((v: any) => ({
+      id: v.id,
   size: v.size,
   cost_price: Number(v.cost_price),
   selling_price: Number(v.selling_price),

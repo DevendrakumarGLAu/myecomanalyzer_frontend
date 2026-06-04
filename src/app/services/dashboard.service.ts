@@ -55,6 +55,10 @@ export class DashboardService {
       params = params.set('max_order_amount', filters.max_order_amount.toString());
     }
 
-    return this.http.get(`${this.baseUrl}/dashboard/summary`, { params });
+    const headers = new HttpHeaders({
+      'X-Skip-Loader': 'true'
+    });
+
+    return this.http.get(`${this.baseUrl}/dashboard/summary`, { params, headers });
   }
 }
