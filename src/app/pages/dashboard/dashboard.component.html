@@ -323,6 +323,8 @@
                 <th class="th-primary">RTO</th>
                 <th class="th-primary">Cancelled</th>
                 <th class="th-primary">Customer Return</th>
+                <th class="th-primary">Exchange</th>
+                <th class="th-primary">Lost</th>
                 <th class="th-primary">Success %</th>
               </tr>
             </thead>
@@ -335,6 +337,8 @@
                 <td><span class="badge-soft bg-warning text-dark">{{ d.rto }}</span></td>
                 <td><span class="badge-soft bg-danger">{{ d.cancelled }}</span></td>
                 <td><span class="badge-soft bg-info text-dark">{{ d.customer_return }}</span></td>
+                <td><span class="badge-soft bg-info text-dark">{{ d.exchange }}</span></td>
+                <td><span class="badge-soft bg-secondary text-dark">{{ d.lost }}</span></td>
                 <td>
                   <span class="badge bg-dark">
                     {{
