@@ -1,0 +1,33 @@
+.inventory-container {
+  .summary-cards .card {
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+  }
+
+  table {
+    th {
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .badge {
+    padding: 0.4em 0.8em;
+    border-radius: 0.25rem;
+    font-size: 0.85em;
+    &.status-out {
+      background-color: #dc3545;
+      color: #fff;
+    }
+    &.status-low {
+      background-color: #fd7e14;
+      color: #fff;
+    }
+    &.status-in {
+      background-color: #28a745;
+      color: #fff;
+    }
+  }
+}

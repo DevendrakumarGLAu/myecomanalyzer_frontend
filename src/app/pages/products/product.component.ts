@@ -86,7 +86,7 @@ export class ProductComponent implements OnInit {
 
 
     openDialog(product?: Product) {
-        console.log("product", product)
+        // console.log("product", product)
         this.editingProduct = !!product;
         this.selectedProduct = product || null;
         const dialogRef = this.dialog.open(ProductFormComponent, {

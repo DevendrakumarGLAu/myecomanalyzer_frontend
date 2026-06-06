@@ -1,0 +1,154 @@
+<div class="container mt-4">
+
+    <!-- Header & Add Button -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h2 class="fw-bold">Inventory</h2>
+            <p class="text-muted mb-0">Manage your SKU catalog</p>
+        </div>
+        <div>
+            <button class="btn th-primary" (click)="openDialog()">
+                <i class="fas fa-plus me-1"></i> Add
+            </button>
+        </div>
+    </div>
+
+    <div class="card p-4">
+
+        <!-- Search + Filter -->
+        <div class="row g-3 align-items-center mb-3">
+
+            <!-- Search -->
+            <div class="col-6 col-md">
+                <input type="text" placeholder="Search..." [(ngModel)]="searchTerm" (input)="applyFilter()"
+                    class="form-control" style="width: 100%; max-width: 200px;">
+            </div>
+
+            <!-- Platform Filter -->
+            <div class="col-6 col-md-auto">
+                <select class="form-select" [(ngModel)]="selectedPlatform" (change)="applyFilter()">
+                    <option value="">All Platforms</option>
+                    <option *ngFor="let platform of platforms" [value]="platform.code">
+                        {{ platform.name }}
+                    </option>
+                </select>
+            </div>
+
+        </div>
+
+        <!-- Products Table -->
+        <div class="saas-card">
+            <div class="card-body p-0">
+                <div class="table-responsive" style="max-height: 420px; overflow-y: auto;">
+                    <table class="table saas-table mb-0">
+                        <thead>
+                            <tr>
+                                <th class="th-primary">Actions</th>
+                                <th class="th-primary">Product</th>
+                                <th class="th-primary">SKU</th>
+                                <th class="th-primary">Colors</th>
+                                <th class="th-primary">Sizes</th>
+                                <th class="th-primary">Total Stock</th>
+                                <th class="th-primary">Selling Price</th>
+                                <th class="th-primary">Status</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let product of products">
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-light border-0 shadow-none action-btn"
+                                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                                            <li>
+                                                <button class="dropdown-item d-flex align-items-center"
+                                                    (click)="openDialog(product)">
+                                                    <i class="fas fa-pencil-alt text-primary me-2"></i> Edit
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button class="dropdown-item d-flex align-items-center text-danger"
+                                                    (click)="deleteProduct(product)">
+                                                    <i class="fas fa-trash me-2"></i> Delete
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td>{{ product.name }}</td>
+                                <td>{{ product.sku }}</td>
+                                <td>{{ getColors(product) }}</td>
+                                <td>{{ getSizes(product) }}</td>
+                                <td>{{ getVariantStock(product) }}</td>
+                                <td>₹{{ product.selling_price }}</td>
+                                <td>
+                                    <span [class]="getInventoryClass(getVariantStock(product))">
+                                        {{ getInventoryStatus(getVariantStock(product)) }}
+                                    </span>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="saas-pagination-wrapper mt-3">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination pagination-sm mb-0 align-items-center flex-nowrap">
+
+                        <!-- Go To Page -->
+                        <li class="page-item d-flex align-items-center me-2">
+                            <span class="me-1 small text-nowrap">Go</span>
+                            <input type="number" class="form-control form-control-sm pg-input" style="width: 70px;"
+                                [(ngModel)]="gotoPageNumber" (keyup.enter)="goToPage(gotoPageNumber)" />
+                        </li>
+
+                        <!-- Page Size Dropdown -->
+                        <li class="page-item d-flex align-items-center me-2">
+                            <span class="me-1 small text-nowrap">Show</span>
+                            <select class="form-select form-select-sm size-select" [(ngModel)]="itemsPerPage"
+                                (change)="onPageSizeChange()">
+                                <option *ngFor="let size of pageSizeOptions" [ngValue]="size">
+                                    {{ size }}
+                                </option>
+                            </select>
+                        </li>
+
+                        <!-- Showing Records -->
+                        <li class="page-item disabled me-1">
+                            <span class="page-link border-0 bg-transparent text-muted text-nowrap px-1 record-info">
+                                {{ totalItems > 0 ? startIndex + 1 : 0 }} - {{ endIndex }} of {{ totalItems }}
+                            </span>
+                        </li>
+
+                        <!-- Previous -->
+                        <li class="page-item" [class.disabled]="currentPage === 1">
+                            <a class="page-link" href="javascript:void(0)" (click)="goToPage(currentPage - 1)">
+                                <i class="fa fa-chevron-left"></i>
+                            </a>
+                        </li>
+
+                        <!-- Current Page -->
+                        <li class="page-item active">
+                            <span class="page-link">{{ currentPage }}</span>
+                        </li>
+
+                        <!-- Next -->
+                        <li class="page-item" [class.disabled]="currentPage === totalPages">
+                            <a class="page-link" href="javascript:void(0)" (click)="goToPage(currentPage + 1)">
+                                <i class="fa fa-chevron-right"></i>
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -15,6 +15,7 @@ import { DispatchInvoiceComponent } from './pages/orders/dispatch-invoice.compon
 import { ProfileComponent } from './pages/profile/profile.component';
 import { authGuard } from './auth.guard';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
+import { InventoryComponent } from './pages/inventory/inventory.component';
 
 export const routes: Routes = [
 
@@ -40,6 +41,7 @@ export const routes: Routes = [
       { path: 'dispatch-invoice', component: DispatchInvoiceComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'notifications',component: NotificationsComponent},
+      { path: 'inventory', component: InventoryComponent },
       // add more sidebar routes here,
 
        { path: '**', component: NotFoundComponent }

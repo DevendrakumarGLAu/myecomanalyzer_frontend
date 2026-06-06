@@ -25,5 +25,10 @@ export const SIDEBAR_MENU: SidebarMenuItem[] = [
     label: 'Dispatch Invoice',
     icon: 'fas fa-file-invoice',
     route: '/dispatch-invoice'
+  },
+  {
+    label: 'Inventory',
+    icon: 'fas fa-box-open',
+    route: '/inventory'
   }
 ];
