@@ -3,6 +3,7 @@ import { DashboardService, DashboardFilters } from '../../services/dashboard.ser
 import { CommonModule, isPlatformBrowser, NgFor, NgIf } from '@angular/common';
 import { PLATFORMS, DELIVERY_PARTNERS, PLATFORM_COLORS } from '../../common/constant/platform.constants';
 import { FormsModule } from '@angular/forms';
+import { BarChartComponent } from '../../charts/bar-chart/bar-chart.component';
 
 const SESSION_KEY = 'dashboard_filters';
 
@@ -19,13 +20,13 @@ const ORDER_STATUSES = [
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [NgFor, NgIf, FormsModule, CommonModule],
+  imports: [NgFor, NgIf, FormsModule, CommonModule, BarChartComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
 export class UserDashboardComponent implements OnInit {
   //  platforms = ['meesho', 'amazon', 'flipkart'];
-      platformColors = PLATFORM_COLORS;
+  platformColors = PLATFORM_COLORS;
   dashboard: any;
   message: string = '';
   isLoading = false;
@@ -39,6 +40,15 @@ export class UserDashboardComponent implements OnInit {
   filters: DashboardFilters = {
     platform_code: 'MEESHO',
   };
+chartFields = [
+  'total_orders',
+  'delivered_orders'
+];
+
+chartLabels = {
+  total_orders: 'Total Orders',
+  delivered_orders: 'Delivered Orders'
+};
 
   // Tracks which filters are actively applied (for badges)
   appliedFilters: DashboardFilters = {};
@@ -52,23 +62,27 @@ export class UserDashboardComponent implements OnInit {
     private dashboardService: DashboardService,
     @Inject(PLATFORM_ID) platformId: Object
   ) {
+     console.log('Dashboard constructor', Date.now());
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
   ngOnInit() {
+    console.log('ngOnInit');
     this.loadFiltersFromSession();
     // this.loadDashboard();
   }
 
   // ---- Session Storage ----
   loadFiltersFromSession() {
+    console.log('loadFiltersFromSession');
     if (!this.isBrowser) return;
     const saved = sessionStorage.getItem(SESSION_KEY);
     if (saved) {
+      console.log('session found');
       try {
         const parsed = JSON.parse(saved);
         this.filters = { ...this.filters, ...parsed };
-      } catch {}
+      } catch { }
     }
     this.appliedFilters = { ...this.filters };
     this.loadDashboard()
@@ -81,6 +95,7 @@ export class UserDashboardComponent implements OnInit {
 
   // ---- API ----
   loadDashboard() {
+    console.log('loadDashboard', this.isBrowser ? 'BROWSER' : 'SERVER');
     this.isLoading = true;
     this.appliedFilters = { ...this.filters };
     this.saveFiltersToSession();
@@ -97,43 +112,46 @@ export class UserDashboardComponent implements OnInit {
     });
   }
 
+  trackByIndex(index: number): number {
+    return index;
+  }
   getPlatformColor(platform: string): string {
-        return this.platformColors[platform.toUpperCase()] || '#888888';
-    }
+    return this.platformColors[platform.toUpperCase()] || '#888888';
+  }
 
   getStatusClass(code: string): string {
-        const status = code?.toUpperCase();
+    const status = code?.toUpperCase();
 
-        switch (status) {
+    switch (status) {
 
-            case 'DELIVERED':
-                return 'green';
+      case 'DELIVERED':
+        return 'green';
 
-            case 'SHIPPED':
-                return 'blue';
-            
-            case 'READY TO SHIP':
-                return 'blue';
+      case 'SHIPPED':
+        return 'blue';
 
-            case 'RTO COMPLETE':
-                return 'yellow';
+      case 'READY TO SHIP':
+        return 'blue';
 
-            case 'CUSTOMER RETURN':
-                return 'yellow';
+      case 'RTO COMPLETE':
+        return 'yellow';
 
-            case 'CANCELLED':
-                return 'red';
+      case 'CUSTOMER RETURN':
+        return 'yellow';
 
-            case 'LOST':
-                return 'red';
+      case 'CANCELLED':
+        return 'red';
 
-            case 'DOOR STEP EXCHANGED':
-                return 'indigo';
+      case 'LOST':
+        return 'red';
 
-            default:
-                return 'gray';
-        }
+      case 'DOOR STEP EXCHANGED':
+        return 'indigo';
+
+      default:
+        return 'gray';
     }
+  }
   // ---- Modal Controls ----
   openFilterModal() {
     // Copy applied filters into the form so the modal shows current state

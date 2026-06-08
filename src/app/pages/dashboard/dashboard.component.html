@@ -171,7 +171,7 @@
           </thead>
 
           <tbody>
-            <tr *ngFor="let s of dashboard.orders_by_status">
+            <tr *ngFor="let s of dashboard.orders_by_status; trackBy: trackByIndex">
               <td>
                 <span class="badge-soft" [ngClass]="getStatusClass(s.status)">
                   {{ s.status }}
@@ -276,26 +276,58 @@
           <table class="table saas-table table-bordered table-sm text-center m-0">
             <thead>
               <tr>
-                <th class="th-primary"><div class="skeleton-line skeleton-th mx-auto"></div></th>
-                <th class="th-primary"><div class="skeleton-line skeleton-th mx-auto"></div></th>
-                <th class="th-primary"><div class="skeleton-line skeleton-th mx-auto"></div></th>
-                <th class="th-primary"><div class="skeleton-line skeleton-th mx-auto"></div></th>
-                <th class="th-primary"><div class="skeleton-line skeleton-th mx-auto"></div></th>
-                <th class="th-primary"><div class="skeleton-line skeleton-th mx-auto"></div></th>
-                <th class="th-primary"><div class="skeleton-line skeleton-th mx-auto"></div></th>
-                <th class="th-primary"><div class="skeleton-line skeleton-th mx-auto"></div></th>
+                <th class="th-primary">
+                  <div class="skeleton-line skeleton-th mx-auto"></div>
+                </th>
+                <th class="th-primary">
+                  <div class="skeleton-line skeleton-th mx-auto"></div>
+                </th>
+                <th class="th-primary">
+                  <div class="skeleton-line skeleton-th mx-auto"></div>
+                </th>
+                <th class="th-primary">
+                  <div class="skeleton-line skeleton-th mx-auto"></div>
+                </th>
+                <th class="th-primary">
+                  <div class="skeleton-line skeleton-th mx-auto"></div>
+                </th>
+                <th class="th-primary">
+                  <div class="skeleton-line skeleton-th mx-auto"></div>
+                </th>
+                <th class="th-primary">
+                  <div class="skeleton-line skeleton-th mx-auto"></div>
+                </th>
+                <th class="th-primary">
+                  <div class="skeleton-line skeleton-th mx-auto"></div>
+                </th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let row of [1, 2, 3]">
-                <td><div class="skeleton-line skeleton-td-text mx-auto"></div></td>
-                <td><div class="skeleton-line skeleton-td-text mx-auto"></div></td>
-                <td><div class="skeleton-line skeleton-td-badge mx-auto"></div></td>
-                <td><div class="skeleton-line skeleton-td-badge mx-auto"></div></td>
-                <td><div class="skeleton-line skeleton-td-badge mx-auto"></div></td>
-                <td><div class="skeleton-line skeleton-td-badge mx-auto"></div></td>
-                <td><div class="skeleton-line skeleton-td-badge mx-auto"></div></td>
-                <td><div class="skeleton-line skeleton-td-badge mx-auto"></div></td>
+                <td>
+                  <div class="skeleton-line skeleton-td-text mx-auto"></div>
+                </td>
+                <td>
+                  <div class="skeleton-line skeleton-td-text mx-auto"></div>
+                </td>
+                <td>
+                  <div class="skeleton-line skeleton-td-badge mx-auto"></div>
+                </td>
+                <td>
+                  <div class="skeleton-line skeleton-td-badge mx-auto"></div>
+                </td>
+                <td>
+                  <div class="skeleton-line skeleton-td-badge mx-auto"></div>
+                </td>
+                <td>
+                  <div class="skeleton-line skeleton-td-badge mx-auto"></div>
+                </td>
+                <td>
+                  <div class="skeleton-line skeleton-td-badge mx-auto"></div>
+                </td>
+                <td>
+                  <div class="skeleton-line skeleton-td-badge mx-auto"></div>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -357,6 +389,18 @@
             </tbody>
           </table>
         </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4" *ngIf="!isLoading && dashboard">
+    <div class="col-md-12">
+      <div class="saas-card shadow-sm">
+        <div class="saas-card-header bg-primary text-white">
+          State wise performance
+        </div>
+        <app-bar-chart *ngIf="dashboard?.state_wise_analytics?.length" [data]="dashboard.state_wise_analytics"
+          xField="state" [yFields]="chartFields" [labels]="chartLabels" title="State Wise Performance">
+        </app-bar-chart>
       </div>
     </div>
   </div>
