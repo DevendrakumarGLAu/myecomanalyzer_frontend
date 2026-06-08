@@ -3,6 +3,7 @@ import { DashboardService, DashboardFilters } from '../../services/dashboard.ser
 import { CommonModule, isPlatformBrowser, NgFor, NgIf } from '@angular/common';
 import { PLATFORMS, DELIVERY_PARTNERS, PLATFORM_COLORS } from '../../common/constant/platform.constants';
 import { FormsModule } from '@angular/forms';
+import { BarChartComponent } from '../../charts/bar-chart/bar-chart.component';
 
 const SESSION_KEY = 'dashboard_filters';
 
@@ -19,7 +20,7 @@ const ORDER_STATUSES = [
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [NgFor, NgIf, FormsModule, CommonModule],
+  imports: [NgFor, NgIf, FormsModule, CommonModule,BarChartComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
