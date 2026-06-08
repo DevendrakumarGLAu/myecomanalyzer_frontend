@@ -32,7 +32,28 @@
     <!-- TABLE WRAPPER -->
     <div class="card-body p-0">
         <!-- UNREAD -->
+         <!-- SKELETON LOADER -->
+<div *ngIf="loading" class="saas-skeleton-wrapper">
+
+  <div class="skeleton-header"></div>
+
+  <div class="skeleton-tabs"></div>
+
+  <div class="skeleton-table">
+
+    <div class="skeleton-row" *ngFor="let i of [1,2,3,4,5]">
+      <div class="skeleton-cell w-10"></div>
+      <div class="skeleton-cell w-15"></div>
+      <div class="skeleton-cell w-25"></div>
+      <div class="skeleton-cell w-30"></div>
+      <div class="skeleton-cell w-15"></div>
+    </div>
+
+  </div>
+
+</div>
         <div *ngIf="activeTab === 'unread'">
+             <ng-container *ngIf="!loading; else skeleton">
             <div *ngIf="unreadNotifications.length === 0" class="text-center text-muted py-4">
                 No unread notifications
             </div>
@@ -83,6 +104,8 @@
                 </table>
 
             </div>
+            </ng-container>
+            <ng-template #skeleton></ng-template>
 
             <!-- PAGINATION (SAAS STYLE) -->
             <div class="saas-pagination-wrapper"  *ngIf="unreadNotifications.length > -1">
@@ -113,6 +136,9 @@
 
         <!-- READ -->
         <div *ngIf="activeTab === 'read'">
+            <ng-container *ngIf="!loading; else skeletonRead">
+
+
 
             <div *ngIf="readNotifications.length === 0" class="text-center text-muted py-4">
                 No read notifications
@@ -156,7 +182,8 @@
                 </table>
 
             </div>
-
+  </ng-container>
+            <ng-template #skeletonRead></ng-template>
             <!-- PAGINATION -->
             <div class="saas-pagination-wrapper" *ngIf="readNotifications.length > -1">
                 <nav>

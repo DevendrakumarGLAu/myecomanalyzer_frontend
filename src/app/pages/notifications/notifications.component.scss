@@ -193,3 +193,56 @@
   color: #6b7280;
   border-color: rgba(107, 114, 128, 0.25);
 }
+.saas-skeleton-wrapper {
+  padding: 12px;
+}
+
+/* shimmer effect */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: 200px 0;
+  }
+}
+
+.skeleton-header,
+.skeleton-tabs,
+.skeleton-cell {
+  background: linear-gradient(90deg, #f2f3f5 25%, #e6e8ec 37%, #f2f3f5 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.2s ease infinite;
+  border-radius: 8px;
+}
+
+/* header */
+.skeleton-header {
+  height: 22px;
+  width: 180px;
+  margin-bottom: 12px;
+}
+
+/* tabs */
+.skeleton-tabs {
+  height: 36px;
+  width: 260px;
+  margin-bottom: 16px;
+}
+
+/* table rows */
+.skeleton-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.skeleton-cell {
+  height: 14px;
+  border-radius: 6px;
+}
+
+.w-10 { width: 10%; }
+.w-15 { width: 15%; }
+.w-25 { width: 25%; }
+.w-30 { width: 30%; }
