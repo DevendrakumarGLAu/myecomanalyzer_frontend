@@ -6,14 +6,15 @@ import { ChatbotComponent } from '../../chatbot/chatbot.component';
 @Component({
   selector: 'app-page-wrapper',
   imports: [
-      RouterOutlet,
+      // RouterOutlet,
         // BreadcrumbComponent
         ChatbotComponent
     ],
   template: `
   <!-- <app-breadcrumb></app-breadcrumb> -->
     <div class="app-page-wrapper overflow-auto">
-      <router-outlet></router-outlet>
+      <ng-content></ng-content>
+      <!-- <router-outlet></router-outlet> -->
 <app-chatbot></app-chatbot>
       
     </div>
