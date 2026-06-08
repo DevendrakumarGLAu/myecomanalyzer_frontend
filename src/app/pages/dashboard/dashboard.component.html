@@ -171,7 +171,7 @@
           </thead>
 
           <tbody>
-            <tr *ngFor="let s of dashboard.orders_by_status">
+            <tr *ngFor="let s of dashboard.orders_by_status; trackBy: trackByIndex">
               <td>
                 <span class="badge-soft" [ngClass]="getStatusClass(s.status)">
                   {{ s.status }}
@@ -398,12 +398,8 @@
         <div class="saas-card-header bg-primary text-white">
           State wise performance
         </div>
-        <app-bar-chart [data]="dashboard.state_wise_analytics" xField="state"
-          [yFields]="['total_orders', 'delivered_orders', 'rto_orders']" [labels]="{
-    total_orders: 'Total Orders',
-    delivered_orders: 'Delivered',
-    rto_orders: 'RTO'
-  }" title="State Wise Performance">
+        <app-bar-chart *ngIf="dashboard?.state_wise_analytics?.length" [data]="dashboard.state_wise_analytics"
+          xField="state" [yFields]="chartFields" [labels]="chartLabels" title="State Wise Performance">
         </app-bar-chart>
       </div>
     </div>
