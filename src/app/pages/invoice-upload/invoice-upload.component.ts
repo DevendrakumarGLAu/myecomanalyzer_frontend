@@ -47,6 +47,7 @@ export class InvoiceUploadComponent {
   }
   errorList: any[] = [];
   errorFileUrl: string | null = null;
+  duplicateOrders: any[] = [];
   uploadFile() {
     console.log("Selected Platform:", this.selectedPlatform);
     console.log("Selected File:", this.selectedFile);
@@ -74,6 +75,9 @@ export class InvoiceUploadComponent {
           // ✅ NEW: store detailed errors
           this.errorList = res?.data?.error_orders || [];
           this.errorFileUrl = res?.data?.error_file || null;
+          this.duplicateOrders = res?.data?.duplicate_orders || [];
+          console.log("Duplicate Orders:", this.duplicateOrders);
+  console.log("Length:", this.duplicateOrders.length);
           this.toast.success(this.message);
         },
         error: (err: any) => {

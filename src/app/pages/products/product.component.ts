@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../../material.module';
 import { COLORS, PLATFORMS, PLATFORM_COLORS } from '../../common/constant/platform.constants';
 import { ToastService } from '../../services/toast.service';
+import { ConfirmationPopupComponent } from '../../common/confirmation-popup/confirmation-popup.component';
 
 declare var bootstrap: any;
 @Component({
@@ -30,7 +31,7 @@ export class ProductComponent implements OnInit {
     colors = COLORS;
     platforms = PLATFORMS;
     selectedPlatform: string = '';
-        // Pagination variables
+    // Pagination variables
     totalItems = 0;
     itemsPerPage = 10;
     currentPage = 1;
@@ -143,11 +144,30 @@ export class ProductComponent implements OnInit {
         }
     }
 
+    // deleteProduct(product: Product) {
+    //     let id = Number(product.id);
+    //     if (confirm('Are you sure you want to delete this product?')) {
+    //         this.productService.deleteProduct(id).subscribe(() => this.loadProducts());
+    //     }
+    // }
     deleteProduct(product: Product) {
-        let id = Number(product.id);
-        if (confirm('Are you sure you want to delete this product?')) {
-            this.productService.deleteProduct(id).subscribe(() => this.loadProducts());
-        }
+        const id = Number(product.id);
+
+        const dialogRef = this.dialog.open(ConfirmationPopupComponent, {
+            width: '380px',
+            disableClose: true,
+            panelClass: 'confirm-dialog-panel',
+            data: {
+                message: `Are you sure you want to delete "${product.name}" (SKU: ${product.sku})?`
+            }
+        });
+
+        dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+            if (confirmed) {
+                this.productService.deleteProduct(id)
+                    .subscribe(() => this.loadProducts());
+            }
+        });
     }
 
     deleteAll() {

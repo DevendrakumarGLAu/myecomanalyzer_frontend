@@ -71,11 +71,19 @@ getProducts(filters: Record<string, any>): Observable<any> {
     );
   }
 
-  deleteProduct(id: number): Observable<any> {
+  deleteProduct_dummy(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/deletebyId/${id}`, { headers: this.getHeaders() });
   }
 
   toggleActive(id: number): Observable<Product> {
     return this.http.post<Product>(`${this.baseUrl}/toggle_active/${id}`, {}, { headers: this.getHeaders() });
   }
+
+   deleteProduct(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/del_products/${id}`, { headers: this.getHeaders() });
+  }
+//   @router.delete("/del_products/{product_id}")
+// def delete_product(product_id: int):
+//     return ProductController.delete_product(product_id)
+
 }

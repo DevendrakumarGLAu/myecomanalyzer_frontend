@@ -1,4 +1,3 @@
-
 <div class="card border-0 shadow-sm">
 
   <div class="card-body">
@@ -8,10 +7,7 @@
 
     <!-- File Upload -->
     <div class="mb-3">
-      <input type="file"
-             class="form-control"
-             (change)="onFileSelected($event)"
-             accept=".csv" />
+      <input type="file" class="form-control" (change)="onFileSelected($event)" accept=".csv" />
       <div *ngIf="fileError" class="text-danger mt-1">{{ fileError }}</div>
     </div>
 
@@ -82,54 +78,42 @@
       </div>
 
     </div>
+    <!-- DUPLICATE ORDERS -->
+    <div *ngIf="duplicateOrders.length > 0" class="mt-4">
+
+      <h6 class="text-warning">
+        Duplicate Orders
+        <span class="badge bg-warning text-dark">
+          {{ duplicateOrders.length }}
+        </span>
+      </h6>
+
+      <div class="table-responsive" style="max-height: 200px; overflow-y: auto;">
+        <table class="table table-sm table-bordered table-hover">
+          <thead class="table-light sticky-top">
+            <tr>
+              <th>Order ID</th>
+              <th>SKU</th>
+              <th>Size</th>
+              <th>Color</th>
+              <th>Reason</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of duplicateOrders">
+              <td>{{ item.order_id }}</td>
+              <td>{{ item.sku }}</td>
+              <td>{{ item.size }}</td>
+              <td>{{ item.color }}</td>
+              <td class="text-warning fw-semibold">
+                {{ item.reason }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
 
   </div>
 </div>
-<!-- <div class="upload-container">
-  <h2>Upload Order Status CSV</h2>
-
-  <input type="file" (change)="onFileSelected($event)" accept=".csv" />
-
-  <button (click)="uploadFile()">Upload</button>
-
-  <div *ngIf="message" class="message">{{ message }}</div>
-
-  <div *ngIf="errorList.length > 0">
-    <h3>Errors</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Row</th>
-          <th>Sub Order ID</th>
-          <th>Reason</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let err of errorList">
-          <td>{{ err.row }}</td>
-          <td>{{ err.sub_order_id || '-' }}</td>
-          <td>{{ err.reason }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div *ngIf="notFoundList.length > 0">
-    <h3>Orders Not Found</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Sub Order ID</th>
-          <th>Reason</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of notFoundList">
-          <td>{{ item.sub_order_id }}</td>
-          <td>{{ item.reason }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div> -->
-

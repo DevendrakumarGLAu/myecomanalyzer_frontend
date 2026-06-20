@@ -66,33 +66,11 @@
 
                                 <!-- Actions -->
                                 <td>
-                                    <!-- <button mat-icon-button [matMenuTriggerFor]="menu">
-                                        <i class="fas fa-ellipsis-h"></i>
-                                    </button>
-
-                                    <mat-menu #menu="matMenu">
-
-                                        <button mat-menu-item (click)="openDialog(product)">
-                                            <i class="fas fa-pencil-alt text-primary me-2"></i>
-                                            Edit
-                                        </button>
-
-                                        <button mat-menu-item (click)="deleteProduct(product)">
-                                            <i class="fas fa-trash text-danger me-2"></i>
-                                            Delete
-                                        </button>
-
-                                    </mat-menu> -->
-                                    
-                                    
                                     <div class="dropdown">
-
                                         <button class="btn btn-sm btn-light border-0 shadow-none action-btn" type="button"
                                             data-bs-toggle="dropdown" aria-expanded="false">
-
                                             <i class="fas fa-ellipsis-h"></i>
-
-                                        </button>
+                                    </button>
 
                                         <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
 
@@ -101,18 +79,13 @@
                                                     (click)="openDialog(product)">
 
                                                     <i class="fas fa-pencil-alt text-primary me-2"></i>
-                                                    Edit
-
                                                 </button>
                                             </li>
 
                                             <li>
                                                 <button class="dropdown-item d-flex align-items-center text-danger"
                                                     (click)="deleteProduct(product)">
-
                                                     <i class="fas fa-trash me-2"></i>
-                                                    Delete
-
                                                 </button>
                                             </li>
                                         </ul>

@@ -1,0 +1,38 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.confirm-modal {
+  background: #fff;
+  width: 360px;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+  animation: pop 0.15s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.warning-text {
+  font-size: 13px;
+  color: #dc3545;
+}
+
+.confirm-dialog-panel .mat-dialog-container {
+  border-radius: 16px;
+  padding: 0;
+  width: 420px !important;
+  max-width: 90vw;
+}
+
+.confirm-wrapper {
+  min-height: 240px;
+}

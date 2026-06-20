@@ -16,6 +16,7 @@ export class OrderStatusUploadComponent {
   message: string = '';
   errorList: any[] = [];
   notFoundList: any[] = [];
+  duplicateOrders: any[] = [];
   fileError: string = '';
 
   constructor(private invoiceService: InvoiceService,
@@ -64,11 +65,13 @@ export class OrderStatusUploadComponent {
 
           this.errorList = res?.data?.errors || [];
           this.notFoundList = res?.data?.not_found || [];
+          
         },
         error: (err: any) => {
           this.message = 'Upload failed: ' + (err.error?.message || err.message);
           this.errorList = [];
           this.notFoundList = [];
+          this.duplicateOrders = [];
           this.toast.error(this.message);
         }
       });
