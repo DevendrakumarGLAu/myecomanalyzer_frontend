@@ -158,7 +158,8 @@ export class ProductComponent implements OnInit {
             disableClose: true,
             panelClass: 'confirm-dialog-panel',
             data: {
-                message: `Are you sure you want to delete "${product.name}" (SKU: ${product.sku})?`
+                 message: `Are you sure you want to delete?\nProduct: ${product.name}\nSKU: ${product.sku}`
+                // message: `Are you sure you want to delete "${product.name}" (SKU: ${product.sku})?`
             }
         });
 

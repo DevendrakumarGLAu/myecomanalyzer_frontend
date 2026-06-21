@@ -1,43 +1,65 @@
-<div class="p-4 confirm-wrapper">
+<div class="modal fade show d-block custom-backdrop" tabindex="-1">
 
-  <div class="mb-3 text-center">
-    <h3 class="fw-semibold">Confirm Delete</h3>
-  </div>
+ <div class="modal-dialog modal-dialog-centered modal-md">
 
-  <p class="text-muted mb-2 text-center">
-    {{ data.message }}
-  </p>
+    <div class="modal-content shadow-lg border-0">
 
-  <p class="text-danger small mb-3 text-center">
-    This action cannot be undone.
-  </p>
+      <!-- Header -->
+      <div class="modal-header border-0">
+        <h5 class="modal-title fw-semibold text-danger">
+          Confirm Delete
+        </h5>
 
-  <!-- Checkbox -->
-  <div class="form-check mb-4 d-flex justify-content-center">
-    <input
-      class="form-check-input me-2"
-      type="checkbox"
-      id="confirmCheck"
-      [(ngModel)]="isChecked"
-    />
-    <label class="form-check-label" for="confirmCheck">
-      I understand this action is irreversible
-    </label>
-  </div>
+        <button type="button" class="btn-close" (click)="cancel()"></button>
+      </div>
 
-  <div class="d-flex justify-content-center gap-3">
+      <!-- Body -->
+      <div class="modal-body text-center">
 
-    <button class="btn btn-light btn-sm px-4" (click)="cancel()">
-      Cancel
-    </button>
+        <h5 class=" mb-2">
+          {{ data.message }}
+        </h5>
 
-    <button
-      class="btn btn-danger btn-sm px-4"
-      (click)="confirm()"
-      [disabled]="!isChecked"
-    >
-      Delete
-    </button>
+        <strong class="text-danger mb-3">
+          This action cannot be undone.
+        </strong>
+
+        <!-- Checkbox -->
+        <div class="form-check d-flex justify-content-center mb-3">
+
+          <input
+            class="form-check-input me-2"
+            type="checkbox"
+            id="confirmCheck"
+            [(ngModel)]="isChecked"
+          />
+
+          <label class="form-check-label" for="confirmCheck">
+            I understand this action is irreversible
+          </label>
+
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer border-0 d-flex justify-content-center gap-2">
+
+        <button class="btn btn-light px-4" (click)="cancel()">
+          Cancel
+        </button>
+
+        <button
+          class="btn btn-danger px-4"
+          (click)="confirm()"
+          [disabled]="!isChecked"
+        >
+          Delete
+        </button>
+
+      </div>
+
+    </div>
 
   </div>
 

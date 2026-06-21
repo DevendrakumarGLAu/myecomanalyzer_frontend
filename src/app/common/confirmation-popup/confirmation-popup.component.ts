@@ -11,13 +11,15 @@ import {  FormsModule } from '@angular/forms';
 })
 export class ConfirmationPopupComponent {
    message: string | null = null;
-  isChecked = false;
+  isChecked: boolean = false;
+
   constructor(
     private dialogRef: MatDialogRef<ConfirmationPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { message: string }
   ) {}
 
   confirm() {
+    if (!this.isChecked) return;
     this.dialogRef.close(true);
   }
 
