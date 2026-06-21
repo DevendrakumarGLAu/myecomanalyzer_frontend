@@ -5,6 +5,67 @@
   min-height: 100vh;
 }
 
+.profile-skeleton {
+  padding: 20px;
+}
+
+/* shimmer animation */
+@keyframes shimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+/* base skeleton style */
+.skel-header,
+.skel-row {
+  background: #e2e5e7;
+  background-image: linear-gradient(
+    to right,
+    #e2e5e7 0%,
+    #f6f7f8 20%,
+    #e2e5e7 40%,
+    #e2e5e7 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 800px 104px;
+  animation: shimmer 1.2s linear infinite;
+  border-radius: 8px;
+}
+
+/* header skeleton (avatar + name area) */
+.skel-header {
+  height: 120px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+}
+
+/* row skeletons */
+.skel-row {
+  height: 18px;
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+/* different widths for realism */
+.skel-row:nth-child(2) {
+  width: 90%;
+}
+
+.skel-row:nth-child(3) {
+  width: 80%;
+}
+
+.skel-row:nth-child(4) {
+  width: 70%;
+}
+
+.skel-row:nth-child(5) {
+  width: 60%;
+}
 /* ===================================================
    PROFILE PAGE
 =================================================== */

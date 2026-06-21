@@ -1,123 +1,200 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+
 import { ToastService } from '../../services/toast.service';
+import { ProfileService } from '../../services/user-profile.service';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
-  // Display data
-  username = '';
-  firstName = '';
-  lastName = '';
-  email = '';
-  createdAt = '';
-  memberSince = '';
 
-  // Edit mode
+  // UI state
+  isLoading = false;
   isEditing = false;
-  editFirstName = '';
-  editLastName = '';
-  editEmail = '';
-
-  // Stats (computed from local data)
-  totalProducts = 0;
-  totalOrders = 0;
+  isSaving = false;
+  profileForm!: FormGroup
+  memberSince = '';
   accountAge = '';
+  createdAtDate: Date | null = null;
+
+  // subscription: any = null;
+  profileData: any = {};
+  subscription: any = {};
 
   constructor(
-    private router: Router,
-    private toastService: ToastService
-  ) {}
+    private fb: FormBuilder,
+    private profileService: ProfileService,
+    private toast: ToastService,
+    private router: Router
+  ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    // Reactive Form
+    this.profileForm = this.fb.group({
+      first_name: ['', Validators.required],
+      last_name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      mobile_number: ['', [Validators.required]]
+    });
     this.loadProfile();
+
   }
 
-  loadProfile() {
-    this.firstName = localStorage.getItem('first_name') || '';
-    this.lastName = localStorage.getItem('last_name') || '';
-    this.email = localStorage.getItem('email') || localStorage.getItem('username') || '';
-    this.createdAt = localStorage.getItem('created_at') || '';
+  // =========================
+  // LOAD PROFILE FROM API
+  // =========================
+  loadProfile(): void {
+    this.isLoading = true;
 
-    const fullName = `${this.firstName} ${this.lastName}`.trim();
-    this.username = this.toTitleCase(fullName || this.email || 'User');
+    this.profileService.getProfile().subscribe({
+      next: (res: any) => {
 
-    if (this.createdAt) {
-      const date = new Date(this.createdAt);
-      this.memberSince = date.toLocaleDateString('en-US', {
-        month: 'long',
-        year: 'numeric',
-        day: 'numeric',
-      });
-      this.accountAge = this.getAccountAge(date);
+        const data = res?.data || res;
+        this.profileData = data;
+
+        // subscription object separate
+        this.subscription = {
+          trial_start: data.trial_start,
+          trial_end: data.trial_end,
+          subscription_start: data.subscription_start,
+          subscription_end: data.subscription_end,
+          payment_verified: data.payment_verified
+        };
+        this.createdAtDate = data.created_at ? new Date(data.created_at) : null;
+
+        if (this.createdAtDate) {
+          this.memberSince = this.createdAtDate.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long'
+          });
+
+          this.accountAge = this.getTimeAgo(this.createdAtDate);
+        } else {
+          this.memberSince = 'Unknown';
+          this.accountAge = '';
+        }
+        this.profileForm.patchValue({
+          first_name: data.first_name || '',
+          last_name: data.last_name || '',
+          email: data.email || '',
+          mobile_number: data.mobile_number || ''
+        });
+
+        this.isLoading = false;
+      },
+
+      error: (err) => {
+        console.error(err);
+        this.toast.error('Failed to load profile');
+        this.isLoading = false;
+      }
+    });
+
+  }
+
+  // =========================
+  // EDIT MODE
+  // =========================
+  toggleEdit(): void {
+    this.isEditing = true;
+  }
+
+  cancelEdit(): void {
+    this.isEditing = false;
+    this.loadProfile(); // reset changes
+  }
+
+  // =========================
+  // SAVE PROFILE
+  // =========================
+  saveProfile(): void {
+
+    if (this.profileForm.invalid) {
+      this.profileForm.markAllAsTouched();
+      return;
     }
 
-    // Copy for editing
-    this.editFirstName = this.firstName;
-    this.editLastName = this.lastName;
-    this.editEmail = this.email;
+    this.isSaving = true;
+
+    this.profileService.updateProfile(this.profileForm.value as any).subscribe({
+      next: () => {
+        this.toast.success('Profile updated successfully');
+        this.isSaving = false;
+        this.isEditing = false;
+        this.loadProfile();
+      },
+
+      error: (err) => {
+        console.error(err);
+        this.toast.error('Failed to update profile');
+        this.isSaving = false;
+      }
+    });
   }
 
-  getAccountAge(createdDate: Date): string {
-    const now = new Date();
-    const diffMs = now.getTime() - createdDate.getTime();
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-    if (diffDays < 1) return 'Today';
-    if (diffDays === 1) return '1 day';
-    if (diffDays < 30) return `${diffDays} days`;
-    const diffMonths = Math.floor(diffDays / 30);
-    if (diffMonths === 1) return '1 month';
-    if (diffMonths < 12) return `${diffMonths} months`;
-    const diffYears = Math.floor(diffMonths / 12);
-    const remainingMonths = diffMonths % 12;
-    if (remainingMonths === 0) return `${diffYears} year${diffYears > 1 ? 's' : ''}`;
-    return `${diffYears} year${diffYears > 1 ? 's' : ''}, ${remainingMonths} month${remainingMonths > 1 ? 's' : ''}`;
-  }
-
-  toggleEdit() {
-    this.isEditing = !this.isEditing;
-    if (this.isEditing) {
-      this.editFirstName = this.firstName;
-      this.editLastName = this.lastName;
-      this.editEmail = this.email;
-    }
-  }
-
-  saveProfile() {
-    localStorage.setItem('first_name', this.editFirstName);
-    localStorage.setItem('last_name', this.editLastName);
-    localStorage.setItem('email', this.editEmail);
-    localStorage.setItem('username', this.editEmail);
-
-    this.isEditing = false;
-    this.loadProfile();
-    this.toastService.success('Profile updated successfully!');
-  }
-
-  cancelEdit() {
-    this.isEditing = false;
-  }
-
+  // =========================
+  // UI HELPERS
+  // =========================
   getInitials(): string {
-    const first = this.firstName ? this.firstName[0] : '';
-    const last = this.lastName ? this.lastName[0] : '';
+    const v = this.profileForm.value;
+
+    const first = v.first_name?.charAt(0) || '';
+    const last = v.last_name?.charAt(0) || '';
+
     return (first + last).toUpperCase() || 'U';
   }
 
-  logout() {
+  // =========================
+  // LOGOUT
+  // =========================
+  logout(): void {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
   }
+  getTimeAgo(date: Date): string {
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
 
-  toTitleCase(str: string): string {
-    return str.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+    if (diffDays < 1) return 'Today';
+    if (diffDays === 1) return '1 day ago';
+    if (diffDays < 30) return `${diffDays} days ago`;
+
+    const months = Math.floor(diffDays / 30);
+    if (months === 1) return '1 month ago';
+
+    if (months < 12) return `${months} months ago`;
+
+    const years = Math.floor(months / 12);
+    return `${years} year${years > 1 ? 's' : ''} ago`;
+  }
+
+  getTrialStatus(endDate: string): string {
+    const end = new Date(endDate);
+    const now = new Date();
+
+    if (end > now) return 'Active Trial';
+    return 'Expired Trial';
+  }
+  getSubscriptionStatus(endDate: string): string {
+    const end = new Date(endDate);
+    const now = new Date();
+
+    return end > now ? 'Active' : 'Expired';
+  }
+  goToSubscription() {
+    this.router.navigate(['/subscription']);
+  }
+  isExpired(dateStr: string): boolean {
+    if (!dateStr) return true;
+    return new Date(dateStr) < new Date();
   }
 }

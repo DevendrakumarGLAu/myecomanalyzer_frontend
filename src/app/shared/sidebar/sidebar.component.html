@@ -1,10 +1,22 @@
-<aside class="app-sidebar bg-body-secondary elevation-4" data-bs-theme="dark"  [class.collapsed]="isCollapsed">
-  <div class="sidebar-brand p-3">
+<aside class="app-sidebar bg-body-secondary elevation-4" data-bs-theme="dark" [class.collapsed]="isCollapsed">
+  <!-- <div class="sidebar-brand p-3">
     <a class="d-flex align-items-center text-white" routerLink="/dashboard" style="text-decoration: none;">
-      <img src="assets/img/AdminLTELogo.png" class="brand-image opacity-75 me-2" alt="AdminLTE Logo"
+      <img src="assets/img/avatar.png" class="brand-image opacity-75 me-2" alt="AdminLTE Logo"
         style="height: 33px;" />
       <span class="brand-text fw-light">AdminLTE 4</span>
     </a>
+  </div> -->
+  <div class="sidebar-user p-3 text-white">
+    <div class="d-flex align-items-center">
+      <div class="user-avatar brand-image opacity-75 me-2">
+         {{ userInitial }}
+      </div>
+
+      <div class="user-info">
+        <div class="fw-semibold"> {{ userName | titleCase }}</div>
+        <small class="text-muted">Logged in</small>
+      </div>
+    </div>
   </div>
 
   <div class="sidebar-wrapper">
@@ -23,7 +35,8 @@
               <i class="nav-icon" [ngClass]="item.icon"></i>
               <p class="ml-2">
                 {{ item.label }}
-                <i class="nav-arrow fas ms-2" [ngClass]="{ 'fa-angle-down': isMenuOpen(i), 'fa-angle-right': !isMenuOpen(i) }"></i>
+                <i class="nav-arrow fas ms-2"
+                  [ngClass]="{ 'fa-angle-down': isMenuOpen(i), 'fa-angle-right': !isMenuOpen(i) }"></i>
               </p>
             </a>
             <ul class="nav nav-treeview ps-3" *ngIf="isMenuOpen(i)">

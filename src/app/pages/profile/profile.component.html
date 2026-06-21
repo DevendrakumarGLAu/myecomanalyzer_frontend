@@ -1,220 +1,254 @@
 <div class="profile-page">
 
-  <!-- Profile Header Card -->
-  <div class="profile-header-card">
-    <div class="profile-cover"></div>
-    <div class="profile-header-content">
-      <div class="avatar-wrapper">
-        <div class="avatar-circle">
-          {{ getInitials() }}
-        </div>
-        <span class="status-dot"></span>
-      </div>
-      <div class="profile-header-info">
-        <h1 class="profile-name">{{ username }}</h1>
-        <p class="profile-role">
-          <i class="fas fa-chart-line me-1"></i> E-Commerce Profit Analyzer
-        </p>
-        <p class="profile-joined" *ngIf="memberSince">
-          <i class="fas fa-calendar-alt me-1"></i> Member since {{ memberSince }}
-        </p>
-      </div>
-      <div class="profile-header-actions">
-        <button class="btn-edit" (click)="toggleEdit()" *ngIf="!isEditing">
-          <i class="fas fa-pen me-1"></i> Edit Profile
-        </button>
-      </div>
-    </div>
+  <!-- Loading Skeleton -->
+  <div *ngIf="isLoading" class="profile-skeleton">
+    <div class="skel-header"></div>
+    <div class="skel-row"></div>
+    <div class="skel-row"></div>
+    <div class="skel-row"></div>
+    <div class="skel-row"></div>
   </div>
 
-  <!-- Stats Row -->
-  <div class="stats-row">
-    <div class="stat-card">
-      <div class="stat-icon stat-icon-blue">
-        <i class="fas fa-clock"></i>
-      </div>
-      <div class="stat-info">
-        <span class="stat-value">{{ accountAge || '—' }}</span>
-        <span class="stat-label">Account Age</span>
-      </div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon stat-icon-green">
-        <i class="fas fa-user-check"></i>
-      </div>
-      <div class="stat-info">
-        <span class="stat-value">Active</span>
-        <span class="stat-label">Account Status</span>
-      </div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon stat-icon-purple">
-        <i class="fas fa-shield-alt"></i>
-      </div>
-      <div class="stat-info">
-        <span class="stat-value">Standard</span>
-        <span class="stat-label">Plan</span>
-      </div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon stat-icon-orange">
-        <i class="fas fa-store"></i>
-      </div>
-      <div class="stat-info">
-        <span class="stat-value">E-Commerce</span>
-        <span class="stat-label">Business Type</span>
-      </div>
-    </div>
-  </div>
+  <!-- MAIN CONTENT -->
+  <div *ngIf="!isLoading">
 
-  <!-- Content Grid -->
-  <div class="profile-grid">
+    <!-- Profile Header -->
+    <div class="profile-header-card">
 
-    <!-- Personal Information -->
-    <div class="info-card">
-      <div class="card-header-custom">
-        <h2><i class="fas fa-user me-2"></i> Personal Information</h2>
-      </div>
-      <div class="card-body-custom">
-        <!-- View Mode -->
-        <div *ngIf="!isEditing" class="info-list">
-          <div class="info-row">
-            <span class="info-label"><i class="fas fa-id-card me-2"></i>First Name</span>
-            <span class="info-value">{{ firstName || '—' }}</span>
+      <div class="profile-cover"></div>
+
+      <div class="profile-header-content">
+
+        <div class="avatar-wrapper">
+          <div class="avatar-circle">
+            {{ getInitials() }}
           </div>
-          <div class="info-row">
-            <span class="info-label"><i class="fas fa-id-card me-2"></i>Last Name</span>
-            <span class="info-value">{{ lastName || '—' }}</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label"><i class="fas fa-envelope me-2"></i>Email</span>
-            <span class="info-value">{{ email || '—' }}</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label"><i class="fas fa-calendar me-2"></i>Joined</span>
-            <span class="info-value">{{ memberSince || '—' }}</span>
-          </div>
+          <span class="status-dot"></span>
         </div>
 
-        <!-- Edit Mode -->
-        <div *ngIf="isEditing" class="edit-form">
-          <div class="form-group-custom">
-            <label for="editFirstName">First Name</label>
-            <input
-              type="text"
-              id="editFirstName"
-              class="form-input-custom"
-              [(ngModel)]="editFirstName"
-              placeholder="Enter first name"
-            />
-          </div>
-          <div class="form-group-custom">
-            <label for="editLastName">Last Name</label>
-            <input
-              type="text"
-              id="editLastName"
-              class="form-input-custom"
-              [(ngModel)]="editLastName"
-              placeholder="Enter last name"
-            />
-          </div>
-          <div class="form-group-custom">
-            <label for="editEmail">Email</label>
-            <input
-              type="email"
-              id="editEmail"
-              class="form-input-custom"
-              [(ngModel)]="editEmail"
-              placeholder="Enter email"
-            />
-          </div>
-          <div class="edit-actions">
-            <button class="btn-save" (click)="saveProfile()">
-              <i class="fas fa-check me-1"></i> Save Changes
-            </button>
-            <button class="btn-cancel" (click)="cancelEdit()">
-              <i class="fas fa-times me-1"></i> Cancel
-            </button>
-          </div>
+        <div class="profile-header-info">
+          <h1 class="profile-name">
+            {{ profileForm.value.first_name }} {{ profileForm.value.last_name }}
+          </h1>
+
+          <p class="profile-role">
+            <i class="fas fa-chart-line me-1"></i> E-Commerce Profit Analyzer
+          </p>
         </div>
+
+        <div class="profile-header-actions">
+          <button class="btn-edit" (click)="toggleEdit()" *ngIf="!isEditing">
+            <i class="fas fa-pen me-1"></i> Edit Profile
+          </button>
+        </div>
+
       </div>
     </div>
 
-    <!-- Account & Security -->
-    <div class="info-card">
-      <div class="card-header-custom">
-        <h2><i class="fas fa-shield-alt me-2"></i> Account &amp; Security</h2>
+    <!-- GRID -->
+    <div class="profile-grid">
+
+      <!-- PERSONAL INFO -->
+      <div class="info-card">
+
+        <div class="card-header-custom">
+          <h2><i class="fas fa-user me-2"></i> Personal Information</h2>
+        </div>
+
+        <div class="card-body-custom">
+
+          <!-- VIEW MODE -->
+          <div *ngIf="!isEditing" class="info-list">
+
+            <div class="info-row">
+              <span class="info-label">First Name</span>
+              <span class="info-value">{{ profileForm.value.first_name || '—' }}</span>
+            </div>
+
+            <div class="info-row">
+              <span class="info-label">Last Name</span>
+              <span class="info-value">{{ profileForm.value.last_name || '—' }}</span>
+            </div>
+
+            <div class="info-row">
+              <span class="info-label">Email</span>
+              <span class="info-value">{{ profileForm.value.email || '—' }}</span>
+            </div>
+
+            <div class="info-row">
+              <span class="info-label">Mobile</span>
+              <span class="info-value">{{ profileForm.value.mobile_number || '—' }}</span>
+            </div>
+
+          </div>
+
+          <!-- EDIT MODE (NO NGMODEL) -->
+          <form *ngIf="isEditing" [formGroup]="profileForm" class="edit-form">
+
+            <div class="form-group-custom">
+              <label>First Name</label>
+              <input type="text" class="form-input-custom" formControlName="first_name">
+            </div>
+
+            <div class="form-group-custom">
+              <label>Last Name</label>
+              <input type="text" class="form-input-custom" formControlName="last_name">
+            </div>
+
+            <div class="form-group-custom">
+              <label>Email</label>
+              <input type="email" class="form-input-custom" formControlName="email">
+            </div>
+
+            <div class="form-group-custom">
+              <label>Mobile Number</label>
+              <input type="text" class="form-input-custom" formControlName="mobile_number">
+            </div>
+
+            <div class="edit-actions">
+
+              <button class="btn-save" type="button" (click)="saveProfile()"
+                [disabled]="profileForm.invalid || isSaving">
+
+                <span *ngIf="!isSaving">
+                  <i class="fas fa-check me-1"></i> Save Changes
+                </span>
+
+                <span *ngIf="isSaving">Saving...</span>
+
+              </button>
+
+              <button class="btn-cancel" type="button" (click)="cancelEdit()">
+                Cancel
+              </button>
+
+            </div>
+
+          </form>
+
+        </div>
       </div>
-      <div class="card-body-custom">
-        <div class="info-list">
+
+      <!-- ACCOUNT INFO -->
+      <div class="info-card">
+
+        <div class="card-header-custom">
+          <h2><i class="fas fa-shield-alt me-2"></i> Account</h2>
+        </div>
+
+        <div class="card-body-custom">
+
           <div class="info-row">
-            <span class="info-label"><i class="fas fa-user-circle me-2"></i>Username</span>
-            <span class="info-value">{{ email || '—' }}</span>
+            <span class="info-label">Username</span>
+            <span class="info-value">
+              {{ profileForm.value.email || '—' }}
+            </span>
           </div>
+
           <div class="info-row">
-            <span class="info-label"><i class="fas fa-lock me-2"></i>Password</span>
-            <span class="info-value">••••••••</span>
+            <span class="info-label">Member Since</span>
+            <span class="info-value">
+              {{ memberSince || '—' }}
+            </span>
           </div>
+
           <div class="info-row">
-            <span class="info-label"><i class="fas fa-toggle-on me-2"></i>Status</span>
+            <span class="info-label">Account Age</span>
+            <span class="info-value">
+              {{ accountAge || '—' }}
+            </span>
+          </div>
+
+          <div class="info-row">
+            <span class="info-label">Status</span>
             <span class="info-value">
               <span class="badge-active">Active</span>
             </span>
           </div>
+
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="card-header-custom">
+          <h2><i class="fas fa-crown me-2"></i> Subscription</h2>
+        </div>
+        <div class="card-body-custom">
           <div class="info-row">
-            <span class="info-label"><i class="fas fa-crown me-2"></i>Role</span>
+            <span class="info-label">Trial Status</span>
             <span class="info-value">
-              <span class="badge-role">Admin</span>
+              
+              {{ subscription?.trial_end ? getTrialStatus(subscription.trial_end) : 'Not Started' }}
             </span>
           </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Quick Actions -->
-    <div class="info-card actions-card">
-      <div class="card-header-custom">
-        <h2><i class="fas fa-bolt me-2"></i> Quick Actions</h2>
-      </div>
-      <div class="card-body-custom">
-        <div class="quick-actions-grid">
-          <a  [routerLink]="['/user-dashboard']" target="_blank" class="quick-action-item">
-            <div class="qa-icon qa-blue"><i class="fas fa-tachometer-alt"></i></div>
-            <span>Dashboard</span>
-          </a>
-          <a [routerLink]="['/products']" target="_blank"  class="quick-action-item">
-            <div class="qa-icon qa-green"><i class="fas fa-box"></i></div>
-            <span>Products</span>
-          </a>
-          <a [routerLink]="['/category']" target="_blank" class="quick-action-item">
-            <div class="qa-icon qa-purple"><i class="fas fa-list"></i></div>
-            <span>Categories</span>
-          </a>
-          <a [routerLink]="['/dispatch-invoice']" target="_blank" class="quick-action-item">
-            <div class="qa-icon qa-orange"><i class="fas fa-file-invoice"></i></div>
-            <span>Invoices</span>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Danger Zone -->
-    <div class="info-card danger-card">
-      <div class="card-header-custom danger-header">
-        <h2><i class="fas fa-exclamation-triangle me-2"></i> Danger Zone</h2>
-      </div>
-      <div class="card-body-custom">
-        <div class="danger-item">
-          <div>
-            <p class="danger-title">Sign Out</p>
-            <p class="danger-desc">Sign out of your account on this device.</p>
+          <div class="info-row">
+            <span class="info-label">Subscription</span>
+            <span class="info-value">
+              {{ subscription?.subscription_end ? getSubscriptionStatus(subscription.subscription_end) : 'Free Plan' }}
+            </span>
           </div>
-          <button class="btn-danger-action" (click)="logout()">
-            <i class="fas fa-sign-out-alt me-1"></i> Sign Out
-          </button>
+
+          <div class="info-row">
+            <span class="info-label">Payment</span>
+            <span class="info-value">
+              {{ subscription?.payment_verified ? 'Verified' : 'Pending' }}
+            </span>
+          </div>
+
+          <div class="mt-3">
+            <button class="btn btn-success btn-sm" (click)="goToSubscription()">
+              <i class="fas fa-credit-card me-1"></i>
+              Add / Renew Subscription
+            </button>
+          </div>
+
         </div>
       </div>
+
+      <!-- QUICK ACTIONS -->
+      <div class="info-card">
+
+        <div class="card-header-custom">
+          <h2><i class="fas fa-bolt me-2"></i> Quick Actions</h2>
+        </div>
+
+        <div class="card-body-custom">
+
+          <div class="quick-actions-grid">
+
+            <a [routerLink]="['/user-dashboard']" class="quick-action-item">
+              Dashboard
+            </a>
+
+            <a [routerLink]="['/products']" class="quick-action-item">
+              Products
+            </a>
+
+            <a [routerLink]="['/category']" class="quick-action-item">
+              Categories
+            </a>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- DANGER -->
+      <div class="info-card danger-card">
+
+        <div class="card-header-custom danger-header">
+          <h2><i class="fas fa-exclamation-triangle me-2"></i> Danger Zone</h2>
+        </div>
+
+        <div class="card-body-custom">
+
+          <button class="btn-danger-action" (click)="logout()">
+            Sign Out
+          </button>
+
+        </div>
+      </div>
+
     </div>
   </div>
-
 </div>

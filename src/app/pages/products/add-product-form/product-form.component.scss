@@ -1,0 +1,17 @@
+.custom-dropdown {
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 14px;
+  padding: 6px;
+  min-width: 150px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.custom-dropdown .dropdown-item {
+  border-radius: 8px;
+  padding: 8px 10px;
+  transition: all 0.15s ease;
+}
+
+.custom-dropdown .dropdown-item:hover {
+  background: #f8f9fa;
+}
