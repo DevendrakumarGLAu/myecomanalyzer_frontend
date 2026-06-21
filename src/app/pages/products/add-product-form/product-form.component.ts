@@ -259,12 +259,13 @@ export class ProductFormComponent implements OnInit, OnChanges {
 
   this.variantsArray.push(
     this.fb.group({
+       id: [null], 
       size: [''],
       cost_price: [last?.cost_price || 0, Validators.required],
       selling_price: [last?.selling_price || 0, Validators.required],
       shipping_cost: [last?.shipping_cost || 0],
       rto_cost: [last?.rto_cost || 0],
-      stock: [last?.rto_cost || 0]
+      stock: [last?.stock || 0]
     })
   );
 }
@@ -299,7 +300,7 @@ export class ProductFormComponent implements OnInit, OnChanges {
 }));
 
     const payload = {
-      catalog_id: Number(this.form.value.catalog_id),
+      catalog_id: String(this.form.value.catalog_id),
       name: this.form.value.name,
       category_id: Number(this.form.value.category_id),
       platform_code: this.form.value.platform_code,

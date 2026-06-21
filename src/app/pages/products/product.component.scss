@@ -61,11 +61,11 @@ th {
 }
 
 .dropdown-menu {
-    min-width: 10px;
+    min-width: 5px;
     border-radius: 12px;
-    // padding: 6px;
-}
+  border: 1px solid #D9D9D9;
 
+}
 .dropdown-item {
     border-radius: 8px;
     padding: 10px 12px;
