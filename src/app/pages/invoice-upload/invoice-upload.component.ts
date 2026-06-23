@@ -19,6 +19,8 @@ export class InvoiceUploadComponent {
   message: string = '';
   platforms = PLATFORMS;
   fileError: string = '';
+  exchangeOrders: any[] = [];
+  multiQuantityOrders: any[] = [];
 
   constructor(private http: HttpClient,
     private invoiceService: InvoiceService,
@@ -49,8 +51,8 @@ export class InvoiceUploadComponent {
   errorFileUrl: string | null = null;
   duplicateOrders: any[] = [];
   uploadFile() {
-    console.log("Selected Platform:", this.selectedPlatform);
-    console.log("Selected File:", this.selectedFile);
+    // console.log("Selected Platform:", this.selectedPlatform);
+    // console.log("Selected File:", this.selectedFile);
     if (!this.selectedFile || !this.selectedPlatform || this.fileError) {
       this.message = "Please select platform and a valid file.";
       
@@ -70,14 +72,17 @@ export class InvoiceUploadComponent {
           🔁 Duplicate: ${summary.duplicates}
           ❌ Errors: ${summary.errors}
           ⚠️ Not Inserted: ${summary.not_inserted}
+          🔁 Exchange: ${summary.exchange_orders}
                 `;
 
           // ✅ NEW: store detailed errors
           this.errorList = res?.data?.error_orders || [];
           this.errorFileUrl = res?.data?.error_file || null;
           this.duplicateOrders = res?.data?.duplicate_orders || [];
-          console.log("Duplicate Orders:", this.duplicateOrders);
-  console.log("Length:", this.duplicateOrders.length);
+          this.exchangeOrders = res?.data?.exchange_orders || [];
+          this.multiQuantityOrders = res?.data?.multi_quantity_orders || [];
+  //         console.log("Duplicate Orders:", this.duplicateOrders);
+  // console.log("Length:", this.duplicateOrders.length);
           this.toast.success(this.message);
         },
         error: (err: any) => {

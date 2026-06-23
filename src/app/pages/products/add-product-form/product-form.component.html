@@ -99,12 +99,28 @@
 
                       <td>
                         <input type="text" formControlName="size" class="form-control form-control-sm"
-                          placeholder="Size (L,M,S)" [readonly]="isEditMode" [class.readonly-input]="isEditMode" />
+                          placeholder="Size (L,M,S)" [readonly]="isSizeReadonly(i)"
+                          [class.readonly-input]="isSizeReadonly(i)" />
                       </td>
 
+                      <!-- <td>
+                        <input type="number" formControlName="cost_price" class="form-control form-control-sm"
+                          placeholder="Cost Price" />
+                      </td> -->
                       <td>
                         <input type="number" formControlName="cost_price" class="form-control form-control-sm"
                           placeholder="Cost Price" />
+
+                        <div class="mt-2"
+                          *ngIf="variant.get('cost_price')?.value !=variant.get('original_cost_price')?.value">
+                          <label class="small text-danger">
+                            Effective From
+                          </label>
+
+                          <input type="date" formControlName="effective_from"
+                            class="form-control form-control-sm border-danger text-danger"
+                            (input)="onEffectiveDateChange(i)" />
+                        </div>
                       </td>
 
                       <td>
@@ -143,16 +159,11 @@
                   </tbody>
 
                 </table>
-
                 <button type="button" class="btn btn-primary th-primary  btn-sm my-2" (click)="addVariant()">
-
                   <i class="fa fa-plus"></i>
                   Add Row
-
                 </button>
-
               </div>
-
               <!-- Footer -->
               <hr>
 

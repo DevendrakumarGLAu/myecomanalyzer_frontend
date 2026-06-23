@@ -158,19 +158,21 @@ export class ProductComponent implements OnInit {
             disableClose: true,
             panelClass: 'confirm-dialog-panel',
             data: {
-                 message: `Are you sure you want to delete?\nProduct: ${product.name}\nSKU: ${product.sku}`
-                // message: `Are you sure you want to delete "${product.name}" (SKU: ${product.sku})?`
+                title: 'Confirm Delete',
+                type: 'delete',
+                message: `Are you sure you want to delete?\nProduct: ${product.name}\nSKU: ${product.sku}`,
+                confirmButtonText: 'Delete'
             }
         });
 
         dialogRef.afterClosed().subscribe((confirmed: boolean) => {
             if (confirmed) {
-                this.productService.deleteProduct(id)
-                    .subscribe(() => this.loadProducts());
+                this.productService.deleteProduct(id).subscribe(() => {
+                    this.loadProducts();
+                });
             }
         });
     }
-
     deleteAll() {
         if (confirm('Are you sure you want to delete all products?')) {
             this.products = [];

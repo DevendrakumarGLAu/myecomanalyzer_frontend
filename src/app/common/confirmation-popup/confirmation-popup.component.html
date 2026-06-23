@@ -1,66 +1,65 @@
-<div class="modal fade show d-block custom-backdrop" tabindex="-1">
-
- <div class="modal-dialog modal-dialog-centered modal-md">
-
-    <div class="modal-content shadow-lg border-0">
+<div class="modal fade show d-block saas-backdrop" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-md">
+    
+    <div class="modal-content saas-modal">
 
       <!-- Header -->
-      <div class="modal-header border-0">
-        <h5 class="modal-title fw-semibold text-danger">
-          Confirm Delete
-        </h5>
+      <div class="modal-header saas-header">
+        <div>
+          <h5 class="modal-title saas-title">
+            {{ data.title || 'Confirmation' }}
+          </h5>
+          <p class="saas-subtitle">Please review this action carefully</p>
+        </div>
 
-        <button type="button" class="btn-close" (click)="cancel()"></button>
+        <button type="button" class="btn-close saas-close" (click)="cancel()"></button>
       </div>
 
       <!-- Body -->
-      <div class="modal-body text-center">
+      <div class="modal-body saas-body text-center">
 
-        <h5 class=" mb-2">
+        <div class="saas-message">
           {{ data.message }}
-        </h5>
+        </div>
 
-        <strong class="text-danger mb-3">
-          This action cannot be undone.
-        </strong>
+        <div class="saas-warning">
+          ⚠ This action cannot be undone
+        </div>
 
         <!-- Checkbox -->
-        <div class="form-check d-flex justify-content-center mb-3">
-
+        <div class="form-check saas-check">
           <input
-            class="form-check-input me-2"
+            class="form-check-input required-checkbox"
             type="checkbox"
             id="confirmCheck"
             [(ngModel)]="isChecked"
           />
 
-          <label class="form-check-label" for="confirmCheck">
+          <label class="form-check-label saas-check-label" for="confirmCheck">
             I understand this action is irreversible
           </label>
-
         </div>
 
       </div>
 
       <!-- Footer -->
-      <div class="modal-footer border-0 d-flex justify-content-center gap-2">
+      <div class="modal-footer saas-footer">
 
-        <button class="btn btn-light px-4" (click)="cancel()">
+        <button class="btn saas-btn-outline" (click)="cancel()">
           Cancel
         </button>
 
         <button
-          class="btn btn-danger px-4"
+          class="btn saas-btn-primary"
+          [ngClass]="getButtonClass()"
           (click)="confirm()"
           [disabled]="!isChecked"
         >
-          Delete
+          {{ data.confirmButtonText || 'Confirm' }}
         </button>
 
       </div>
 
     </div>
-
   </div>
-
 </div>

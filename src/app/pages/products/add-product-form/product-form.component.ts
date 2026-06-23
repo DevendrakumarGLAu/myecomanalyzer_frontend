@@ -2,12 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Product } from '../product.model';
 import { PLATFORMS, COLORS } from '../../../common/constant/platform.constants';
 import { CategoryService } from '../../../services/category.service';
 import { firstValueFrom } from 'rxjs';
 import { sanitizeFormValues } from '../../../shared/form-sanitizer';
+import { ConfirmationPopupComponent } from '../../../common/confirmation-popup/confirmation-popup.component';
 
 export interface ProductField {
   key: string;
@@ -27,7 +28,7 @@ interface SelectOption {
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './product-form.component.html',
-   styleUrls: ['./product-form.component.scss'],
+  styleUrls: ['./product-form.component.scss'],
 })
 export class ProductFormComponent implements OnInit, OnChanges {
   @Input() productData: any = null;
@@ -88,7 +89,8 @@ export class ProductFormComponent implements OnInit, OnChanges {
     private categoryservice: CategoryService,
     public dialogRef: MatDialogRef<ProductFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Product | null,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private dialog: MatDialog
   ) { }
 
 
@@ -127,9 +129,11 @@ export class ProductFormComponent implements OnInit, OnChanges {
       product.variants.forEach((v: any) => {
         this.variantsArray.push(
           this.fb.group({
-             id: [v.id],
+            id: [v.id],
             size: [v.size || ''],
             cost_price: [v.cost_price || 0],
+            original_cost_price: [v.cost_price || 0], // NEW
+            effective_from: [''],
             selling_price: [v.selling_price || 0],
             shipping_cost: [v.shipping_cost || 0],
             rto_cost: [v.rto_cost || 0],
@@ -240,35 +244,39 @@ export class ProductFormComponent implements OnInit, OnChanges {
   // }
   createVariant(): FormGroup {
 
-  return this.fb.group({
-    id: [null],
-    size: [''],
-    cost_price: [0, Validators.required],
-    selling_price: [0, Validators.required],
-    shipping_cost: [0],
-    rto_cost: [0],
-    stock: [0]
-  });
+    return this.fb.group({
+      id: [null],
+      size: [''],
+      cost_price: [0, Validators.required],
+      original_cost_price: [0],
+      effective_from: [''],
+      selling_price: [0, Validators.required],
+      shipping_cost: [0],
+      rto_cost: [0],
+      stock: [0]
+    });
 
-}
+  }
   // addVariant() {
   //   this.variantsArray.push(this.createVariant());
   // }
   addVariant() {
-  const last = this.variantsArray.at(this.variantsArray.length - 1)?.value;
+    const last = this.variantsArray.at(this.variantsArray.length - 1)?.value;
 
-  this.variantsArray.push(
-    this.fb.group({
-       id: [null], 
-      size: [''],
-      cost_price: [last?.cost_price || 0, Validators.required],
-      selling_price: [last?.selling_price || 0, Validators.required],
-      shipping_cost: [last?.shipping_cost || 0],
-      rto_cost: [last?.rto_cost || 0],
-      stock: [last?.stock || 0]
-    })
-  );
-}
+    this.variantsArray.push(
+      this.fb.group({
+        id: [null],
+        size: [''],
+        cost_price: [last?.cost_price || 0, Validators.required],
+        original_cost_price: [last?.cost_price || 0],
+        effective_from: [''],
+        selling_price: [last?.selling_price || 0, Validators.required],
+        shipping_cost: [last?.shipping_cost || 0],
+        rto_cost: [last?.rto_cost || 0],
+        stock: [last?.stock || 0]
+      })
+    );
+  }
 
   removeVariant(index: number) {
     this.variantsArray.removeAt(index);
@@ -289,16 +297,25 @@ export class ProductFormComponent implements OnInit, OnChanges {
     // Map variants: add sku and color from main product
     const variantsPayload = this.variantsArray.value.map((v: any) => ({
       id: v.id,
-  size: v.size,
-  cost_price: Number(v.cost_price),
-  selling_price: Number(v.selling_price),
-  shipping_cost: Number(v.shipping_cost),
-  rto_cost: Number(v.rto_cost),
-  stock: Number(v.stock),
-  sku: this.form.value.sku,
-  color: colorValue
-}));
-
+      size: v.size,
+      cost_price: Number(v.cost_price),
+      effective_from: v.effective_from || null,
+      selling_price: Number(v.selling_price),
+      shipping_cost: Number(v.shipping_cost),
+      rto_cost: Number(v.rto_cost),
+      stock: Number(v.stock),
+      sku: this.form.value.sku,
+      color: colorValue
+    }));
+    for (const v of this.variantsArray.value) {
+      if (
+        Number(v.cost_price) !== Number(v.original_cost_price) &&
+        !v.effective_from
+      ) {
+        alert('Please select an Effective From date for the changed cost price.');
+        return;
+      }
+    }
     const payload = {
       catalog_id: String(this.form.value.catalog_id),
       name: this.form.value.name,
@@ -319,4 +336,31 @@ export class ProductFormComponent implements OnInit, OnChanges {
   cancel() {
     this.dialogRef.close();
   }
+
+  onEffectiveDateChange(index: number): void {
+  const variant = this.variantsArray.at(index);
+
+  const dialogRef = this.dialog.open(ConfirmationPopupComponent, {
+    width: '500px',
+    disableClose: true,
+    data: {
+      title: 'Confirm Cost Price Change',
+      message:
+        'Changing the cost price effective date will affect future profit calculations. Do you want to continue?',
+        confirmButtonText: 'Apply',
+        type:'success'
+    }
+  });
+
+  dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+    if (!confirmed) {
+      // Reset the selected date if the user cancels
+      variant.get('effective_from')?.setValue('');
+    }
+  });
+}
+isSizeReadonly(index: number): boolean {
+  const variant = this.variantsArray.at(index);
+  return !!variant.get('id')?.value;
+}
 }

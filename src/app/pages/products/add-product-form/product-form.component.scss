@@ -29,3 +29,20 @@
   box-shadow: none;
   border-color: #e2e8f0;
 }
+
+.border-danger {
+  border: 1px solid #dc3545 !important;
+}
+
+.border-danger:focus {
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.table input.form-control-sm {
+  min-width: 80px;
+}
+
+.table td {
+  min-width: 80px;
+  white-space: nowrap;
+}
