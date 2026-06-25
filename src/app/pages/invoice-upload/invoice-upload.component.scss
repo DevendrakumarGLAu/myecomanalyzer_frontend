@@ -1,0 +1,193 @@
+.invoice-popup {
+  background: var(--surface-container-lowest);
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-200);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+.upload-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.upload-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--surface-container-high);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: var(--primary);
+}
+
+.upload-banner h4 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.upload-banner p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--gray-500);
+}
+.popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--gray-200);
+  background: linear-gradient(
+    135deg,
+    var(--surface-container-low),
+    var(--surface-container-high)
+  );
+}
+
+.popup-title {
+  margin: 0;
+  color: var(--primary);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.popup-subtitle {
+  margin: 4px 0 0;
+  color: var(--gray-500);
+  font-size: 13px;
+}
+
+.popup-body {
+  padding: 22px;
+}
+
+/* Inputs */
+
+.form-label {
+  color: var(--on-surface);
+  font-weight: 600;
+}
+
+.form-select,
+.form-control {
+  border-radius: 10px;
+  border: 1px solid var(--gray-300);
+  min-height: 44px;
+  transition: var(--transition);
+}
+
+.form-select:focus,
+.form-control:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(53, 37, 205, 0.12);
+}
+
+/* Upload button */
+
+.btn-primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  border-radius: 10px;
+  min-height: 44px;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background: var(--primary-container);
+  border-color: var(--primary-container);
+}
+
+/* Sections */
+
+.mt-4 {
+  margin-top: 1.5rem !important;
+}
+
+h6 {
+  font-weight: 700;
+}
+
+/* Tables */
+
+.table-responsive {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid var(--gray-200);
+  overflow: auto;
+}
+
+.table {
+  margin-bottom: 0;
+  font-size: 14px;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--surface-container-low);
+  color: var(--on-surface);
+  border-bottom: 1px solid var(--gray-200);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.table tbody td {
+  vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+  background: rgba(53, 37, 205, 0.04);
+}
+
+/* Badges */
+
+.badge {
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Download button */
+
+.btn-outline-danger {
+  border-radius: 10px;
+}
+
+/* Success message */
+
+.text-success {
+  background: rgba(16, 185, 129, 0.08);
+  color: var(--success) !important;
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+/* Custom cards for each result block */
+
+.table-responsive {
+  box-shadow: var(--shadow);
+}
+
+/* Scrollbar */
+
+.table-responsive::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background: var(--gray-300);
+  border-radius: 20px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-400);
+}

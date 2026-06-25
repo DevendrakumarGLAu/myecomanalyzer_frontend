@@ -11,6 +11,7 @@ import { ToastService } from '../../services/toast.service';
   standalone: true,
   imports: [NgFor, FormsModule, CommonModule],
   templateUrl: './payment_invoice.component.html',
+  styleUrls:['./payment_invoice.component.scss']
 })
 export class PaymentExcelComponent {
 
