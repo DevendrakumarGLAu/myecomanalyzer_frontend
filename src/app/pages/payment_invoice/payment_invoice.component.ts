@@ -11,7 +11,7 @@ import { ToastService } from '../../services/toast.service';
   standalone: true,
   imports: [NgFor, FormsModule, CommonModule],
   templateUrl: './payment_invoice.component.html',
-  styleUrls:['./payment_invoice.component.scss']
+  styleUrls: ['./payment_invoice.component.scss']
 })
 export class PaymentExcelComponent {
 
@@ -25,13 +25,14 @@ export class PaymentExcelComponent {
 
   // ✅ RESPONSE STATE
   responseData: any = null;
+  summary: any = null;
   skippedDetails: any[] = [];
 
   constructor(
     private http: HttpClient,
     private invoiceService: InvoiceService,
     private toast: ToastService
-  ) {}
+  ) { }
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
@@ -66,6 +67,8 @@ export class PaymentExcelComponent {
 
           // ✅ store full response
           this.responseData = res;
+          this.summary = res?.summary || {};
+
           this.skippedDetails = res?.skipped_details || [];
 
           this.message = res?.message || "Upload completed";
@@ -73,7 +76,7 @@ export class PaymentExcelComponent {
         },
         error: (err: any) => {
           this.message = 'Upload failed: ' + (err.error?.detail || err.message);
-          this.toast.error(this.message); 
+          this.toast.error(this.message);
         }
       });
   }

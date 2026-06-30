@@ -71,58 +71,108 @@
   </div>
 
   <!-- Summary -->
-  <div *ngIf="responseData" class="summary-section mt-4">
+<div *ngIf="summary" class="summary-section mt-4">
 
-    <div class="summary-box created">
+  <!-- Settlements Created -->
+  <div class="summary-box created">
 
-      <div class="summary-icon">
-        <i class="fa fa-check-circle"></i>
-      </div>
-
-      <div>
-
-        <h2>{{ responseData.created }}</h2>
-
-        <span>Created</span>
-
-      </div>
-
+    <div class="summary-icon">
+      <i class="fa fa-money"></i>
     </div>
 
-    <div class="summary-box updated">
-
-      <div class="summary-icon">
-        <i class="fa fa-refresh"></i>
-      </div>
-
-      <div>
-
-        <h2>{{ responseData.updated }}</h2>
-
-        <span>Updated</span>
-
-      </div>
-
-    </div>
-
-    <div class="summary-box skipped">
-
-      <div class="summary-icon">
-        <i class="fa fa-exclamation-triangle"></i>
-      </div>
-
-      <div>
-
-        <h2>{{ responseData.skipped }}</h2>
-
-        <span>Skipped</span>
-
-      </div>
-
+    <div>
+      <h2>{{ summary.settlements_created }}</h2>
+      <span>Settlements Created</span>
     </div>
 
   </div>
 
+  <!-- Settlements Updated -->
+  <div class="summary-box updated">
+
+    <div class="summary-icon">
+      <i class="fa fa-refresh"></i>
+    </div>
+
+    <div>
+      <h2>{{ summary.settlements_updated }}</h2>
+      <span>Settlements Updated</span>
+    </div>
+
+  </div>
+
+  <!-- Orders Created -->
+  <div class="summary-box primary">
+
+    <div class="summary-icon">
+      <i class="fa fa-shopping-cart"></i>
+    </div>
+
+    <div>
+      <h2>{{ summary.orders_created }}</h2>
+      <span>Orders Auto Created</span>
+    </div>
+
+  </div>
+
+  <!-- Products Created -->
+  <div class="summary-box info">
+
+    <div class="summary-icon">
+      <i class="fa fa-cube"></i>
+    </div>
+
+    <div>
+      <h2>{{ summary.products_created }}</h2>
+      <span>Products Created</span>
+    </div>
+
+  </div>
+
+  <!-- Variants Created -->
+  <div class="summary-box warning">
+
+    <div class="summary-icon">
+      <i class="fa fa-tags"></i>
+    </div>
+
+    <div>
+      <h2>{{ summary.variants_created }}</h2>
+      <span>Variants Created</span>
+    </div>
+
+  </div>
+
+  <!-- Customers Created -->
+  <div class="summary-box success">
+
+    <div class="summary-icon">
+      <i class="fa fa-users"></i>
+    </div>
+
+    <div>
+      <h2>{{ summary.customers_created }}</h2>
+      <span>Customers Created</span>
+    </div>
+
+  </div>
+
+  <!-- Skipped -->
+  <div class="summary-box skipped">
+
+    <div class="summary-icon">
+      <i class="fa fa-exclamation-triangle"></i>
+    </div>
+
+    <div>
+      <h2>{{ summary.skipped }}</h2>
+      <span>Skipped</span>
+    </div>
+
+  </div>
+
+</div>
+prod
   <!-- Skipped Table -->
   <div *ngIf="skippedDetails.length" class="saas-table-card mt-4">
 

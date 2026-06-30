@@ -82,9 +82,9 @@
 }
 
 .summary-section {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap: 16px;
 }
 
 .summary-box {
