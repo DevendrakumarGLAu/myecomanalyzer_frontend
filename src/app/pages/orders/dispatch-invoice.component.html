@@ -45,7 +45,7 @@
                             <th class="th-primary">#</th>
                             <th class="th-primary">Order ID</th>
                             <th class="th-primary text-nowrap">Order Date</th>
-                            <th class="th-primary">SKU</th>
+                            <th class="th-primary text-nowrap">SKU</th>
                             <th class="th-primary">Product Name</th>
                             <th class="th-primary">Platform</th>
                             <!-- <th class="th-primary">Profit</th> -->
@@ -60,7 +60,7 @@
                             <td>{{i + 1}}</td>
                             <td>{{ invoice.order_id }}</td>
                             <td class="text-nowrap">{{ invoice.order_date | date }}</td>
-                            <td>{{ invoice.sku }}</td>
+                            <td class="text-nowrap">{{ invoice.sku }}</td>
                             <td class="text-nowrap">{{ invoice.product_name }}</td>
                             <td>
                                 <span class="platform-badge" [ngStyle]="{

@@ -184,4 +184,7 @@ export class ManifestComponent {
 
     return colors[name] || '#64748B';
   }
+  get lastPage(): number {
+    return Math.ceil(this.totalRecords / this.limit);
+  }
 }

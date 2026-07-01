@@ -1,69 +1,9 @@
 <div class="container-fluid py-3">
-
-    <!-- ================= Summary ================= -->
-
-    <div class="row mb-4">
-
-        <div class="col-lg-4 col-md-6 mb-3">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-
-                    <h6 class="text-muted mb-2">
-                        Delivery Partners
-                    </h6>
-
-                    <h2 class="fw-bold text-primary">
-                        {{deliveryPartnerCount}}
-                    </h2>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 mb-3">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-
-                    <h6 class="text-muted mb-2">
-                        Total Quantity
-                    </h6>
-
-                    <h2 class="fw-bold text-success">
-                        {{totalQuantity}}
-                    </h2>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-4 col-md-12 mb-3">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-
-                    <h6 class="text-muted mb-2">
-                        Total Products
-                    </h6>
-
-                    <h2 class="fw-bold text-warning">
-                        {{totalProducts}}
-                    </h2>
-
-                </div>
-            </div>
-        </div>
-
-    </div>
-
     <!-- ================= Filters ================= -->
-
-    <div class="card shadow-sm border-0 mb-4">
-
+    <div class="card shadow-sm mb-4">
         <div class="card-body">
-
             <div class="row g-3">
-
                 <div class="col-md-3">
-
                     <label class="form-label">
                         Manifest Date
                     </label>
@@ -82,19 +22,67 @@
                         [(ngModel)]="search" (keyup)="onSearch()">
 
                 </div>
-
                 <div class="col-md-3 d-flex align-items-end">
-
                     <button class="btn btn-primary w-100" (click)="refresh()">
-
                         Refresh
-
                     </button>
-
                 </div>
-
             </div>
 
+        </div>
+
+    </div>
+
+    <!-- ================= Summary ================= -->
+
+    <div class="row mb-4">
+
+        <div class="col-lg-4 col-md-6 mb-3">
+            <div class="card shadow-sm  h-100">
+                <div class="card-body">
+
+                    <h6 class="text-muted mb-2">
+                        Delivery Partners
+                    </h6>
+
+                    <h2 class="fw-bold text-primary">
+                        {{deliveryPartnerCount}}
+                    </h2>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-3">
+            <div class="card shadow-sm   h-100">
+                <div class="card-body">
+
+                    <h6 class="text-muted mb-2">
+                        Total Quantity
+                    </h6>
+
+                    <h2 class="fw-bold text-success">
+                        {{totalQuantity}}
+                    </h2>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-12 mb-3">
+            <div class="card shadow-sm   h-100">
+                <div class="card-body">
+
+                    <h6 class="text-muted mb-2">
+                        Total Products
+                    </h6>
+
+                    <h2 class="fw-bold text-warning">
+                        {{totalProducts}}
+                    </h2>
+
+                </div>
+            </div>
         </div>
 
     </div>
@@ -121,7 +109,7 @@
 
         <div class="col-lg-6 col-xl-6 mb-4" *ngFor="let partner of manifestCards;trackBy:trackByPartner">
 
-            <div class="card shadow-sm border-0 h-100">
+            <div class="card shadow-sm   h-100">
 
                 <!-- Header -->
 
@@ -136,21 +124,19 @@
                             </h5> -->
                             <h5 class="mb-1">
 
-    <span
-        class="courier-badge"
-        [ngStyle]="{
+                                <span class="courier-badge" [ngStyle]="{
             'background-color': getCourierColor(partner.delivery_partner) + '20',
             'border-color': getCourierColor(partner.delivery_partner) + '55',
             'color': getCourierColor(partner.delivery_partner)
         }">
 
-        <i class="fas fa-shipping-fast me-1"></i>
+                                    <i class="fas fa-shipping-fast me-1"></i>
 
-        {{ partner.delivery_partner }}
+                                    {{ partner.delivery_partner }}
 
-    </span>
+                                </span>
 
-</h5>
+                            </h5>
                             <small class="text-muted">
 
                                 Products :
@@ -172,57 +158,53 @@
                 </div>
 
                 <!-- Body -->
+                <div class="saas-card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive" style="max-height:420px;overflow:auto;">
+                            <table class="table saas-table mb-0">
 
-                <div class="card-body p-0">
+                                <thead>
+                                    <tr>
+                                        <th class="th-primary">Product</th>
+                                        <th class="th-primary">SKU</th>
+                                        <th class="th-primary">Size</th>
+                                        <th class="th-primary">Color</th>
+                                        <th class="th-primary text-center">Qty</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of partner.items">
+                                        <td>
+                                            {{item.product_name}}
+                                        </td>
+                                        <td>
+                                            {{item.sku}}
+                                        </td>
+                                        <td>
+                                            {{item.size}}
+                                        </td>
+                                        <td>
 
-                    <div class="table-responsive" style="max-height:420px;overflow:auto;">
+                                            {{item.color}}
 
-                        <table class="table table-bordered table-hover table-sm align-middle mb-0">
+                                        </td>
 
-                            <thead class="table-light">
+                                        <td class="text-center fw-bold">
 
-                                <tr>
+                                            {{item.quantity}}
 
-                                    <th class="th-primary">Product</th>
-                                    <th class="th-primary">SKU</th>
-                                    <th class="th-primary">Size</th>
-                                    <th class="th-primary">Color</th>
-                                    <th class="th-primary text-center">Qty</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of partner.items">
-                                    <td>
-                                        {{item.product_name}}
-                                    </td>
-                                    <td>
-                                        {{item.sku}}
-                                    </td>
-                                    <td>
-                                        {{item.size}}
-                                    </td>
-                                    <td>
+                                        </td>
 
-                                        {{item.color}}
+                                    </tr>
 
-                                    </td>
+                                </tbody>
 
-                                    <td class="text-center fw-bold">
+                            </table>
 
-                                        {{item.quantity}}
-
-                                    </td>
-
-                                </tr>
-
-                            </tbody>
-
-                        </table>
+                        </div>
 
                     </div>
-
                 </div>
-
             </div>
 
         </div>
