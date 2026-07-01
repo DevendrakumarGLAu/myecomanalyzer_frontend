@@ -23,7 +23,7 @@
   --chat-primary: #667eea;
   --chat-secondary: #764ba2;
 
-    --chat-bg: #f5f7fa;
+  --chat-bg: #f5f7fa;
   --chat-border: #e0e0e0;
 
   --chat-text: #333;
@@ -44,7 +44,7 @@
 
   --dark: #1e293b;
 
-    --bg: #ffffff;
+  --bg: #ffffff;
   --text: #1e293b;
   --card: #ffffff;
   --border: #e2e8f0;
@@ -73,13 +73,21 @@
     0 10px 15px -3px rgba(0, 0, 0, 0.08),
     0 4px 6px -4px rgba(0, 0, 0, 0.04);
 
-    // used for table class =  saas-card 
+  // used for table class =  saas-card 
   --primary-shadow: rgba(67, 97, 238, 0.18);
+
+  --saas-primary: #4F46E5;
+  --saas-primary-hover: #4338CA;
+  --saas-primary-light: #EEF2FF;
+
+  --first-column-color: var(--saas-primary);
+  --first-column-hover: var(--saas-primary-hover);
 
 }
 
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   overflow-x: hidden;
@@ -94,6 +102,7 @@ body.dark-mode {
   --card: #111827;
   --border: #334155;
 }
+
 body.dark-mode p,
 body.dark-mode span,
 body.dark-mode h1,
@@ -107,8 +116,9 @@ body.dark-mode label {
 }
 
 body.dark-mode .table td {
-    color: var(--text) !important;
+  color: var(--text) !important;
 }
+
 .auth-card {
   background: var(--surface-container-lowest);
   border: 1px solid rgba(102, 112, 133, 0.16);
@@ -193,7 +203,8 @@ body.dark-mode .table td {
   display: flex;
   flex-direction: column;
   // margin-left: 250px;       /* same as sidebar width */
-  height: 100vh;            /* full viewport height */
+  height: 100vh;
+  /* full viewport height */
 }
 
 /* ------------------------
@@ -202,7 +213,8 @@ body.dark-mode .table td {
 app-header,
 .app-header {
   height: 60px;
-  flex-shrink: 0;           /* don’t shrink */
+  flex-shrink: 0;
+  /* don’t shrink */
   background: #fff;
   border-bottom: 1px solid #dee2e6;
   z-index: 1050;
@@ -213,9 +225,12 @@ app-header,
 ------------------------ */
 app-page-wrapper,
 .app-page-wrapper {
-  flex: 1 1 auto;           /* take remaining space */
-  min-height: 0;            /* allows proper flex scrolling */
-  overflow-y: auto;         /* scroll only this */
+  flex: 1 1 auto;
+  /* take remaining space */
+  min-height: 0;
+  /* allows proper flex scrolling */
+  overflow-y: auto;
+  /* scroll only this */
   padding: 1rem;
   background: #f4f6f9;
 }
@@ -225,7 +240,8 @@ app-page-wrapper,
 ------------------------ */
 app-footer,
 footer.app-footer {
-  flex-shrink: 0;           /* don’t shrink */
+  flex-shrink: 0;
+  /* don’t shrink */
   height: 50px;
   line-height: 50px;
   background: #f4f6f9;
@@ -242,8 +258,10 @@ footer.app-footer {
 }
 
 .mat-mdc-snack-bar-container {
-  margin-top: 70px !important;   /* push below the 60px fixed header */
+  margin-top: 70px !important;
+  /* push below the 60px fixed header */
 }
+
 .success-snackbar {
   --mdc-snackbar-container-color: #28a745;
   --mdc-snackbar-supporting-text-color: #ffffff;
@@ -255,6 +273,7 @@ footer.app-footer {
   --mdc-snackbar-supporting-text-color: #ffffff;
   --mat-mdc-snack-bar-button-color: #ffffff;
 }
+
 body.dark-mode {
   background: #0f172a;
   color: #e5e7eb;
@@ -322,9 +341,9 @@ body.dark-mode .bg-body-secondary {
   // padding: 2px 8px;
   // border-radius: 6px;
   padding: 5px 10px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 600;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
 
   border: 1px solid transparent;
   cursor: default;
@@ -376,25 +395,26 @@ body.dark-mode .bg-body-secondary {
 
 // buuton border none class
 .action-btn {
-    border: none;
-    background: transparent;
-    color: #6c757d;
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    transition: all 0.2s ease;
+  border: none;
+  background: transparent;
+  color: #6c757d;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
 }
 
 .action-btn:hover {
-    background: #f1f3f5;
-    color: #212529;
+  background: #f1f3f5;
+  color: #212529;
 }
 
 .action-btn:focus,
 .action-btn:active {
-    box-shadow: none !important;
-    outline: none;
+  box-shadow: none !important;
+  outline: none;
 }
+
 // used for action button in product table
 
 /* ====================================================
@@ -514,6 +534,7 @@ body.dark-mode .bg-body-secondary {
   border: 1px solid #e5e7ff;
   border-radius: 8px;
   outline: none;
+
   &:focus {
     border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.10);
@@ -529,6 +550,7 @@ body.dark-mode .bg-body-secondary {
   border-radius: 8px;
   outline: none;
   cursor: pointer;
+
   &:focus {
     border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.10);
@@ -543,55 +565,127 @@ body.dark-mode .bg-body-secondary {
 }
 
 @media (max-width: 576px) {
-  .saas-pagination-wrapper { padding: 8px 10px; }
-  .th-primary { font-size: 11px; padding: 10px 10px !important; }
-  .saas-table tbody td { padding: 9px 10px; font-size: 12px; }
-  .saas-pg-input { width: 42px; min-width: 42px; font-size: 11px; }
-  .saas-size-select { width: 52px; min-width: 52px; font-size: 11px; }
-  .saas-pagination-wrapper .page-link { padding: 4px 8px; font-size: 11px; }
-  .saas-record-info { font-size: 10.5px; }
+  .saas-pagination-wrapper {
+    padding: 8px 10px;
+  }
+
+  .th-primary {
+    font-size: 11px;
+    padding: 10px 10px !important;
+  }
+
+  .saas-table tbody td {
+    padding: 9px 10px;
+    font-size: 12px;
+  }
+
+  .saas-pg-input {
+    width: 42px;
+    min-width: 42px;
+    font-size: 11px;
+  }
+
+  .saas-size-select {
+    width: 52px;
+    min-width: 52px;
+    font-size: 11px;
+  }
+
+  .saas-pagination-wrapper .page-link {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+
+  .saas-record-info {
+    font-size: 10.5px;
+  }
 }
 
 
 // status badge active and inactive 
 .status-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 4px 10px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.3px;
-    border: 1px solid transparent;
-    line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  border: 1px solid transparent;
+  line-height: 1;
 }
 
 /* Active */
 .status-badge.is-active {
-    background: rgba(34, 197, 94, 0.12);
-    color: #16a34a;
-    border-color: rgba(34, 197, 94, 0.25);
+  background: rgba(34, 197, 94, 0.12);
+  color: #16a34a;
+  border-color: rgba(34, 197, 94, 0.25);
 }
 
 /* Inactive */
 .status-badge.is-inactive {
-    background: rgba(239, 68, 68, 0.10);
-    color: #dc2626;
-    border-color: rgba(239, 68, 68, 0.25);
+  background: rgba(239, 68, 68, 0.10);
+  color: #dc2626;
+  border-color: rgba(239, 68, 68, 0.25);
 }
+
 // used for category status in product table
 
 
 /* ── Platform / Color Badge ───────────────────────── */
 .platform-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 3px 10px;
-    font-size: 11px;
-    font-weight: 600;
-    border-radius: 50px;
-    border: 1px solid;
-    text-transform: capitalize;
-    letter-spacing: 0.3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 50px;
+  border: 1px solid;
+  text-transform: capitalize;
+  letter-spacing: 0.3px;
+}
+
+
+.dropdown-menu {
+  min-width: 5px;
+  border-radius: 12px;
+  border: 1px solid #D9D9D9;
+
+}
+
+.dropdown-item {
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  transition: all 0.15s ease;
+}
+
+.dropdown-item:hover {
+  background: #f8f9fa;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+
+// first column scss
+.first-column {
+  color: var(--first-column-color) !important;
+  ;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all .2s ease;
+}
+
+.first-column:hover {
+  color: var(--first-column-hover) !important;
+  ;
+  text-decoration: none;
+}
+
+.first-column:active {
+  opacity: .8;
 }

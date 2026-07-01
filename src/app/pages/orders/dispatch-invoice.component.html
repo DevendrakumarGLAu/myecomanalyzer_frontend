@@ -58,7 +58,7 @@
                     <tbody>
                         <tr *ngFor="let invoice of invoices;let i = index ">
                             <td>{{i + 1}}</td>
-                            <td>{{ invoice.order_id }}</td>
+                            <td class="first-column">{{ invoice.order_id }}</td>
                             <td class="text-nowrap">{{ invoice.order_date | date }}</td>
                             <td class="text-nowrap">{{ invoice.sku }}</td>
                             <td class="text-nowrap">{{ invoice.product_name }}</td>

@@ -40,12 +40,12 @@
                   <ul class="dropdown-menu dropdown-menu-end">
                     <li>
                       <button class="dropdown-item" (click)="openDialog(cat)">
-                        <i class="fas fa-pencil-alt text-primary me-2"></i>Edit
+                        <i class="fas fa-pencil-alt text-primary me-2"></i>
                       </button>
                     </li>
                     <li>
                       <button class="dropdown-item" (click)="deactivateCategory(cat.id)">
-                        <i class="fas fa-trash text-danger me-2"></i>Delete
+                        <i class="fas fa-trash text-danger me-2"></i>
                       </button>
                     </li>
                   </ul>
@@ -53,7 +53,12 @@
               </td>
 
               <td>{{ cat.id }}</td>
-              <td>{{ cat.name }}</td>
+              <!-- <td>{{ cat.name }}</td> -->
+              <td>
+                <span class="first-column" (click)="openDialog(cat)" [title]="'Edit ' + cat.name">
+                  {{ cat.name }}
+                </span>
+              </td>
               <!-- <td >
                 <span class="badge" [ngClass]="cat.is_active ? 'bg-success' : 'bg-danger'">
                   {{ cat.is_active ? 'Active' : 'Inactive' }}

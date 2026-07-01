@@ -37,8 +37,7 @@
 
             <!-- Add Button -->
             <div class="col-6 col-md-auto">
-                <button class="btn th-primary"
-                    (click)="openDialog()">
+                <button class="btn th-primary" (click)="openDialog()">
 
                     <i class="fas fa-plus me-1"></i>
                     Add
@@ -67,10 +66,10 @@
                                 <!-- Actions -->
                                 <td>
                                     <div class="dropdown">
-                                        <button class="btn btn-sm btn-light border-0 shadow-none action-btn" type="button"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                        <button class="btn btn-sm btn-light border-0 shadow-none action-btn"
+                                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="fas fa-ellipsis-h"></i>
-                                    </button>
+                                        </button>
 
                                         <ul class="dropdown-menu dropdown-menu-end">
 
@@ -96,11 +95,19 @@
                                 <td *ngFor="let col of columns">
 
                                     <!-- TEXT -->
-                                    <span *ngIf="col.type === 'text'" [title]="col.tooltip ? product[col.key] : ''">
+                                    <span *ngIf="col.type === 'text'" [class.first-column]="col.clickable"
+                                        (click)="col.clickable && openDialog(product)"
+                                        [title]="col.tooltip ? product[col.key] : ''">
 
                                         {{ product[col.key] || '' }}
 
                                     </span>
+                                    <!-- <span *ngIf="col.type === 'text'" [title]="col.tooltip ? product[col.key] : ''">
+
+                                        {{ product[col.key] || '' }}
+
+
+                                    </span> -->
 
                                     <!-- CURRENCY -->
                                     <span *ngIf="col.type === 'currency'">

@@ -115,7 +115,7 @@ export class InventoryComponent implements OnInit {
       return 'Out Of Stock';
     }
 
-    if (stock <= 10) {
+    if (stock <= 11) {
       return 'Low Stock';
     }
 
@@ -137,16 +137,53 @@ export class InventoryComponent implements OnInit {
 
   getVariantStock(product: any): number {
 
-    if (!product.variants?.length) {
-      return 0;
-    }
-
-    return product.variants.reduce(
-      (sum: number, variant: any) =>
-        sum + (variant.stock || 0),
-      0
-    );
+  if (!product?.variants || product.variants.length === 0) {
+    return 0;
   }
+
+  const stocks = product.variants
+    .map((v: any) => Number(v.stock) || 0);
+
+  return Math.min(...stocks);
+}
+  // getVariantStock(product: any): number {
+
+  //   if (!product.variants?.length) {
+  //     return 0;
+  //   }
+
+  //   return product.variants.reduce(
+  //     (sum: number, variant: any) =>
+  //       sum + (variant.stock || 0),
+  //     0
+  //   );
+  // }
+
+  getInventoryColor(stock: number): string {
+
+  if (stock <= 0) {
+    return '#EF4444';      // Red
+  }
+
+  if (stock < 30) {
+    return '#F59E0B';      // Amber
+  }
+
+  return '#10B981';        // Green
+}
+
+// getInventoryStatus(stock: number): string {
+
+//   if (stock <= 0) {
+//     return 'Out of Stock';
+//   }
+
+//   if (stock < 30) {
+//     return 'Low Stock';
+//   }
+
+//   return 'In Stock';
+// }
 
   getSizes(product: any): string {
 
@@ -227,6 +264,17 @@ export class InventoryComponent implements OnInit {
         });
 
     }
+  }
+
+  getLowestStockVariant(product: any): any {
+
+    if (!product.variants?.length) {
+      return null;
+    }
+
+    return product.variants.reduce((lowest: any, current: any) =>
+      (current.stock || 0) < (lowest.stock || 0) ? current : lowest
+    );
   }
 
   closeDialog() {

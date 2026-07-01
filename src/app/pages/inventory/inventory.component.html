@@ -66,27 +66,51 @@
                                             <li>
                                                 <button class="dropdown-item d-flex align-items-center"
                                                     (click)="openDialog(product)">
-                                                    <i class="fas fa-pencil-alt text-primary me-2"></i> Edit
+                                                    <i class="fas fa-pencil-alt text-primary me-2"></i>
                                                 </button>
                                             </li>
                                             <li>
                                                 <button class="dropdown-item d-flex align-items-center text-danger"
                                                     (click)="deleteProduct(product)">
-                                                    <i class="fas fa-trash me-2"></i> Delete
+                                                    <i class="fas fa-trash me-2"></i>
                                                 </button>
                                             </li>
                                         </ul>
                                     </div>
                                 </td>
-                                <td>{{ product.name }}</td>
+                                <!-- <td>{{ product.name }}</td> -->
+                                <td>
+                                    <span class="first-column" (click)="openDialog(product)"
+                                        [title]="'Edit ' + product.name">
+                                        {{ product.name }}
+                                    </span>
+                                </td>
                                 <td class="text-nowrap">{{ product.sku }}</td>
                                 <td>{{ getColors(product) }}</td>
-                                <td class="text-nowrap">{{ getSizes(product) }}</td>
-                                <td>{{ getVariantStock(product) }}</td>
+                                <!-- <td class="text-nowrap">{{ getSizes(product) }}</td> -->
+                                <td class="text-nowrap">
+                                    {{ getLowestStockVariant(product)?.size }}
+                                </td>
+                                <td> {{ getLowestStockVariant(product)?.stock }}</td>
                                 <td>₹{{ product.selling_price }}</td>
-                                <td>
+                                <!-- <td>
                                     <span [class]="getInventoryClass(getVariantStock(product))">
                                         {{ getInventoryStatus(getVariantStock(product)) }}
+                                    </span>
+                                </td> -->
+                                <td>
+                                    <span class="stock-badge" [ngStyle]="{
+            'background-color': getInventoryColor(getVariantStock(product)) + '15',
+            'border-color': getInventoryColor(getVariantStock(product)) + '40',
+            'color': getInventoryColor(getVariantStock(product))
+        }">
+
+                                        <span class="stock-dot"
+                                            [style.background]="getInventoryColor(getVariantStock(product))">
+                                        </span>
+
+                                        {{ getInventoryStatus(getVariantStock(product)) }}
+
                                     </span>
                                 </td>
 
