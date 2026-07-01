@@ -16,6 +16,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { authGuard } from './auth.guard';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { InventoryComponent } from './pages/inventory/inventory.component';
+import { ManifestComponent } from './pages/manifest/manifest.component';
 
 export const routes: Routes = [
 
@@ -42,6 +43,7 @@ export const routes: Routes = [
       { path: 'profile', component: ProfileComponent },
       { path: 'notifications',component: NotificationsComponent},
       { path: 'inventory', component: InventoryComponent },
+       { path: 'manifest', component: ManifestComponent },
       // add more sidebar routes here,
 
        { path: '**', component: NotFoundComponent }

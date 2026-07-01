@@ -1,0 +1,323 @@
+<div class="container-fluid py-3">
+
+    <!-- ================= Summary ================= -->
+
+    <div class="row mb-4">
+
+        <div class="col-lg-4 col-md-6 mb-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+
+                    <h6 class="text-muted mb-2">
+                        Delivery Partners
+                    </h6>
+
+                    <h2 class="fw-bold text-primary">
+                        {{deliveryPartnerCount}}
+                    </h2>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+
+                    <h6 class="text-muted mb-2">
+                        Total Quantity
+                    </h6>
+
+                    <h2 class="fw-bold text-success">
+                        {{totalQuantity}}
+                    </h2>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-12 mb-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+
+                    <h6 class="text-muted mb-2">
+                        Total Products
+                    </h6>
+
+                    <h2 class="fw-bold text-warning">
+                        {{totalProducts}}
+                    </h2>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ================= Filters ================= -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-body">
+
+            <div class="row g-3">
+
+                <div class="col-md-3">
+
+                    <label class="form-label">
+                        Manifest Date
+                    </label>
+
+                    <input type="date" class="form-control" [(ngModel)]="selectedDate" (change)="onDateChange()">
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        Search
+                    </label>
+
+                    <input type="text" class="form-control" placeholder="Search Product / SKU / Size / Color"
+                        [(ngModel)]="search" (keyup)="onSearch()">
+
+                </div>
+
+                <div class="col-md-3 d-flex align-items-end">
+
+                    <button class="btn btn-primary w-100" (click)="refresh()">
+
+                        Refresh
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================= Loading ================= -->
+
+    <div class="text-center py-5" *ngIf="loading">
+
+        <div class="spinner-border text-primary"></div>
+
+    </div>
+
+    <!-- ================= Empty ================= -->
+
+    <div class="text-center py-5" *ngIf="!loading && manifestCards.length==0">
+
+        <h4>No Manifest Found</h4>
+
+    </div>
+
+    <!-- ================= Cards ================= -->
+
+    <div class="row" *ngIf="!loading && manifestCards.length">
+
+        <div class="col-lg-6 col-xl-6 mb-4" *ngFor="let partner of manifestCards;trackBy:trackByPartner">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <!-- Header -->
+
+                <div class="card-header bg-white">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <!-- <h5 class="mb-1">
+                               Courier: {{partner.delivery_partner}}
+                            </h5> -->
+                            <h5 class="mb-1">
+
+    <span
+        class="courier-badge"
+        [ngStyle]="{
+            'background-color': getCourierColor(partner.delivery_partner) + '20',
+            'border-color': getCourierColor(partner.delivery_partner) + '55',
+            'color': getCourierColor(partner.delivery_partner)
+        }">
+
+        <i class="fas fa-shipping-fast me-1"></i>
+
+        {{ partner.delivery_partner }}
+
+    </span>
+
+</h5>
+                            <small class="text-muted">
+
+                                Products :
+                                {{partner.total_products}}
+
+                            </small>
+
+                        </div>
+
+                        <span class="badge bg-primary fs-6">
+
+                            Qty :
+                            {{partner.total_quantity}}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <!-- Body -->
+
+                <div class="card-body p-0">
+
+                    <div class="table-responsive" style="max-height:420px;overflow:auto;">
+
+                        <table class="table table-bordered table-hover table-sm align-middle mb-0">
+
+                            <thead class="table-light">
+
+                                <tr>
+
+                                    <th class="th-primary">Product</th>
+                                    <th class="th-primary">SKU</th>
+                                    <th class="th-primary">Size</th>
+                                    <th class="th-primary">Color</th>
+                                    <th class="th-primary text-center">Qty</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of partner.items">
+                                    <td>
+                                        {{item.product_name}}
+                                    </td>
+                                    <td>
+                                        {{item.sku}}
+                                    </td>
+                                    <td>
+                                        {{item.size}}
+                                    </td>
+                                    <td>
+
+                                        {{item.color}}
+
+                                    </td>
+
+                                    <td class="text-center fw-bold">
+
+                                        {{item.quantity}}
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================= Pagination ================= -->
+
+    <div class="saas-pagination-wrapper mt-3">
+
+        <nav aria-label="Manifest Pagination">
+
+            <ul class="pagination pagination-sm mb-0 align-items-center flex-nowrap">
+
+                <!-- Go To Page -->
+                <li class="page-item d-flex align-items-center me-2">
+
+                    <span class="me-1 small text-nowrap">
+                        Go
+                    </span>
+
+                    <input type="number" class="form-control form-control-sm pg-input" style="width:70px"
+                        [(ngModel)]="gotoPageNumber" (keyup.enter)="goToPage(gotoPageNumber)" />
+
+                </li>
+
+                <!-- Page Size -->
+                <li class="page-item d-flex align-items-center me-2">
+
+                    <span class="me-1 small text-nowrap">
+                        Show
+                    </span>
+
+                    <select class="form-select form-select-sm size-select" [(ngModel)]="limit"
+                        (change)="onLimitChange()">
+
+                        <option [ngValue]="10">10</option>
+                        <option [ngValue]="20">20</option>
+                        <option [ngValue]="50">50</option>
+                        <option [ngValue]="100">100</option>
+
+                    </select>
+
+                </li>
+
+                <!-- Showing Records -->
+                <li class="page-item disabled me-2">
+
+                    <span class="page-link border-0 bg-transparent text-muted text-nowrap px-1 record-info">
+                        {{ startRecord }}
+                        -
+                        {{ endRecord }}
+                        of
+                        {{ totalRecords }}
+                    </span>
+
+                </li>
+
+                <!-- Previous -->
+                <li class="page-item" [class.disabled]="page===1">
+
+                    <a class="page-link" href="javascript:void(0)" (click)="previousPage()">
+
+                        <i class="fa fa-chevron-left"></i>
+
+                    </a>
+
+                </li>
+
+                <!-- Current -->
+                <li class="page-item active">
+
+                    <span class="page-link">
+
+                        {{page}}
+
+                    </span>
+
+                </li>
+
+                <!-- Next -->
+                <li class="page-item" [class.disabled]="page*limit>=totalRecords">
+
+                    <a class="page-link" href="javascript:void(0)" (click)="nextPage()">
+
+                        <i class="fa fa-chevron-right"></i>
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </nav>
+
+    </div>
+
+</div>

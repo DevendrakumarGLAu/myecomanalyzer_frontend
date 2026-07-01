@@ -30,5 +30,10 @@ export const SIDEBAR_MENU: SidebarMenuItem[] = [
     label: 'Inventory',
     icon: 'fas fa-box-open',
     route: '/inventory'
-  }
+  },
+  {
+    label: 'Manifest',
+    icon: 'fas fa-truck-loading',
+    route: '/manifest'
+  },
 ];
