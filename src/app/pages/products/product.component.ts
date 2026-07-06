@@ -33,7 +33,7 @@ export class ProductComponent implements OnInit {
     selectedPlatform: string = '';
     // Pagination variables
     totalItems = 0;
-    itemsPerPage = 10;
+    itemsPerPage = 30;
     currentPage = 1;
     totalPages = 1;
     gotoPageNumber = 1;
