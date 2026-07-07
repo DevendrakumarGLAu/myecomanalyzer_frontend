@@ -26,7 +26,7 @@ export function toHttpParams(params: Record<string, any>): { [param: string]: st
 export class ProductService {
   private baseUrl = `${environment.apiUrl}/api/v1/products`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token') || '';
@@ -36,23 +36,23 @@ export class ProductService {
     });
   }
 
-  
-getProducts(filters: Record<string, any>): Observable<any> {
-  let params = new HttpParams();
 
-  // Convert the filter object to query params
-  Object.keys(filters).forEach(key => {
-    const value = filters[key];
-    if (value !== null && value !== undefined && value !== '') {
-      params = params.set(key, value.toString());
-    }
-  });
+  getProducts(filters: Record<string, any>): Observable<any> {
+    let params = new HttpParams();
 
-  return this.http.get<any>(`${this.baseUrl}/getallproduct/`, {
-    // headers: this.getHeaders(),
-    params
-  });
-}
+    // Convert the filter object to query params
+    Object.keys(filters).forEach(key => {
+      const value = filters[key];
+      if (value !== null && value !== undefined && value !== '') {
+        params = params.set(key, value.toString());
+      }
+    });
+
+    return this.http.get<any>(`${this.baseUrl}/getallproduct/`, {
+      // headers: this.getHeaders(),
+      params
+    });
+  }
 
   getProduct(id: number): Observable<Product> {
     return this.http.get<Product>(`${this.baseUrl}/get/${id}`, { headers: this.getHeaders() });
@@ -79,11 +79,29 @@ getProducts(filters: Record<string, any>): Observable<any> {
     return this.http.post<Product>(`${this.baseUrl}/toggle_active/${id}`, {}, { headers: this.getHeaders() });
   }
 
-   deleteProduct(id: number): Observable<any> {
+  deleteProduct(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/del_products/${id}`, { headers: this.getHeaders() });
   }
-//   @router.delete("/del_products/{product_id}")
-// def delete_product(product_id: int):
-//     return ProductController.delete_product(product_id)
+
+  uploadProductImage(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const token = localStorage.getItem('token') || '';
+
+    const headers = new HttpHeaders({
+      authorization: `Bearer ${token}`
+      // Don't set Content-Type for FormData
+    });
+
+    return this.http.post<any>(
+      `${this.baseUrl}/upload-image/`,
+      formData,
+      { headers }
+    );
+  }
+  //   @router.delete("/del_products/{product_id}")
+  // def delete_product(product_id: int):
+  //     return ProductController.delete_product(product_id)
 
 }

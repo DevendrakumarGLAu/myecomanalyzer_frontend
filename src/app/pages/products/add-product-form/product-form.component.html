@@ -75,6 +75,21 @@
               </div>
 
               <hr class="my-3">
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label class="form-label">Product Image</label>
+                  <input type="file" class="form-control" accept="image/*" (change)="onImageSelected($event)" />
+                  <div *ngIf="uploading" class="text-primary mt-2">
+                    Uploading...
+                  </div>
+
+                </div>
+
+                <div class="col-md-6">
+                  <img *ngIf="imagePreview" [src]="imagePreview" class="img-thumbnail" style="max-height:100px" />
+                </div>
+
+              </div>
 
               <!-- Variants -->
               <div class="table-responsive mt-3" formArrayName="variants">
@@ -100,7 +115,7 @@
                       <td>
                         <input type="text" formControlName="size" class="form-control form-control-sm"
                           placeholder="Size (L,M,S)" />
-                          <!-- [readonly]="isSizeReadonly(i)"
+                        <!-- [readonly]="isSizeReadonly(i)"
                           [class.readonly-input]="isSizeReadonly(i)" -->
                       </td>
 
@@ -176,7 +191,7 @@
 
                 </button>
 
-                <button type="submit" class="btn btn-primary th-primary" [disabled]="form.invalid">
+                <button type="submit" class="btn btn-primary th-primary"  [disabled]="form.invalid || uploading">
 
                   {{ mode }}
 

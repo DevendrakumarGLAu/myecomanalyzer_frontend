@@ -43,6 +43,7 @@ export class ProductComponent implements OnInit {
 
     // Dynamic columns config
     columns = [
+        { key: 'image', label: 'Image', type: 'image' },
         { key: 'sku', label: 'SKU', type: 'text',clickable: true },
         { key: 'category_name', label: 'Category', type: 'text' },
         { key: 'name', label: 'Product Name', type: 'text', tooltip: true },

@@ -9,6 +9,7 @@ import { CategoryService } from '../../../services/category.service';
 import { firstValueFrom } from 'rxjs';
 import { sanitizeFormValues } from '../../../shared/form-sanitizer';
 import { ConfirmationPopupComponent } from '../../../common/confirmation-popup/confirmation-popup.component';
+import { ProductService } from '../../../services/product.service';
 
 export interface ProductField {
   key: string;
@@ -36,6 +37,8 @@ export class ProductFormComponent implements OnInit, OnChanges {
   colors = COLORS;
   @Output() formSubmit = new EventEmitter<any>();
   @Output() formCancel = new EventEmitter<void>();
+  uploading = false;
+  imagePreview: any = '';
 
   form!: FormGroup;
   mode: 'Add' | 'Update' = 'Add';
@@ -90,7 +93,8 @@ export class ProductFormComponent implements OnInit, OnChanges {
     public dialogRef: MatDialogRef<ProductFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Product | null,
     private sanitizer: DomSanitizer,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private productService: ProductService,
   ) { }
 
 
@@ -120,9 +124,10 @@ export class ProductFormComponent implements OnInit, OnChanges {
       color: variant.color || '',
       platform_code: product.platform_code || '',
       gst_percent: product.gst_percent,
-      commission_percent: product.commission_percent
+      commission_percent: product.commission_percent,
+      image: product.image ?? ''
     });
-
+    this.imagePreview = product.image ?? '';
     this.variantsArray.clear();
 
     if (product.variants?.length) {
@@ -226,6 +231,7 @@ export class ProductFormComponent implements OnInit, OnChanges {
       });
     group['custom_color'] = [''];
     group['variants'] = this.fb.array([]);
+    group['image'] = [''];
     this.form = this.fb.group(group);
     this.addVariant();
   }
@@ -234,14 +240,6 @@ export class ProductFormComponent implements OnInit, OnChanges {
     return this.form.get('variants') as any;
   }
 
-  // createVariant(): FormGroup {
-  //   const variantFields = ['size', 'cost_price', 'selling_price', 'shipping_cost', 'rto_cost', 'stock'];
-  //   const group: any = {};
-  //   variantFields.forEach(f => {
-  //     group[f] = [this.productData?.[f] ?? '', f === 'size' || f === 'cost_price' || f === 'selling_price' ? Validators.required : ''];
-  //   });
-  //   return this.fb.group(group);
-  // }
   createVariant(): FormGroup {
 
     return this.fb.group({
@@ -281,6 +279,35 @@ export class ProductFormComponent implements OnInit, OnChanges {
   removeVariant(index: number) {
     this.variantsArray.removeAt(index);
   }
+
+onImageSelected(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  if (!input.files || input.files.length === 0) {
+    return;
+  }
+  const file = input.files[0];
+  this.uploading = true;
+  this.productService.uploadProductImage(file).subscribe({
+    next: (res) => {
+      this.uploading = false;
+      if (res.status) {
+        // Store only the public URL
+        const imageUrl = res.data.signed_url;
+        this.form.patchValue({
+          image: res.data.file_key
+        });
+        this.imagePreview = imageUrl;
+      }
+    },
+    error: (err) => {
+      this.uploading = false;
+      console.error(err);
+      alert('Image upload failed');
+    }
+
+  });
+
+}
 
   submit() {
     if (this.form.invalid) {
@@ -323,10 +350,9 @@ export class ProductFormComponent implements OnInit, OnChanges {
       platform_code: this.form.value.platform_code,
       gst_percent: this.form.value.gst_percent,
       commission_percent: this.form.value.commission_percent,
-      // shipping_cost: this.form.value.shipping_cost,
-      // rto_cost: this.form.value.rto_cost,
+      image: this.form.value.image,
       is_active: this.form.value.is_active ?? true,
-      variants: variantsPayload
+      variants: variantsPayload,
     };
 
     const sanitizedPayload = sanitizeFormValues(payload, this.sanitizer);
@@ -338,29 +364,29 @@ export class ProductFormComponent implements OnInit, OnChanges {
   }
 
   onEffectiveDateChange(index: number): void {
-  const variant = this.variantsArray.at(index);
+    const variant = this.variantsArray.at(index);
 
-  const dialogRef = this.dialog.open(ConfirmationPopupComponent, {
-    width: '500px',
-    disableClose: true,
-    data: {
-      title: 'Confirm Cost Price Change',
-      message:
-        'Changing the cost price effective date will affect future profit calculations. Do you want to continue?',
+    const dialogRef = this.dialog.open(ConfirmationPopupComponent, {
+      width: '500px',
+      disableClose: true,
+      data: {
+        title: 'Confirm Cost Price Change',
+        message:
+          'Changing the cost price effective date will affect future profit calculations. Do you want to continue?',
         confirmButtonText: 'Apply',
-        type:'success'
-    }
-  });
+        type: 'success'
+      }
+    });
 
-  dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-    if (!confirmed) {
-      // Reset the selected date if the user cancels
-      variant.get('effective_from')?.setValue('');
-    }
-  });
-}
-isSizeReadonly(index: number): boolean {
-  const variant = this.variantsArray.at(index);
-  return !!variant.get('id')?.value;
-}
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (!confirmed) {
+        // Reset the selected date if the user cancels
+        variant.get('effective_from')?.setValue('');
+      }
+    });
+  }
+  isSizeReadonly(index: number): boolean {
+    const variant = this.variantsArray.at(index);
+    return !!variant.get('id')?.value;
+  }
 }

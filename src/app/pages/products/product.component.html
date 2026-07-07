@@ -93,6 +93,10 @@
 
                                 <!-- Dynamic Columns -->
                                 <td *ngFor="let col of columns">
+                                    <!-- IMAGE -->
+                                    <img *ngIf="col.type === 'image'" [src]="product[col.key] || 'assets/img/no-image.png'"
+                                        alt="Product" width="60" height="60" class="rounded border"
+                                        style="object-fit: cover;" />
 
                                     <!-- TEXT -->
                                     <span *ngIf="col.type === 'text'" [class.first-column]="col.clickable"
