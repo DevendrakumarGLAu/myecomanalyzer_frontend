@@ -109,14 +109,10 @@
 }
 
 .saas-btn-primary {
-  background: var(--primary);
-  color: var(--on-primary);
   padding: 8px 20px;
   border-radius: var(--radius-sm);
-  border: none;
   font-weight: 600;
   transition: var(--transition);
-  opacity: 0.6;
 }
 
 .saas-btn-primary.enabled {
@@ -124,12 +120,10 @@
   box-shadow: var(--shadow-md);
 }
 
-.saas-btn-primary:hover {
-  background: var(--primary-container);
-}
-
 .disabled-state {
-  opacity: 0.5;
+  opacity: 0.45;
+  filter: grayscale(0.5);
   cursor: not-allowed;
   pointer-events: none;
+  box-shadow: none;
 }

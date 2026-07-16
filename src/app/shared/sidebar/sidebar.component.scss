@@ -116,11 +116,16 @@
   padding-bottom: 15px;
 }
 
+.user-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
 .user-avatar {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: #0d6efd;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -133,6 +138,41 @@
   flex-shrink: 0; // prevents shrinking in collapsed sidebar
 }
 
+.status-dot {
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #22c55e;
+  border: 2px solid #2d3033;
+}
+
 .user-info {
   line-height: 1.2;
+  min-width: 0;
+}
+
+.user-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 150px;
+}
+
+.user-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #9ca3af;
+  font-size: 11.5px;
+}
+
+.status-dot-inline {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  display: inline-block;
 }

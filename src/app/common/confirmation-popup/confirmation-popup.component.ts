@@ -53,10 +53,8 @@ export class ConfirmationPopupComponent {
       baseClass = 'btn btn-primary';
   }
 
-  // disable look if checkbox not checked
-  if (!this.isChecked) {
-    baseClass += ' disabled-state';
-  }
+  // Clear, mutually-exclusive enabled/disabled look based on the checkbox
+  baseClass += this.isChecked ? ' enabled' : ' disabled-state';
 
   return baseClass;
 }

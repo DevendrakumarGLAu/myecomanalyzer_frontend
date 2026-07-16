@@ -23,10 +23,11 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     const first = localStorage.getItem('first_name') || '';
-  const last = localStorage.getItem('last_name') || '';
+    const last = localStorage.getItem('last_name') || '';
+    const fullName = `${first} ${last}`.trim();
 
-  this.userName = `${first} ${last}`.trim() || 'User';
-this.userInitial = this.userName.charAt(0).toUpperCase();
+    this.userName = fullName || localStorage.getItem('username') || 'User';
+    this.userInitial = this.userName.charAt(0).toUpperCase();
     // On load, collapse sidebar for mobile screens
     if (window.innerWidth < 992) {
       this.sidebarService.setCollapsed(true);

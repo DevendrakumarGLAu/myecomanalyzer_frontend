@@ -21,9 +21,11 @@
         Start Free Trial
       </a>
 
-      <a routerLink="/dashboard" class="btn btn-outline-secondary btn-lg">
+      <button type="button" class="btn btn-outline-secondary btn-lg" data-bs-toggle="modal"
+        data-bs-target="#demoVideoModal">
+        <i class="fas fa-circle-play me-2"></i>
         View Demo
-      </a>
+      </button>
     </div>
 
   </section>
@@ -223,4 +225,26 @@
 
 
   <app-public-footer></app-public-footer>
+
+  <!-- Demo Video Modal -->
+  <div class="modal fade" id="demoVideoModal" tabindex="-1" aria-labelledby="demoVideoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="demoVideoModalLabel">Product Demo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            #demoCloseBtn></button>
+        </div>
+
+        <div class="modal-body p-0">
+          <video #demoVideo class="w-100 d-block" controls preload="metadata">
+            <source src="assets/videos/demo.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+      </div>
+    </div>
+  </div>
 </div>

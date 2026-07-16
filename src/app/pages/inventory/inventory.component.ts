@@ -18,6 +18,7 @@ declare var bootstrap: any;
 export class InventoryComponent implements OnInit {
 
   products: any[] = [];
+  loading = false;
 
   searchTerm = '';
   selectedPlatform = '';
@@ -50,6 +51,7 @@ export class InventoryComponent implements OnInit {
   }
 
   loadInventory(): void {
+    this.loading = true;
 
     const filters = {
       search: this.searchTerm,
@@ -69,9 +71,11 @@ export class InventoryComponent implements OnInit {
           this.totalItems / this.itemsPerPage
         );
 
+        this.loading = false;
       },
       error: (error) => {
         console.error(error);
+        this.loading = false;
       }
     });
   }

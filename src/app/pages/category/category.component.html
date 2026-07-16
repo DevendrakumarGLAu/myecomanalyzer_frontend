@@ -4,7 +4,7 @@
   <div class="row mb-3 align-items-center">
     <div class="col-md-3">
       <input type="text" class="form-control" placeholder="Search category..." [(ngModel)]="searchText"
-        (input)="loadCategories()" />
+        (input)="onSearch()" />
     </div>
 
     <div class="col-md-9 text-end">
@@ -29,6 +29,17 @@
           </thead>
 
           <tbody>
+            <!-- SKELETON LOADER -->
+            <ng-container *ngIf="loading">
+              <tr *ngFor="let row of [1,2,3]">
+                <td><div class="skeleton-cell w-60"></div></td>
+                <td><div class="skeleton-cell w-40"></div></td>
+                <td><div class="skeleton-cell w-70"></div></td>
+                <td><div class="skeleton-cell w-40"></div></td>
+              </tr>
+            </ng-container>
+
+            <ng-container *ngIf="!loading">
             <tr *ngFor="let cat of categories">
               <!-- Actions Dropdown -->
               <td class="text-center align-middle">
@@ -77,6 +88,7 @@
                 No data found
               </td>
             </tr>
+            </ng-container>
           </tbody>
         </table>
       </div>

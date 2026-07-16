@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { DashboardService, DashboardFilters } from '../../services/dashboard.service';
+import { PaymentService, PaymentTrendFilters } from '../../services/payment.service';
 import { CommonModule, isPlatformBrowser, NgFor, NgIf } from '@angular/common';
 import { PLATFORMS, DELIVERY_PARTNERS, PLATFORM_COLORS } from '../../common/constant/platform.constants';
 import { FormsModule } from '@angular/forms';
@@ -56,10 +57,17 @@ chartLabels = {
   // Modal state
   isFilterOpen = false;
 
+  // Payment trend
+  paymentTrend: any;
+  paymentRange: '7d' | '1m' | '1y' = '7d';
+  isPaymentTrendLoading = false;
+  paymentTrendError: string = '';
+
   private isBrowser: boolean;
 
   constructor(
     private dashboardService: DashboardService,
+    private paymentService: PaymentService,
     @Inject(PLATFORM_ID) platformId: Object
   ) {
      console.log('Dashboard constructor', Date.now());
@@ -69,7 +77,9 @@ chartLabels = {
   ngOnInit() {
     console.log('ngOnInit');
     this.loadFiltersFromSession();
-    // this.loadDashboard();
+    if (this.isBrowser) {
+      this.loadPaymentTrend();
+    }
   }
 
   // ---- Session Storage ----
@@ -110,6 +120,32 @@ chartLabels = {
         this.isLoading = false;
       },
     });
+  }
+
+  // ---- Payment Trend ----
+  loadPaymentTrend() {
+    this.isPaymentTrendLoading = true;
+    this.paymentTrendError = '';
+
+    const filters: PaymentTrendFilters = {
+      range: this.paymentRange,
+    };
+
+    this.paymentService.getPaymentTrend(filters).subscribe({
+      next: (res: any) => {
+        this.paymentTrend = res.data;
+        this.isPaymentTrendLoading = false;
+      },
+      error: () => {
+        this.paymentTrendError = 'Failed to load payment trend.';
+        this.isPaymentTrendLoading = false;
+      },
+    });
+  }
+
+  setPaymentRange(range: '7d' | '1m' | '1y') {
+    this.paymentRange = range;
+    this.loadPaymentTrend();
   }
 
   trackByIndex(index: number): number {

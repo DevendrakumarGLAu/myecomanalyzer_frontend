@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
-import { DeliveryPartnerManifest, ManifestResponse } from './manifest.model';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { DeliveryPartnerManifest, ManifestResponse, ManifestSkuWiseItem } from './manifest.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ManifestService } from '../../services/manifest.service';
+import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-manifest',
@@ -12,12 +13,15 @@ import { ManifestService } from '../../services/manifest.service';
   templateUrl: './manifest.component.html',
   styleUrl: './manifest.component.scss'
 })
-export class ManifestComponent {
+export class ManifestComponent implements OnInit, OnDestroy {
   loading = false;
 
   // Filters
-  selectedDate: string = '';
+  selectedDate: string = '';   // ISO yyyy-MM-dd, bound to the <input type="date">
   search = '';
+
+  private searchSubject = new Subject<string>();
+  private searchSubscription: Subscription = new Subscription();
 
   page = 1;
   limit = 100;
@@ -34,16 +38,36 @@ export class ManifestComponent {
   // Cards
   manifestCards: DeliveryPartnerManifest[] = [];
 
+  // SKU-wise summary
+  skuWiseItems: ManifestSkuWiseItem[] = [];
+
   constructor(
     private manifestService: ManifestService
   ) { }
 
   ngOnInit(): void {
 
-    // Default today's date
-    this.selectedDate = this.formatDate(new Date());
+    // Default today's date (ISO format so the native date input displays it)
+    this.selectedDate = this.toIsoDate(new Date());
 
     this.loadManifest();
+
+    this.searchSubscription = this.searchSubject
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged()
+      )
+      .subscribe((searchText) => {
+        this.search = searchText;
+        this.page = 1;
+        this.loadManifest();
+      });
+  }
+
+  ngOnDestroy(): void {
+    if (this.searchSubscription) {
+      this.searchSubscription.unsubscribe();
+    }
   }
 
   loadManifest(): void {
@@ -51,7 +75,7 @@ export class ManifestComponent {
     this.loading = true;
 
     this.manifestService.getManifest({
-      date: this.selectedDate,
+      date: this.toApiDate(this.selectedDate),
       platform_code: 'MEESHO',
       search: this.search,
       page: this.page,
@@ -63,11 +87,12 @@ export class ManifestComponent {
         this.loading = false;
 
         this.manifestDate = res.manifest_date;
-        this.totalQuantity = res.total_quantity;
-        this.deliveryPartnerCount = res.delivery_partner_count;
-        this.totalRecords = res.total_records;
+        this.totalQuantity = res.total_quantity || 0;
+        this.deliveryPartnerCount = res.delivery_partner_count || 0;
+        this.totalRecords = res.total_records || 0;
 
         this.manifestCards = res.data;
+        this.skuWiseItems = res.sku_wise || [];
       },
 
       error: (err) => {
@@ -82,8 +107,7 @@ export class ManifestComponent {
   }
 
   onSearch(): void {
-    this.page = 1;
-    this.loadManifest();
+    this.searchSubject.next(this.search);
   }
 
   onDateChange(): void {
@@ -148,13 +172,28 @@ export class ManifestComponent {
     return item.delivery_partner;
   }
 
-  private formatDate(date: Date): string {
+  // yyyy-MM-dd — required for the native <input type="date"> to display a value
+  private toIsoDate(date: Date): string {
 
     const year = date.getFullYear();
 
     const month = ('0' + (date.getMonth() + 1)).slice(-2);
 
     const day = ('0' + date.getDate()).slice(-2);
+
+    return `${year}-${month}-${day}`;
+
+  }
+
+  // Converts the ISO date from the input back to dd-MM-yyyy for the API,
+  // matching this endpoint's existing date format.
+  private toApiDate(isoDate: string): string {
+
+    if (!isoDate) {
+      return isoDate;
+    }
+
+    const [year, month, day] = isoDate.split('-');
 
     return `${day}-${month}-${year}`;
 

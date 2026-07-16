@@ -53,6 +53,10 @@ export class HeaderComponent {
     return str.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
   }
 
+  get userInitial(): string {
+    return this.username?.charAt(0)?.toUpperCase() || 'U';
+  }
+
   logout() {
     if (this.isBrowser) localStorage.removeItem('token');
     this.router.navigate(['/login']);

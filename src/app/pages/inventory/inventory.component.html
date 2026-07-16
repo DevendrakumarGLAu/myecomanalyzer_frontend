@@ -55,6 +55,27 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <!-- SKELETON LOADER -->
+                            <ng-container *ngIf="loading">
+                                <tr *ngFor="let row of [1,2,3]">
+                                    <td><div class="skeleton-cell w-60"></div></td>
+                                    <td><div class="skeleton-cell w-70"></div></td>
+                                    <td><div class="skeleton-cell w-60"></div></td>
+                                    <td><div class="skeleton-cell w-40"></div></td>
+                                    <td><div class="skeleton-cell w-40"></div></td>
+                                    <td><div class="skeleton-cell w-40"></div></td>
+                                    <td><div class="skeleton-cell w-40"></div></td>
+                                    <td><div class="skeleton-cell w-70"></div></td>
+                                </tr>
+                            </ng-container>
+
+                            <tr *ngIf="!loading && products.length === 0">
+                                <td colspan="8" class="text-center py-4">
+                                    No products found
+                                </td>
+                            </tr>
+
+                            <ng-container *ngIf="!loading">
                             <tr *ngFor="let product of products">
                                 <td>
                                     <div class="dropdown">
@@ -115,6 +136,7 @@
                                 </td>
 
                             </tr>
+                            </ng-container>
                         </tbody>
                     </table>
                 </div>

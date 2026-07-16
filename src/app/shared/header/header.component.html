@@ -220,43 +220,56 @@
 
       </li>
       <li class="nav-item dropdown user-menu">
-        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-          <img src="assets/img/avatar.png" class="user-image rounded-circle shadow" alt="User Image" />
-          <span class="d-none d-md-inline"> {{ username }}
-            <i class="fas fa-chevron-down ml-1"></i></span>
+        <a href="javascript:void(0)" class="nav-link dropdown-toggle user-menu-toggle" data-bs-toggle="dropdown">
+          <span class="user-avatar-sm">{{ userInitial }}</span>
+          <span class="d-none d-md-flex flex-column user-meta">
+            <span class="user-meta-name">{{ username }}</span>
+            <span class="user-meta-role">My Account</span>
+          </span>
         </a>
-        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-          <li class="user-header th-primary">
-            <img src="assets/img/avatar.png" class="rounded-circle shadow" alt="User Image" />
 
-            <p>
-              {{ username }}
-              <small>Member since {{ createdAt | date:'dd MMM yyyy' }}</small>
-            </p>
-          </li>
-          <li class="user-body">
-            <div class="row">
-              <div class="col-4 text-center">
-                <a href="#">Followers</a>
-              </div>
-              <div class="col-4 text-center">
-                <a href="#">Sales</a>
-              </div>
-              <div class="col-4 text-center">
-                <a href="#">Friends</a>
+        <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu">
+
+          <li class="user-dropdown-header">
+            <span class="user-avatar-lg">{{ userInitial }}</span>
+            <div class="ms-3">
+              <div class="user-dropdown-name">{{ username }}</div>
+              <div class="user-dropdown-since" *ngIf="createdAt">
+                Member since {{ createdAt | date:'MMM yyyy' }}
               </div>
             </div>
-            <div class="mt-2 text-center">
-              <button type="button" class="btn btn-sm th-primary" (click)="toggleDarkMode()">
-                <i class="bi" [ngClass]="isDarkMode ? 'bi-sun-fill' : 'bi-moon-fill'"></i>
-                {{ isDarkMode ? 'Light Mode' : 'Dark Mode' }}
-              </button>
-            </div>
           </li>
-          <li class="user-footer">
-            <a routerLink="/profile" class="btn th-primary btn-flat">Profile</a>
-            <a class="btn btn-danger btn-flat float-end" style="cursor:pointer;" (click)="logout()">Sign out</a>
+
+          <li><hr class="dropdown-divider" /></li>
+
+          <li>
+            <a routerLink="/profile" class="dropdown-item user-dropdown-item">
+              <i class="fas fa-user"></i> My Profile
+            </a>
           </li>
+
+          <li>
+            <a routerLink="/notifications" class="dropdown-item user-dropdown-item">
+              <i class="fas fa-bell"></i> Notifications
+              <span *ngIf="unreadCount > 0" class="badge user-dropdown-badge">{{ unreadCount }}</span>
+            </a>
+          </li>
+
+          <li>
+            <button type="button" class="dropdown-item user-dropdown-item" (click)="toggleDarkMode()">
+              <i class="bi" [ngClass]="isDarkMode ? 'bi-sun-fill' : 'bi-moon-fill'"></i>
+              {{ isDarkMode ? 'Light Mode' : 'Dark Mode' }}
+            </button>
+          </li>
+
+          <li><hr class="dropdown-divider" /></li>
+
+          <li>
+            <button type="button" class="dropdown-item user-dropdown-item text-danger" (click)="logout()">
+              <i class="fas fa-sign-out-alt"></i> Sign out
+            </button>
+          </li>
+
         </ul>
       </li>
     </ul>

@@ -13,6 +13,15 @@ export interface DeliveryPartnerManifest {
   items: ManifestItem[];
 }
 
+export interface ManifestSkuWiseItem {
+  sku: string;
+  product_name: string;
+  size: string;
+  color: string;
+  quantity: number;
+  delivery_partner_count: number;
+}
+
 export interface ManifestResponse {
   manifest_date: string;
   page: number;
@@ -21,4 +30,5 @@ export interface ManifestResponse {
   delivery_partner_count: number;
   total_quantity: number;
   data: DeliveryPartnerManifest[];
+  sku_wise: ManifestSkuWiseItem[];
 }

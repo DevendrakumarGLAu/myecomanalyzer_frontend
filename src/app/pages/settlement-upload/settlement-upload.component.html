@@ -1,0 +1,323 @@
+<div class="container mt-4">
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item" *ngFor="let p of platforms">
+            <button class="nav-link" [class.active]="p === selectedPlatform" (click)="changeTab(p)">
+                {{ p | titlecase }}
+            </button>
+        </li>
+    </ul>
+
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <!-- Left: Search Input -->
+        <div class="d-flex align-items-center">
+            <input type="text" class="form-control form-control-sm" placeholder="Search order id, product name"
+                [(ngModel)]="searchText" (input)="onSearch()" style="width: 100%; max-width: 220px;">
+        </div>
+
+        <!-- Right: Upload Button -->
+        <div class="d-flex">
+            <button class="btn th-primary btn-sm" (click)="openUploadModal()">
+                <i class="fa fa-upload me-1"></i> Upload Settlement
+            </button>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="saas-card">
+        <div class="card-body p-0">
+            <div class="table-responsive" style="max-height: 420px; overflow-y: auto;">
+                <table class="table saas-table mb-0">
+                    <thead>
+                        <tr>
+                            <th class="th-primary">#</th>
+                            <th class="th-primary">Order ID</th>
+                            <th class="th-primary text-nowrap">Order Date</th>
+                            <th class="th-primary text-nowrap">SKU</th>
+                            <th class="th-primary">Product Name</th>
+                            <th class="th-primary">Platform</th>
+                            <th class="th-primary text-nowrap">Settlement Amt</th>
+                            <th class="th-primary">Size</th>
+                            <th class="th-primary">Color</th>
+                            <th class="th-primary">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- SKELETON LOADER -->
+                        <ng-container *ngIf="loading">
+                            <tr *ngFor="let row of [1,2,3]">
+                                <td><div class="skeleton-cell w-40"></div></td>
+                                <td><div class="skeleton-cell w-60"></div></td>
+                                <td><div class="skeleton-cell w-60"></div></td>
+                                <td><div class="skeleton-cell w-70"></div></td>
+                                <td><div class="skeleton-cell w-80"></div></td>
+                                <td><div class="skeleton-cell w-60"></div></td>
+                                <td><div class="skeleton-cell w-60"></div></td>
+                                <td><div class="skeleton-cell w-40"></div></td>
+                                <td><div class="skeleton-cell w-40"></div></td>
+                                <td><div class="skeleton-cell w-60"></div></td>
+                            </tr>
+                        </ng-container>
+
+                        <ng-container *ngIf="!loading">
+                        <tr *ngFor="let invoice of invoices;let i = index ">
+                            <td>{{i + 1}}</td>
+                            <td class="first-column">{{ invoice.order_id }}</td>
+                            <td class="text-nowrap">{{ invoice.order_date | date }}</td>
+                            <td class="text-nowrap">{{ invoice.sku }}</td>
+                            <td class="text-nowrap">{{ invoice.product_name }}</td>
+                            <td>
+                                <span class="platform-badge" [ngStyle]="{
+                                        'background-color': getPlatformColor(selectedPlatform) + '33',
+                                        'color': getPlatformColor(selectedPlatform),
+                                        'border-color': getPlatformColor(selectedPlatform) + '55'
+                                        }">
+                                    {{ selectedPlatform | titlecase }}
+                                </span>
+                            </td>
+                            <td>{{ invoice.settlement_amount | currency :'INR' }}</td>
+                            <td>{{ invoice.size }}</td>
+                            <td>
+                                <span class="platform-badge" [ngStyle]="getColorStyle(invoice.color)">
+                                    {{ invoice.color }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge-soft" [ngClass]="getStatusClass(invoice.status_code)">
+                                    {{ invoice.status }}
+                                </span>
+                            </td>
+                        </tr>
+
+                        <!-- Empty State -->
+                        <tr *ngIf="invoices.length === 0">
+                            <td colspan="10" class="text-center py-3">
+                                No data found
+                            </td>
+                        </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination-wrapper">
+            <nav aria-label="Page navigation">
+                <ul class="pagination pagination-sm mb-0 align-items-center flex-nowrap">
+
+                    <!-- 1. Go To Page -->
+                    <li class="page-item d-flex align-items-center me-2">
+                        <span class="me-1 small text-nowrap">Page</span>
+                        <input type="number" class="form-control form-control-sm pg-input" [value]="page"
+                            min="1" [max]="totalPages" (change)="goToPageInput($event)">
+                    </li>
+
+                    <!-- Page Size Dropdown -->
+                    <li class="page-item d-flex align-items-center me-2">
+                        <select class="form-select form-select-sm size-select" [value]="limit" (change)="onPageSizeChange($event)">
+                            <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+                        </select>
+                    </li>
+
+                    <!-- 2. Showing Records -->
+                    <li class="page-item disabled me-1">
+                        <span class="page-link border-0 bg-transparent text-muted text-nowrap px-1 record-info">
+                            {{ startRecord }}-{{ endRecord }} of {{ totalOrders }}
+                        </span>
+                    </li>
+
+                    <!-- 3. Previous -->
+                    <li class="page-item" [class.disabled]="page === 1">
+                        <a class="page-link" href="javascript:void(0)" (click)="prevPage()">&laquo;</a>
+                    </li>
+
+                    <!-- 4. Current Page -->
+                    <li class="page-item active">
+                        <span class="page-link">{{ page }}</span>
+                    </li>
+
+                    <!-- 5. Next -->
+                    <li class="page-item" [class.disabled]="page === totalPages">
+                        <a class="page-link" href="javascript:void(0)" (click)="nextPage()">&raquo;</a>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+
+    <!-- PAYMENT TREND -->
+    <div class="saas-card mt-4">
+
+        <div class="saas-card-header bg-primary text-white d-flex justify-content-between align-items-center flex-wrap gap-2">
+
+            <span>Payment Trend</span>
+
+            <div class="btn-group btn-group-sm" role="group">
+                <button type="button" class="btn"
+                    [class.btn-light]="paymentRange === '7d'" [class.btn-outline-light]="paymentRange !== '7d'"
+                    (click)="setPaymentRange('7d')">
+                    Last 7 Days
+                </button>
+                <button type="button" class="btn"
+                    [class.btn-light]="paymentRange === '1m'" [class.btn-outline-light]="paymentRange !== '1m'"
+                    (click)="setPaymentRange('1m')">
+                    Last 1 Month
+                </button>
+                <button type="button" class="btn"
+                    [class.btn-light]="paymentRange === '1y'" [class.btn-outline-light]="paymentRange !== '1y'"
+                    (click)="setPaymentRange('1y')">
+                    Last 1 Year
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Summary stats -->
+        <div class="d-flex gap-3 flex-wrap m-3" *ngIf="!isPaymentTrendLoading && paymentTrend">
+            <div class="card bg-light border-0 flex-fill">
+                <div class="card-body text-center py-2">
+                    <div class="text-muted small">Total Amount</div>
+                    <div class="fw-bold fs-5 text-primary">₹{{ paymentTrend.total_amount | number:'1.2-2' }}</div>
+                </div>
+            </div>
+            <div class="card bg-light border-0 flex-fill">
+                <div class="card-body text-center py-2">
+                    <div class="text-muted small">Total Payments</div>
+                    <div class="fw-bold fs-5 text-primary">{{ paymentTrend.total_payments }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="isPaymentTrendLoading" class="text-center text-muted py-4">
+            Loading payment trend...
+        </div>
+
+        <div *ngIf="paymentTrendError" class="text-center text-danger py-3">
+            {{ paymentTrendError }}
+        </div>
+
+        <app-bar-chart *ngIf="!isPaymentTrendLoading && paymentTrend?.trend?.length" [data]="paymentTrend.trend"
+            xField="date" [yFields]="['amount']" [labels]="{ amount: 'Payment Amount' }" chartType="line"
+            title="Payment Trend">
+        </app-bar-chart>
+
+        <div *ngIf="!isPaymentTrendLoading && !paymentTrendError && !paymentTrend?.trend?.length"
+            class="text-center text-muted py-4">
+            No payment data found
+        </div>
+
+    </div>
+
+
+    <!-- SKU-WISE PROFIT -->
+    <div class="saas-card mt-4">
+
+        <div class="saas-card-header bg-primary text-white d-flex justify-content-between align-items-center flex-wrap gap-2">
+
+            <span>SKU-wise Profit</span>
+
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <div class="btn-group btn-group-sm" role="group">
+                    <button type="button" class="btn"
+                        [class.btn-light]="skuProfitSort === 'profit_desc'" [class.btn-outline-light]="skuProfitSort !== 'profit_desc'"
+                        (click)="setSkuProfitSort('profit_desc')">
+                        Top Profit
+                    </button>
+                    <button type="button" class="btn"
+                        [class.btn-light]="skuProfitSort === 'profit_asc'" [class.btn-outline-light]="skuProfitSort !== 'profit_asc'"
+                        (click)="setSkuProfitSort('profit_asc')">
+                        Lowest Profit
+                    </button>
+                    <button type="button" class="btn"
+                        [class.btn-light]="skuProfitSort === 'revenue_desc'" [class.btn-outline-light]="skuProfitSort !== 'revenue_desc'"
+                        (click)="setSkuProfitSort('revenue_desc')">
+                        Top Revenue
+                    </button>
+                </div>
+
+                <select class="form-select form-select-sm size-select" style="width: auto;" [value]="skuProfitLimit"
+                    (change)="onSkuProfitLimitChange($event)">
+                    <option [value]="10">Top 10</option>
+                    <option [value]="20">Top 20</option>
+                    <option [value]="50">Top 50</option>
+                    <option [value]="100">Top 100</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div *ngIf="skuProfitLoading" class="text-center text-muted py-4">
+            Loading SKU-wise profit...
+        </div>
+
+        <div *ngIf="skuProfitError" class="text-center text-danger py-3">
+            {{ skuProfitError }}
+        </div>
+
+        <ng-container *ngIf="!skuProfitLoading && !skuProfitError">
+
+            <app-bar-chart *ngIf="skuProfit?.skus?.length" [data]="skuProfit.skus" xField="sku"
+                [yFields]="skuProfitChartFields" [labels]="skuProfitChartLabels" chartType="bar"
+                title="SKU-wise Profit">
+            </app-bar-chart>
+
+            <div class="table-responsive" *ngIf="skuProfit?.skus?.length">
+                <table class="table saas-table mb-0">
+                    <thead>
+                        <tr>
+                            <th class="th-primary">SKU</th>
+                            <th class="th-primary">Product Name</th>
+                            <th class="th-primary">Qty</th>
+                            <th class="th-primary">Revenue</th>
+                            <th class="th-primary">Cost</th>
+                            <th class="th-primary">Deductions</th>
+                            <th class="th-primary">Profit</th>
+                            <th class="th-primary">Margin %</th>
+                            <th class="th-primary">Orders</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let s of skuProfit.skus">
+                            <td class="first-column">{{ s.sku }}</td>
+                            <td class="text-nowrap">{{ s.product_name }}</td>
+                            <td>{{ s.quantity }}</td>
+                            <td>{{ s.revenue | currency:'INR' }}</td>
+                            <td>{{ s.cost | currency:'INR' }}</td>
+                            <td>{{ s.deductions | currency:'INR' }}</td>
+                            <td [class.text-danger]="s.profit < 0" [class.text-success]="s.profit >= 0">
+                                <b>{{ s.profit | currency:'INR' }}</b>
+                            </td>
+                            <td>{{ s.margin_percent | number:'1.1-2' }}%</td>
+                            <td>{{ s.orders }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div *ngIf="!skuProfit?.skus?.length" class="text-center text-muted py-4">
+                No SKU profit data found
+            </div>
+
+        </ng-container>
+
+    </div>
+</div>
+
+<!-- Upload Settlement Modal -->
+<div class="modal fade" id="settlementUploadModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Upload Settlement</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" style="max-height: 75vh; overflow-y: auto;">
+                <app-payment-invoice-upload (uploaded)="onSettlementUploaded()"></app-payment-invoice-upload>
+            </div>
+        </div>
+    </div>
+</div>
