@@ -1,10 +1,19 @@
 <div class="container-fluid py-3">
+
+    <!-- ================= Header ================= -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h2 class="fw-bold">Manifest</h2>
+            <p class="text-muted mb-0">Daily courier-wise dispatch manifest</p>
+        </div>
+    </div>
+
     <!-- ================= Filters ================= -->
-    <div class="card shadow-sm mb-4">
-        <div class="card-body">
+    <div class="saas-card mb-4">
+        <div class="p-3">
             <div class="row g-3">
                 <div class="col-md-3">
-                    <label class="form-label">
+                    <label class="form-label small fw-semibold text-muted">
                         Manifest Date
                     </label>
 
@@ -14,7 +23,7 @@
 
                 <div class="col-md-6">
 
-                    <label class="form-label">
+                    <label class="form-label small fw-semibold text-muted">
                         Search
                     </label>
 
@@ -24,7 +33,7 @@
                 </div>
                 <div class="col-md-3 d-flex align-items-end">
                     <button class="btn th-primary w-100" (click)="refresh()">
-                        Refresh
+                        <i class="fas fa-sync-alt me-1"></i> Refresh
                     </button>
                 </div>
             </div>
@@ -35,71 +44,98 @@
 
     <!-- ================= Summary ================= -->
 
-    <div class="row mb-4">
+    <div class="row g-3 mb-4">
 
-        <div class="col-lg-4 col-md-6 mb-3">
-            <div class="card shadow-sm  h-100">
-                <div class="card-body">
-
-                    <h6 class="text-muted mb-2">
-                        Delivery Partners
-                    </h6>
-
-                    <h2 class="fw-bold text-primary">
-                        {{deliveryPartnerCount}}
-                    </h2>
-
+        <div class="col-lg-4 col-md-6" *ngIf="loading">
+            <div class="stat-card">
+                <div class="skeleton-cell skeleton-icon"></div>
+                <div class="flex-grow-1">
+                    <div class="skeleton-cell w-60 mb-2"></div>
+                    <div class="skeleton-cell w-40" style="height:22px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6" *ngIf="loading">
+            <div class="stat-card">
+                <div class="skeleton-cell skeleton-icon"></div>
+                <div class="flex-grow-1">
+                    <div class="skeleton-cell w-60 mb-2"></div>
+                    <div class="skeleton-cell w-40" style="height:22px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6" *ngIf="loading">
+            <div class="stat-card">
+                <div class="skeleton-cell skeleton-icon"></div>
+                <div class="flex-grow-1">
+                    <div class="skeleton-cell w-60 mb-2"></div>
+                    <div class="skeleton-cell w-40" style="height:22px;"></div>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-4 col-md-6 mb-3">
-            <div class="card shadow-sm   h-100">
-                <div class="card-body">
-
-                    <h6 class="text-muted mb-2">
-                        Total Quantity
-                    </h6>
-
-                    <h2 class="fw-bold text-success">
-                        {{totalQuantity}}
-                    </h2>
-
+        <ng-container *ngIf="!loading">
+            <div class="col-lg-4 col-md-6">
+                <div class="stat-card">
+                    <div class="stat-icon icon-primary">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <div>
+                        <h6 class="stat-label">Delivery Partners</h6>
+                        <h3 class="stat-value">{{ deliveryPartnerCount }}</h3>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-lg-4 col-md-12 mb-3">
-            <div class="card shadow-sm   h-100">
-                <div class="card-body">
-
-                    <h6 class="text-muted mb-2">
-                        Total Products
-                    </h6>
-
-                    <h2 class="fw-bold text-warning">
-                        {{totalProducts}}
-                    </h2>
-
+            <div class="col-lg-4 col-md-6">
+                <div class="stat-card">
+                    <div class="stat-icon icon-success">
+                        <i class="fas fa-boxes"></i>
+                    </div>
+                    <div>
+                        <h6 class="stat-label">Total Quantity</h6>
+                        <h3 class="stat-value">{{ totalQuantity }}</h3>
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <div class="col-lg-4 col-md-12">
+                <div class="stat-card">
+                    <div class="stat-icon icon-warning">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <div>
+                        <h6 class="stat-label">Total Products</h6>
+                        <h3 class="stat-value">{{ totalProducts }}</h3>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
 
     </div>
 
-    <!-- ================= Loading ================= -->
+    <!-- ================= Loading (partner cards) ================= -->
 
-    <div class="text-center py-5" *ngIf="loading">
-
-        <div class="spinner-border text-primary"></div>
-
+    <div class="row" *ngIf="loading">
+        <div class="col-lg-6 mb-4" *ngFor="let row of [1,2,3,4]">
+            <div class="saas-card h-100">
+                <div class="p-3 border-bottom">
+                    <div class="skeleton-cell w-40" style="height:20px;"></div>
+                </div>
+                <div class="p-3">
+                    <div class="skeleton-cell w-100 mb-2" *ngFor="let r of [1,2,3]"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- ================= Empty ================= -->
 
-    <div class="text-center py-5" *ngIf="!loading && manifestCards.length==0">
+    <div class="saas-card text-center py-5" *ngIf="!loading && manifestCards.length==0">
 
-        <h4>No Manifest Found</h4>
+        <i class="fas fa-truck-loading text-muted mb-3" style="font-size: 40px; opacity: 0.4;"></i>
+        <h5 class="fw-semibold mb-1">No Manifest Found</h5>
+        <p class="text-muted mb-0">Try a different date or search term.</p>
 
     </div>
 
@@ -107,106 +143,117 @@
 
     <div class="row" *ngIf="!loading && manifestCards.length">
 
-        <div class="col-lg-6 col-xl-6 mb-4" *ngFor="let partner of manifestCards;trackBy:trackByPartner">
+        <div class="col-lg-6 mb-4" *ngFor="let partner of manifestCards;trackBy:trackByPartner">
 
-            <div class="card shadow-sm   h-100">
+            <div class="saas-card h-100">
 
                 <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 p-3 border-bottom">
 
-                <div class="card-header bg-white">
-
-                    <div class="d-flex justify-content-between align-items-center">
-
-                        <div>
-
-                            <!-- <h5 class="mb-1">
-                               Courier: {{partner.delivery_partner}}
-                            </h5> -->
-                            <h5 class="mb-1">
-
-                                <span class="courier-badge" [ngStyle]="{
+                    <span class="courier-badge" [ngStyle]="{
             'background-color': getCourierColor(partner.delivery_partner) + '20',
             'border-color': getCourierColor(partner.delivery_partner) + '55',
             'color': getCourierColor(partner.delivery_partner)
         }">
 
-                                    <i class="fas fa-shipping-fast me-1"></i>
+                        <i class="fas fa-shipping-fast me-1"></i>
 
-                                    {{ partner.delivery_partner }}
+                        {{ partner.delivery_partner }}
 
-                                </span>
+                    </span>
 
-                            </h5>
-                            <small class="text-muted">
-
-                                Products :
-                                {{partner.total_products}}
-
-                            </small>
-
-                        </div>
-
-                        <span class="badge bg-primary fs-6">
-
-                            Qty :
-                            {{partner.total_quantity}}
-
-                        </span>
-
+                    <div class="d-flex gap-2">
+                        <span class="badge-soft indigo">{{ partner.total_products }} Products</span>
+                        <span class="badge-soft blue">Qty {{ partner.total_quantity }}</span>
                     </div>
 
                 </div>
 
                 <!-- Body -->
-                <div class="saas-card">
-                    <div class="card-body p-0">
-                        <div class="table-responsive" style="max-height:420px;overflow:auto;">
-                            <table class="table saas-table mb-0">
+                <div class="table-responsive" style="max-height:360px;overflow:auto;">
+                    <table class="table saas-table mb-0">
 
-                                <thead>
-                                    <tr>
-                                        <th class="th-primary">Product</th>
-                                        <th class="th-primary">SKU</th>
-                                        <th class="th-primary">Size</th>
-                                        <th class="th-primary">Color</th>
-                                        <th class="th-primary text-center">Qty</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let item of partner.items">
-                                        <td>
-                                            {{item.product_name}}
-                                        </td>
-                                        <td>
-                                            {{item.sku}}
-                                        </td>
-                                        <td>
-                                            {{item.size}}
-                                        </td>
-                                        <td>
+                        <thead>
+                            <tr>
+                                <th class="th-primary">Product</th>
+                                <th class="th-primary">SKU</th>
+                                <th class="th-primary">Size</th>
+                                <th class="th-primary">Color</th>
+                                <th class="th-primary text-center">Qty</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of partner.items">
+                                <td>
+                                    {{item.product_name}}
+                                </td>
+                                <td>
+                                    {{item.sku}}
+                                </td>
+                                <td>
+                                    {{item.size}}
+                                </td>
+                                <td>
 
-                                            {{item.color}}
+                                    {{item.color}}
 
-                                        </td>
+                                </td>
 
-                                        <td class="text-center fw-bold">
+                                <td class="text-center fw-bold">
 
-                                            {{item.quantity}}
+                                    {{item.quantity}}
 
-                                        </td>
+                                </td>
 
-                                    </tr>
+                            </tr>
 
-                                </tbody>
+                        </tbody>
 
-                            </table>
+                    </table>
 
-                        </div>
-
-                    </div>
                 </div>
             </div>
 
+        </div>
+
+    </div>
+
+    <!-- ================= SKU-wise Summary ================= -->
+
+    <div class="saas-card mb-4" *ngIf="!loading && skuWiseItems.length">
+
+        <div class="saas-card-header bg-primary text-white">
+            SKU-wise Summary
+        </div>
+
+        <div class="table-responsive" style="max-height:420px;overflow:auto;">
+            <table class="table saas-table mb-0">
+
+                <thead>
+                    <tr>
+                        <th class="th-primary">Product</th>
+                        <th class="th-primary">SKU</th>
+                        <th class="th-primary">Size</th>
+                        <th class="th-primary">Color</th>
+                        <th class="th-primary text-center">Qty</th>
+                        <th class="th-primary text-center">Delivery Partners</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let item of skuWiseItems">
+                        <td>{{ item.product_name }}</td>
+                        <td>{{ item.sku }}</td>
+                        <td>{{ item.size }}</td>
+                        <td>{{ item.color }}</td>
+                        <td class="text-center fw-bold">{{ item.quantity }}</td>
+                        <td class="text-center">
+                            <span class="badge-soft indigo">{{ item.delivery_partner_count }}</span>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
         </div>
 
     </div>

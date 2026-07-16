@@ -280,23 +280,53 @@ export class ProductFormComponent implements OnInit, OnChanges {
     this.variantsArray.removeAt(index);
   }
 
+isDragging = false;
+
 onImageSelected(event: Event): void {
   const input = event.target as HTMLInputElement;
   if (!input.files || input.files.length === 0) {
     return;
   }
-  const file = input.files[0];
+  this.uploadImage(input.files[0]);
+  input.value = '';
+}
+
+onDragOver(event: DragEvent): void {
+  event.preventDefault();
+  this.isDragging = true;
+}
+
+onDragLeave(event: DragEvent): void {
+  event.preventDefault();
+  this.isDragging = false;
+}
+
+onDrop(event: DragEvent): void {
+  event.preventDefault();
+  this.isDragging = false;
+  const file = event.dataTransfer?.files?.[0];
+  if (file) {
+    this.uploadImage(file);
+  }
+}
+
+removeImage(event: Event): void {
+  event.stopPropagation();
+  this.imagePreview = '';
+  this.form.patchValue({ image: '' });
+}
+
+private uploadImage(file: File): void {
   this.uploading = true;
   this.productService.uploadProductImage(file).subscribe({
     next: (res) => {
       this.uploading = false;
       if (res.status) {
-        // Store only the public URL
-        const imageUrl = res.data.signed_url;
+        // Store the storage key on the form; keep the signed URL only for preview
         this.form.patchValue({
           image: res.data.file_key
         });
-        this.imagePreview = imageUrl;
+        this.imagePreview = res.data.signed_url;
       }
     },
     error: (err) => {
@@ -304,9 +334,7 @@ onImageSelected(event: Event): void {
       console.error(err);
       alert('Image upload failed');
     }
-
   });
-
 }
 
   submit() {

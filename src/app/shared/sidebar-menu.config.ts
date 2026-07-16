@@ -27,6 +27,11 @@ export const SIDEBAR_MENU: SidebarMenuItem[] = [
     route: '/dispatch-invoice'
   },
   {
+    label: 'Upload Settlement',
+    icon: 'fas fa-file-invoice-dollar',
+    route: '/upload-settlement'
+  },
+  {
     label: 'Inventory',
     icon: 'fas fa-box-open',
     route: '/inventory'

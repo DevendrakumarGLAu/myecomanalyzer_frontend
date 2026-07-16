@@ -1,6 +1,6 @@
 import { CommonModule, NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InvoiceService } from '../../services/invoice.service';
 import { PLATFORMS } from '../../common/constant/platform.constants';
@@ -27,6 +27,10 @@ export class PaymentExcelComponent {
   responseData: any = null;
   summary: any = null;
   skippedDetails: any[] = [];
+
+  // Emits the response after a successful upload, so a parent page can
+  // refresh its own data (e.g. re-fetch a table) and close its modal.
+  @Output() uploaded = new EventEmitter<any>();
 
   constructor(
     private http: HttpClient,
@@ -73,6 +77,7 @@ export class PaymentExcelComponent {
 
           this.message = res?.message || "Upload completed";
           this.toast.success(this.message);
+          this.uploaded.emit(res);
         },
         error: (err: any) => {
           this.message = 'Upload failed: ' + (err.error?.detail || err.message);

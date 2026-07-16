@@ -103,8 +103,7 @@ export class LoginComponent implements OnInit {
       },
       error: (error) => {
         console.error('Login error:', error);
-        this.errorMessage = error?.error?.message || 'Login failed. Please check your credentials and try again.';
-        // this.errorMessage = 'Invalid email, password, or captcha answer.';
+        this.errorMessage = error?.error?.detail || error?.error?.message || 'Login failed. Please check your credentials and try again.';
         this.captchaAnswerReset();
         this.isLoading = false;
       },
@@ -115,7 +114,11 @@ export class LoginComponent implements OnInit {
   }
 
   captchaAnswerReset(): void {
-    this.loginForm.patchValue({ captchaAnswer: '' });
+    const captchaControl = this.loginForm.get('captchaAnswer');
+    captchaControl?.setValue('');
+    // Avoid showing "Captcha answer is required" right after a failed
+    // attempt — the errorMessage above already explains what went wrong.
+    captchaControl?.markAsUntouched();
     this.loadCaptcha();
   }
 

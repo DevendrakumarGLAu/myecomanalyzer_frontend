@@ -16,6 +16,18 @@ export interface CaptchaResponse {
   expires_in: number;
 }
 
+export interface ForgotPasswordPayload {
+  method: 'email' | 'mobile';
+  identifier: string;
+}
+
+export interface ResetPasswordPayload {
+  method: 'email' | 'mobile';
+  identifier: string;
+  otp: string;
+  new_password: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -56,6 +68,22 @@ export class AuthService {
   signupMethod(payload: any): Observable<any> {
     return this.http.post(
       `${this.apiUrl}/signup`,
+      payload
+    );
+  }
+
+  // NOTE: endpoint paths/payloads are placeholders — confirm against the real
+  // backend contract and adjust once forgot/reset-password APIs exist.
+  forgotPassword(payload: ForgotPasswordPayload): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/auth/forgot-password`,
+      payload
+    );
+  }
+
+  resetPassword(payload: ResetPasswordPayload): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/auth/reset-password`,
       payload
     );
   }

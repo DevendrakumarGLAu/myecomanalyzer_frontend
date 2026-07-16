@@ -8,13 +8,14 @@
   </div> -->
   <div class="sidebar-user p-3 text-white">
     <div class="d-flex align-items-center">
-      <div class="user-avatar brand-image opacity-75 me-2">
-         {{ userInitial }}
+      <div class="user-avatar-wrap me-2">
+        <div class="user-avatar">{{ userInitial }}</div>
+        <span class="status-dot" title="Online"></span>
       </div>
 
       <div class="user-info">
-        <div class="fw-semibold"> {{ userName | titleCase }}</div>
-        <small class="text-muted">Logged in</small>
+        <div class="fw-semibold user-name" [title]="userName | titleCase">{{ userName | titleCase }}</div>
+        <small class="user-status"><i class="status-dot-inline"></i>Online</small>
       </div>
     </div>
   </div>

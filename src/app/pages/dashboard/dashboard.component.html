@@ -415,6 +415,74 @@
     </div>
   </div>
 
+
+  <!-- PAYMENT TREND -->
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <div class="saas-card shadow-sm">
+
+        <div class="saas-card-header bg-primary text-white d-flex justify-content-between align-items-center flex-wrap gap-2">
+
+          <span>Payment Trend</span>
+
+          <div class="btn-group btn-group-sm" role="group">
+            <button type="button" class="btn"
+              [class.btn-light]="paymentRange === '7d'" [class.btn-outline-light]="paymentRange !== '7d'"
+              (click)="setPaymentRange('7d')">
+              Last 7 Days
+            </button>
+            <button type="button" class="btn"
+              [class.btn-light]="paymentRange === '1m'" [class.btn-outline-light]="paymentRange !== '1m'"
+              (click)="setPaymentRange('1m')">
+              Last 1 Month
+            </button>
+            <button type="button" class="btn"
+              [class.btn-light]="paymentRange === '1y'" [class.btn-outline-light]="paymentRange !== '1y'"
+              (click)="setPaymentRange('1y')">
+              Last 1 Year
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Summary stats -->
+        <div class="d-flex gap-3 flex-wrap m-3" *ngIf="!isPaymentTrendLoading && paymentTrend">
+          <div class="card bg-light border-0 flex-fill">
+            <div class="card-body text-center py-2">
+              <div class="text-muted small">Total Amount</div>
+              <div class="fw-bold fs-5 text-primary">₹{{ paymentTrend.total_amount | number:'1.2-2' }}</div>
+            </div>
+          </div>
+          <div class="card bg-light border-0 flex-fill">
+            <div class="card-body text-center py-2">
+              <div class="text-muted small">Total Payments</div>
+              <div class="fw-bold fs-5 text-primary">{{ paymentTrend.total_payments }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="isPaymentTrendLoading" class="text-center text-muted py-4">
+          Loading payment trend...
+        </div>
+
+        <div *ngIf="paymentTrendError" class="text-center text-danger py-3">
+          {{ paymentTrendError }}
+        </div>
+
+        <app-bar-chart *ngIf="!isPaymentTrendLoading && paymentTrend?.trend?.length" [data]="paymentTrend.trend"
+          xField="date" [yFields]="['amount']" [labels]="{ amount: 'Payment Amount' }" chartType="line"
+          title="Payment Trend">
+        </app-bar-chart>
+
+        <div *ngIf="!isPaymentTrendLoading && !paymentTrendError && !paymentTrend?.trend?.length"
+          class="text-center text-muted py-4">
+          No payment data found
+        </div>
+
+      </div>
+    </div>
+  </div>
+
 </div>
 
 

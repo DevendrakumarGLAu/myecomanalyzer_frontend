@@ -1,5 +1,5 @@
-import { NgClass, NgFor, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { isPlatformBrowser, NgClass, NgFor, NgIf } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, Inject, PLATFORM_ID, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { PublicFooterComponent } from '../shared/public-footer/public-footer.component';
 import { PublicHeaderComponent } from '../shared/public-header/public-header.component';
@@ -11,7 +11,25 @@ import { PublicHeaderComponent } from '../shared/public-header/public-header.com
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.scss']
 })
-export class LandingPageComponent {
+export class LandingPageComponent implements AfterViewInit {
+
+  @ViewChild('demoVideo') demoVideoRef!: ElementRef<HTMLVideoElement>;
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
+
+  ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    const modalEl = document.getElementById('demoVideoModal');
+    modalEl?.addEventListener('hidden.bs.modal', () => {
+      const video = this.demoVideoRef?.nativeElement;
+      if (video) {
+        video.pause();
+        video.currentTime = 0;
+      }
+    });
+  }
 
 features = [
   { icon: 'fas fa-box', title: 'Product Master', desc: 'Manage SKUs across Amazon, Flipkart & Meesho in one place' },

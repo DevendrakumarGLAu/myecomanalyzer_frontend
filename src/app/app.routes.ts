@@ -3,12 +3,13 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { NotFoundComponent } from './common/not-found/not-found.component';
 import { LoginComponent } from './common/login/login.component';
 import { SignupComponent } from './common/signup/signup.component';
+import { ForgotPasswordComponent } from './common/forgot-password/forgot-password.component';
 import { DashboardComponent } from './common/dashboard/dashboard.component';
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
 import { ProductComponent } from './pages/products/product.component';
 import { InvoiceUploadComponent } from './pages/invoice-upload/invoice-upload.component';
 import { CategoryComponent } from './pages/category/category.component';
-import { PaymentExcelComponent } from './pages/payment_invoice/payment_invoice.component';
+import { SettlementUploadComponent } from './pages/settlement-upload/settlement-upload.component';
 import { UserDashboardComponent } from './pages/dashboard/dashboard.component';
 import { OrderStatusUploadComponent } from './pages/order_status_invoice_upload/order-status-upload.component';
 import { DispatchInvoiceComponent } from './pages/orders/dispatch-invoice.component';
@@ -24,6 +25,7 @@ export const routes: Routes = [
   { path: '', component: LandingPageComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
 
   // Protected routes (with header/sidebar/footer)
   {
@@ -31,19 +33,19 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     canActivate: [authGuard],
     children: [
-      { path: 'dashboard', component: DashboardComponent },
+      { path: 'dashboard', component: DashboardComponent, data: { breadcrumb: 'Dashboard' } },
       // UserDashboardComponent
-      { path: 'user-dashboard', component: UserDashboardComponent },
-      { path: 'products', component: ProductComponent },
-      { path: 'upload-invoice', component: InvoiceUploadComponent },
-      { path: 'upload-excel', component: PaymentExcelComponent },
-      {path:'category',component:CategoryComponent},
-      { path: 'order-status', component: OrderStatusUploadComponent },
-      { path: 'dispatch-invoice', component: DispatchInvoiceComponent },
-      { path: 'profile', component: ProfileComponent },
-      { path: 'notifications',component: NotificationsComponent},
-      { path: 'inventory', component: InventoryComponent },
-       { path: 'manifest', component: ManifestComponent },
+      { path: 'user-dashboard', component: UserDashboardComponent, data: { breadcrumb: 'My Dashboard' } },
+      { path: 'products', component: ProductComponent, data: { breadcrumb: 'Products' } },
+      { path: 'upload-invoice', component: InvoiceUploadComponent, data: { breadcrumb: 'Upload Invoice' } },
+      { path: 'upload-settlement', component: SettlementUploadComponent, data: { breadcrumb: 'Upload Settlement' } },
+      { path: 'category', component: CategoryComponent, data: { breadcrumb: 'Category' } },
+      { path: 'order-status', component: OrderStatusUploadComponent, data: { breadcrumb: 'Order Status' } },
+      { path: 'dispatch-invoice', component: DispatchInvoiceComponent, data: { breadcrumb: 'Dispatch Invoice' } },
+      { path: 'profile', component: ProfileComponent, data: { breadcrumb: 'Profile' } },
+      { path: 'notifications', component: NotificationsComponent, data: { breadcrumb: 'Notifications' } },
+      { path: 'inventory', component: InventoryComponent, data: { breadcrumb: 'Inventory' } },
+      { path: 'manifest', component: ManifestComponent, data: { breadcrumb: 'Manifest' } },
       // add more sidebar routes here,
 
        { path: '**', component: NotFoundComponent }

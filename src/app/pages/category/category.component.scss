@@ -30,3 +30,26 @@
 .card-body:has(.dropdown-menu.show) {
     max-height: none;
 }
+
+/* SKELETON LOADER */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: 200px 0;
+  }
+}
+
+.skeleton-cell {
+  height: 14px;
+  width: 80%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #f2f3f5 25%, #e6e8ec 37%, #f2f3f5 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.2s ease infinite;
+}
+
+.skeleton-cell.w-40 { width: 40%; }
+.skeleton-cell.w-60 { width: 60%; }
+.skeleton-cell.w-70 { width: 70%; }

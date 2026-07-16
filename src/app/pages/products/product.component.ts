@@ -1,5 +1,5 @@
 // products.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Product } from './product.model';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -7,6 +7,7 @@ import { ProductFormComponent } from './add-product-form/product-form.component'
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { ProductService } from '../../services/product.service';
 import { FormsModule } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
 
 import { MaterialModule } from '../../../../material.module';
 import { COLORS, PLATFORMS, PLATFORM_COLORS } from '../../common/constant/platform.constants';
@@ -21,8 +22,11 @@ declare var bootstrap: any;
     templateUrl: './product.component.html',
     styleUrls: ['./product.component.scss']
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent implements OnInit, OnDestroy {
     searchTerm: string = '';
+
+    private searchSubject = new Subject<string>();
+    private searchSubscription: Subscription = new Subscription();
     products: Product[] = [];
     filteredProducts: Product[] = [];
     selectedProduct: Product | null = null;
@@ -31,6 +35,8 @@ export class ProductComponent implements OnInit {
     colors = COLORS;
     platforms = PLATFORMS;
     selectedPlatform: string = '';
+    loading = false;
+    skeletonRows = [1, 2, 3, 4, 5, 6];
     // Pagination variables
     totalItems = 0;
     itemsPerPage = 10;
@@ -60,9 +66,27 @@ export class ProductComponent implements OnInit {
 
     ngOnInit() {
         this.loadProducts();
+
+        this.searchSubscription = this.searchSubject
+            .pipe(
+                debounceTime(500),
+                distinctUntilChanged()
+            )
+            .subscribe(() => this.applyFilter());
+    }
+
+    ngOnDestroy() {
+        if (this.searchSubscription) {
+            this.searchSubscription.unsubscribe();
+        }
+    }
+
+    onSearch(): void {
+        this.searchSubject.next(this.searchTerm);
     }
 
     loadProducts() {
+        this.loading = true;
         const filters = {
             search: this.searchTerm.trim(),
             platform: this.selectedPlatform,
@@ -75,8 +99,12 @@ export class ProductComponent implements OnInit {
                     this.products = data.items;
                     this.filteredProducts = data.items;
                     this.updatePagination(data.total);
+                    this.loading = false;
                 },
-                error: (err) => console.error(err)
+                error: (err) => {
+                    console.error(err);
+                    this.loading = false;
+                }
             });
     }
 
@@ -88,9 +116,23 @@ export class ProductComponent implements OnInit {
 
 
     openDialog(product?: Product) {
-        // console.log("product", product)
         this.editingProduct = !!product;
-        this.selectedProduct = product || null;
+
+        if (product?.id) {
+            // The products list endpoint doesn't reliably return the stored image
+            // reference, so re-fetch the full product before editing to avoid
+            // wiping the image on save.
+            this.productService.getProduct(Number(product.id)).subscribe({
+                next: (fullProduct) => this.openProductDialog(fullProduct),
+                error: () => this.openProductDialog(product)
+            });
+        } else {
+            this.openProductDialog(null);
+        }
+    }
+
+    private openProductDialog(product: Product | null) {
+        this.selectedProduct = product;
         const dialogRef = this.dialog.open(ProductFormComponent, {
             width: '1000px',
             maxHeight: '80vh',

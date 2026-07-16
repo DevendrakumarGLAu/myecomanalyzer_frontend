@@ -16,22 +16,37 @@
                 (input)="onSearch()" style="width: 100%; max-width: 150px;">
         </div>
 
-        <!-- Right: Add Button -->
-        <div class="d-flex flex-column flex-sm-row gap-2">
+        <!-- Right: Actions -->
+        <div class="d-flex gap-2">
 
             <button class="btn th-primary btn-sm" (click)="openModal('invoice')">
-                <i class="fa fa-plus"></i>  Add Invoice
-            </button>
-            <button class="btn btn-warning btn-sm" (click)="openModal('manual')">
-                <i class="fa fa-plus"></i> Manual Dispatch
-            </button>
-            <button class="btn btn-success btn-sm" (click)="openModal('excel')">
-               <i class="fa fa-upload"></i>  Payment Status Excel
+                <i class="fa fa-plus me-1"></i> Add Invoice
             </button>
 
-            <button class="btn btn-dark btn-sm" (click)="openModal('status')">
-              <i class="fa fa-upload"></i>   Order Status Excel
-            </button>
+            <div class="dropdown">
+                <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="dropdown"
+                    data-bs-auto-close="outside" aria-expanded="false">
+                    <i class="fa fa-upload me-1"></i> Uploads
+                    <i class="fa fa-chevron-down ms-1 small"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <button class="dropdown-item d-flex align-items-center" (click)="openModal('manual')">
+                            <i class="fa fa-truck text-warning me-2"></i> Manual Dispatch
+                        </button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item d-flex align-items-center" (click)="openModal('excel')">
+                            <i class="fa fa-file-excel text-success me-2"></i> Payment Status Excel
+                        </button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item d-flex align-items-center" (click)="openModal('status')">
+                            <i class="fa fa-file-upload text-primary me-2"></i> Order Status Excel
+                        </button>
+                    </li>
+                </ul>
+            </div>
 
         </div>
     </div>
@@ -56,6 +71,23 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <!-- SKELETON LOADER -->
+                        <ng-container *ngIf="loading">
+                            <tr *ngFor="let row of [1,2,3]">
+                                <td><div class="skeleton-cell w-40"></div></td>
+                                <td><div class="skeleton-cell w-60"></div></td>
+                                <td><div class="skeleton-cell w-60"></div></td>
+                                <td><div class="skeleton-cell w-70"></div></td>
+                                <td><div class="skeleton-cell w-80"></div></td>
+                                <td><div class="skeleton-cell w-60"></div></td>
+                                <td><div class="skeleton-cell w-60"></div></td>
+                                <td><div class="skeleton-cell w-40"></div></td>
+                                <td><div class="skeleton-cell w-40"></div></td>
+                                <td><div class="skeleton-cell w-60"></div></td>
+                            </tr>
+                        </ng-container>
+
+                        <ng-container *ngIf="!loading">
                         <tr *ngFor="let invoice of invoices;let i = index ">
                             <td>{{i + 1}}</td>
                             <td class="first-column">{{ invoice.order_id }}</td>
@@ -94,6 +126,7 @@
                                 No data found
                             </td>
                         </tr>
+                        </ng-container>
                     </tbody>
                 </table>
             </div>

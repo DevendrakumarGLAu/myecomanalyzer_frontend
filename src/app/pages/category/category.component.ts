@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Category, CategoryService } from '../../services/category.service';
 import { CategoryFormComponent } from './add-category/category-form.component';
@@ -7,6 +7,7 @@ import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { COLORS } from '../../common/constant/platform.constants';
 import { MaterialModule } from '../../../../material.module';
 import { ToastService } from '../../services/toast.service';
+import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-category',
@@ -15,12 +16,16 @@ import { ToastService } from '../../services/toast.service';
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss'],
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent implements OnInit, OnDestroy {
   categories: Category[] = [];
+  loading = false;
   currentPage = 1;
   itemsPerPage = 10;
   total = 0;
   searchText = '';
+
+  private searchSubject = new Subject<string>();
+  private searchSubscription: Subscription = new Subscription();
   colors = COLORS;
   page = 1;
   limit = 10;
@@ -37,9 +42,30 @@ export class CategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCategories();
+
+    this.searchSubscription = this.searchSubject
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged()
+      )
+      .subscribe(() => {
+        this.page = 1;
+        this.loadCategories();
+      });
+  }
+
+  ngOnDestroy(): void {
+    if (this.searchSubscription) {
+      this.searchSubscription.unsubscribe();
+    }
+  }
+
+  onSearch(): void {
+    this.searchSubject.next(this.searchText);
   }
 
   loadCategories(): void {
+    this.loading = true;
     const filters = {
       search: this.searchText,
       page: this.page,
@@ -60,8 +86,12 @@ export class CategoryComponent implements OnInit {
         // Record range
         this.startRecord = this.total === 0 ? 0 : (this.page - 1) * this.limit + 1;
         this.endRecord = Math.min(this.page * this.limit, this.total);
+        this.loading = false;
       },
-      err => console.error(err)
+      err => {
+        console.error(err);
+        this.loading = false;
+      }
     );
   }
 

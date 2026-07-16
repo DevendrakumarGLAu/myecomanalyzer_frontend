@@ -16,7 +16,7 @@
 
             <!-- Search -->
             <div class="col-6 col-md">
-                <input type="text" placeholder="Search..." [(ngModel)]="searchTerm" (input)="applyFilter()"
+                <input type="text" placeholder="Search..." [(ngModel)]="searchTerm" (input)="onSearch()"
                     class="form-control" style="width: 100%; max-width: 150px;">
             </div>
 
@@ -60,6 +60,23 @@
                             </tr>
                         </thead>
                         <tbody>
+
+                            <!-- SKELETON LOADER -->
+                            <ng-container *ngIf="loading">
+                                <tr *ngFor="let row of skeletonRows">
+                                    <td><div class="skeleton-cell w-60"></div></td>
+                                    <td *ngFor="let col of columns">
+                                        <div class="skeleton-cell" [class.skeleton-avatar]="col.type === 'image'"></div>
+                                    </td>
+                                </tr>
+                            </ng-container>
+
+                            <ng-container *ngIf="!loading">
+                            <tr *ngIf="filteredProducts.length === 0">
+                                <td [attr.colspan]="columns.length + 1" class="text-center text-muted py-4">
+                                    No products found
+                                </td>
+                            </tr>
 
                             <tr *ngFor="let product of filteredProducts">
 
@@ -144,6 +161,7 @@
 
                                 </td>
                             </tr>
+                            </ng-container>
                         </tbody>
                     </table>
                 </div>
