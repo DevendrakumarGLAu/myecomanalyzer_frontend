@@ -47,6 +47,8 @@ export class ProductComponent implements OnInit, OnDestroy {
     // Options for records per page
     pageSizeOptions = [5, 10, 20, 30, 50, 100];
 
+    activeTab: 'active' | 'paused' = 'active';
+
     // Dynamic columns config
     columns = [
         { key: 'image', label: 'Image', type: 'image' },
@@ -85,13 +87,22 @@ export class ProductComponent implements OnInit, OnDestroy {
         this.searchSubject.next(this.searchTerm);
     }
 
+    setTab(tab: 'active' | 'paused'): void {
+        if (this.activeTab === tab) return;
+        this.activeTab = tab;
+        this.currentPage = 1;
+        this.gotoPageNumber = 1;
+        this.loadProducts();
+    }
+
     loadProducts() {
         this.loading = true;
         const filters = {
             search: this.searchTerm.trim(),
             platform: this.selectedPlatform,
             page: this.currentPage,
-            limit: Number(this.itemsPerPage)
+            limit: Number(this.itemsPerPage),
+            status: this.activeTab
         };
         this.productService.getProducts(filters)
             .subscribe({
@@ -216,6 +227,18 @@ export class ProductComponent implements OnInit, OnDestroy {
             }
         });
     }
+    toggleProductActive(product: Product): void {
+        this.productService.toggleActive(Number(product.id)).subscribe({
+            next: (res: any) => {
+                this.toast.success('Product status updated');
+                this.loadProducts();
+            },
+            error: (err) => {
+                this.toast.error(err?.error?.detail || 'Failed to update product status');
+            }
+        });
+    }
+
     deleteAll() {
         if (confirm('Are you sure you want to delete all products?')) {
             this.products = [];

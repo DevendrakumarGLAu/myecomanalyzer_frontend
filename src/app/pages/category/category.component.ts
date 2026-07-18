@@ -36,6 +36,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
   startRecord = 0;
   endRecord = 0;
 
+  activeTab: 'active' | 'paused' = 'active';
+
   constructor(private dialog: MatDialog, private categoryService: CategoryService,
     private toast: ToastService
   ) { }
@@ -64,12 +66,23 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this.searchSubject.next(this.searchText);
   }
 
+  setTab(tab: 'active' | 'paused'): void {
+    if (this.activeTab === tab) return;
+    this.activeTab = tab;
+    this.page = 1;
+    this.loadCategories();
+  }
+
   loadCategories(): void {
     this.loading = true;
     const filters = {
       search: this.searchText,
       page: this.page,
-      limit: this.limit
+      limit: this.limit,
+      // Active/Paused tabs — the product-form's category dropdown calls the
+      // same endpoint without this param, so it correctly defaults to
+      // active-only there.
+      status: this.activeTab
     };
 
     this.categoryService.getAllCategories(filters).subscribe(
@@ -150,6 +163,18 @@ updateCategory(categoryId: any, data: any): void {
         this.loadCategories();
       });
     }
+  }
+
+  toggleCategoryActive(category: Category): void {
+    this.categoryService.toggleActive(category.id!).subscribe({
+      next: (res: any) => {
+        this.toast.success(res?.message || 'Category status updated');
+        this.loadCategories();
+      },
+      error: (err) => {
+        this.toast.error(err?.error?.detail || 'Failed to update category status');
+      }
+    });
   }
 
   nextPage(): void {

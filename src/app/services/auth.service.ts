@@ -66,9 +66,16 @@ export class AuthService {
   }
 
   signupMethod(payload: any): Observable<any> {
+    // /signup (legacy) is gone — it bypassed password policy, CAPTCHA, and
+    // rate limiting entirely. /auth/signup is the hardened replacement, but
+    // it expects `password_confirm`, not `confirm_password`, and returns
+    // access/refresh tokens directly (no separate login step needed after).
+    const { confirm_password, ...rest } = payload;
+    const body = { ...rest, password_confirm: confirm_password };
+
     return this.http.post(
-      `${this.apiUrl}/signup`,
-      payload
+      `${this.apiUrl}/auth/signup`,
+      body
     );
   }
 
