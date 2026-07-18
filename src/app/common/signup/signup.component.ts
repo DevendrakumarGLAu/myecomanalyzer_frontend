@@ -28,13 +28,20 @@ export class SignupComponent {
     private sanitizer: DomSanitizer
   ) {
     this.signupForm = this.fb.group({
-      username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(150)]],
+      // /auth/signup requires an alphanumeric-only username (api/auth_endpoints.py)
+      username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(150), Validators.pattern(/^[a-zA-Z0-9]+$/)]],
       first_name: ['', [Validators.maxLength(150)]],
       last_name: ['', [Validators.maxLength(150)]],
       email: ['', [Validators.required, Validators.email]],
       mobile_number: ['', [Validators.maxLength(20)]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirm_password: ['', [Validators.required, Validators.minLength(6)]],
+      // Matches the backend's actual policy (PasswordValidator in api/auth_utils.py):
+      // 8+ chars, at least one uppercase letter, one number, one special character.
+      password: ['', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.pattern(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_+\-=[\]{};:,.<>?]).+$/),
+      ]],
+      confirm_password: ['', [Validators.required, Validators.minLength(8)]],
       use_trial: [true]
     });
   }
@@ -55,8 +62,21 @@ export class SignupComponent {
   this.authService.signupMethod(formValue).subscribe({
     next: (res) => {
       console.log('Signup successful', res);
-      this.toastService.success(res.message || 'Signup successful! Please log in.');
-      this.router.navigate(['/login']);
+
+      // /auth/signup returns access/refresh tokens directly (the old /signup
+      // endpoint didn't) — log the user straight in instead of making them
+      // sign in again immediately after.
+      if (res?.access_token) {
+        localStorage.setItem('token', res.access_token);
+        localStorage.setItem('username', res.username || '');
+        localStorage.setItem('first_name', res.first_name || '');
+        localStorage.setItem('last_name', res.last_name || '');
+        this.toastService.success('Signup successful!');
+        this.router.navigate(['/user-dashboard']);
+      } else {
+        this.toastService.success(res.message || 'Signup successful! Please log in.');
+        this.router.navigate(['/login']);
+      }
     },
     error: (err) => {
       console.error(err);

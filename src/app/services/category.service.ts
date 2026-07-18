@@ -67,4 +67,12 @@ export class CategoryService {
       { headers: this.getHeaders() }
     );
   }
+
+  toggleActive(categoryId: number): Observable<any> {
+    return this.http.post(
+      `${this.baseUrl}/toggle_active/${categoryId}`,
+      {},
+      { headers: this.getHeaders() }
+    );
+  }
 }

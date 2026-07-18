@@ -46,6 +46,21 @@
             </div>
 
         </div>
+
+        <!-- Active / Paused Tabs -->
+        <ul class="nav nav-tabs mb-3">
+            <li class="nav-item">
+                <button class="nav-link" [class.active]="activeTab === 'active'" (click)="setTab('active')">
+                    Active
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" [class.active]="activeTab === 'paused'" (click)="setTab('paused')">
+                    Paused
+                </button>
+            </li>
+        </ul>
+
         <!-- Products Table -->
         <div class="saas-card">
             <div class="card-body p-0">
@@ -55,6 +70,7 @@
                         <thead>
                             <tr>
                                 <th class="th-primary">Actions</th>
+                                <th class="th-primary">Status</th>
                                 <th class="th-primary" *ngFor="let col of columns">{{ col.label }}</th>
 
                             </tr>
@@ -65,6 +81,7 @@
                             <ng-container *ngIf="loading">
                                 <tr *ngFor="let row of skeletonRows">
                                     <td><div class="skeleton-cell w-60"></div></td>
+                                    <td><div class="skeleton-cell w-40"></div></td>
                                     <td *ngFor="let col of columns">
                                         <div class="skeleton-cell" [class.skeleton-avatar]="col.type === 'image'"></div>
                                     </td>
@@ -73,7 +90,7 @@
 
                             <ng-container *ngIf="!loading">
                             <tr *ngIf="filteredProducts.length === 0">
-                                <td [attr.colspan]="columns.length + 1" class="text-center text-muted py-4">
+                                <td [attr.colspan]="columns.length + 2" class="text-center text-muted py-4">
                                     No products found
                                 </td>
                             </tr>
@@ -105,6 +122,15 @@
                                                 </button>
                                             </li>
                                         </ul>
+                                    </div>
+                                </td>
+
+                                <!-- Status -->
+                                <td>
+                                    <div class="form-check form-switch mb-0">
+                                        <input class="form-check-input" type="checkbox" role="switch"
+                                            [checked]="product.is_active" (change)="toggleProductActive(product)"
+                                            [title]="product.is_active ? 'Active — click to deactivate' : 'Inactive — click to activate'" />
                                     </div>
                                 </td>
 
