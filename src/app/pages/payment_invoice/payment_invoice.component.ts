@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { InvoiceService } from '../../services/invoice.service';
 import { PLATFORMS } from '../../common/constant/platform.constants';
 import { ToastService } from '../../services/toast.service';
+import { downloadErrorReportExcel } from '../../shared/error-report-export';
 
 @Component({
   selector: 'app-payment-invoice-upload',
@@ -84,5 +85,9 @@ export class PaymentExcelComponent {
           this.toast.error(this.message);
         }
       });
+  }
+
+  downloadErrorReport(): void {
+    downloadErrorReportExcel(this.skippedDetails, 'settlement_upload_errors');
   }
 }

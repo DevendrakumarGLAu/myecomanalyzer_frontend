@@ -41,4 +41,14 @@ export const SIDEBAR_MENU: SidebarMenuItem[] = [
     icon: 'fas fa-truck-loading',
     route: '/manifest'
   },
+  {
+    label: 'Platform Fee Slabs',
+    icon: 'fas fa-percentage',
+    route: '/platform-fee-slabs'
+  },
+  {
+    label: 'Customer Risk Report',
+    icon: 'fas fa-user-shield',
+    route: '/customer-risk-report'
+  },
 ];

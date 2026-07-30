@@ -1,0 +1,84 @@
+<div class="container m-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+      <h2 class="fw-bold">Customer Risk Report</h2>
+      <p class="text-muted mb-0">Repeat return/RTO patterns across your customers' order history</p>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="row mb-3 align-items-center g-2">
+    <div class="col-md-4">
+      <input type="text" class="form-control" placeholder="Search name, phone, or pincode..."
+        [(ngModel)]="searchText" (input)="onSearch()" />
+    </div>
+
+    <div class="col-md-8 text-md-end">
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-outline-secondary btn-sm risk-filter-btn"
+          [class.active]="riskLevelFilter === ''" (click)="setRiskFilter('')">All</button>
+        <button type="button" class="btn btn-outline-danger btn-sm risk-filter-btn"
+          [class.active]="riskLevelFilter === 'HIGH_RISK'" (click)="setRiskFilter('HIGH_RISK')">High Risk</button>
+        <button type="button" class="btn btn-outline-warning btn-sm risk-filter-btn"
+          [class.active]="riskLevelFilter === 'MEDIUM_RISK'" (click)="setRiskFilter('MEDIUM_RISK')">Medium Risk</button>
+        <button type="button" class="btn btn-outline-success btn-sm risk-filter-btn"
+          [class.active]="riskLevelFilter === 'LOW_RISK'" (click)="setRiskFilter('LOW_RISK')">Low Risk</button>
+        <button type="button" class="btn btn-outline-secondary btn-sm risk-filter-btn"
+          [class.active]="riskLevelFilter === 'NEW'" (click)="setRiskFilter('NEW')">New</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="saas-card">
+    <div class="card-body p-0">
+      <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+        <table class="table saas-table mb-0">
+          <thead>
+            <tr>
+              <th class="th-primary">Customer</th>
+              <th class="th-primary">Phone</th>
+              <th class="th-primary">State / Pincode</th>
+              <th class="th-primary">Total Orders</th>
+              <th class="th-primary">Delivered</th>
+              <th class="th-primary">Return</th>
+              <th class="th-primary">RTO</th>
+              <th class="th-primary">Return/RTO Rate</th>
+              <th class="th-primary">Risk</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="loading">
+              <td colspan="9" class="text-center py-4 text-muted">Loading...</td>
+            </tr>
+
+            <ng-container *ngIf="!loading">
+              <tr *ngIf="customers.length === 0">
+                <td colspan="9" class="text-center py-4 text-muted">No customers found</td>
+              </tr>
+
+              <tr *ngFor="let c of customers" style="cursor: pointer;" (click)="openDetail(c.customer_id)">
+                <td class="fw-semibold">{{ c.name }}</td>
+                <td>{{ c.phone || '—' }}</td>
+                <td>{{ c.state }}<span *ngIf="c.pincode"> / {{ c.pincode }}</span></td>
+                <td>{{ c.total_orders }}</td>
+                <td>{{ c.delivered_count }}</td>
+                <td>{{ c.return_count }}</td>
+                <td>{{ c.rto_count }}</td>
+                <td>{{ c.return_rto_rate_percent }}%</td>
+                <td>
+                  <span class="badge" [ngClass]="getRiskBadgeClass(c.risk_level)" [title]="c.risk_reason">
+                    {{ getRiskLabel(c.risk_level) }}
+                  </span>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <p class="text-muted small mt-2" *ngIf="!loading">{{ total }} customer(s)</p>
+</div>

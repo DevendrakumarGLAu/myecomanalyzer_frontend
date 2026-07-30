@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { InvoiceService } from '../../services/invoice.service';
 import { PLATFORMS } from '../../common/constant/platform.constants';
 import { ToastService } from '../../services/toast.service';
+import { downloadErrorReportExcel } from '../../shared/error-report-export';
 
 @Component({
   selector: 'app-invoice-upload',
@@ -48,7 +49,6 @@ export class InvoiceUploadComponent {
     }
   }
   errorList: any[] = [];
-  errorFileUrl: string | null = null;
   duplicateOrders: any[] = [];
   uploadFile() {
     // console.log("Selected Platform:", this.selectedPlatform);
@@ -77,7 +77,6 @@ export class InvoiceUploadComponent {
 
           // ✅ NEW: store detailed errors
           this.errorList = res?.data?.error_orders || [];
-          this.errorFileUrl = res?.data?.error_file || null;
           this.duplicateOrders = res?.data?.duplicate_orders || [];
           this.exchangeOrders = res?.data?.exchange_orders || [];
           this.multiQuantityOrders = res?.data?.multi_quantity_orders || [];
@@ -100,6 +99,10 @@ export class InvoiceUploadComponent {
           }
         }
       });
+  }
+
+  downloadErrorReport(): void {
+    downloadErrorReportExcel(this.errorList, 'invoice_upload_errors');
   }
 }
 

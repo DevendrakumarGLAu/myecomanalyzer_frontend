@@ -1,9 +1,12 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { SidebarService } from '../../services/sidebar.service';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Subscription, interval } from 'rxjs';
 import { NotificationStateService ,Notification} from '../../services/notification-state.service';
+
+const UNREAD_COUNT_POLL_MS = 60000;
 
 @Component({
   selector: 'app-header',
@@ -12,8 +15,9 @@ import { NotificationStateService ,Notification} from '../../services/notificati
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnDestroy {
   private isBrowser: boolean;
+  private pollSubscription?: Subscription;
   notifications: Notification[] = [];
   unreadCount = 0;
   loading = false;
@@ -24,6 +28,15 @@ export class HeaderComponent {
     @Inject(PLATFORM_ID) platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
+
+    // Shared with the /notifications page — marking something read there
+    // updates this badge without needing a reload.
+    this.notificationService.notifications$.subscribe(list => this.notifications = list);
+    this.notificationService.unreadCount$.subscribe(count => this.unreadCount = count);
+  }
+
+  ngOnDestroy(): void {
+    this.pollSubscription?.unsubscribe();
   }
 
   username = '';
@@ -47,6 +60,12 @@ export class HeaderComponent {
     const fullName = `${firstName} ${lastName}`.trim();
     this.username = this.toTitleCase(fullName || localStorage.getItem('username') || 'User');
     this.loadNotifications();
+
+    // Cheap poll for the badge count only — SaaS-style "near real-time"
+    // without re-fetching/regenerating the full notification list every tick.
+    this.pollSubscription = interval(UNREAD_COUNT_POLL_MS).subscribe(() => {
+      this.notificationService.getUnreadCount().subscribe({ error: (err) => console.error(err) });
+    });
   }
 
   toTitleCase(str: string): string {
@@ -94,29 +113,17 @@ export class HeaderComponent {
   }
 
   loadNotifications(): void {
-
     this.loading = true;
 
-    this.notificationService
-      .getNotifications(false)
-      .subscribe({
-
-        next: (response) => {
-
-          this.notifications = response.notifications;
-
-          this.unreadCount = this.notifications.filter(
-            n => !n.is_read
-          ).length;
-
-          this.loading = false;
-        },
-
-        error: (err) => {
-          console.error(err);
-          this.loading = false;
-        }
-      });
+    // notifications$/unreadCount$ subscriptions in the constructor pick up
+    // the result — no need to assign this.notifications/unreadCount here.
+    this.notificationService.getNotifications(false).subscribe({
+      next: () => this.loading = false,
+      error: (err) => {
+        console.error(err);
+        this.loading = false;
+      }
+    });
   }
 
   markAsRead(notification: Notification): void {
@@ -125,45 +132,22 @@ export class HeaderComponent {
       return;
     }
 
-    this.notificationService
-      .markAsRead(notification.id)
-      .subscribe({
-
-        next: () => {
-
-          notification.is_read = true;
-
-          this.notifications =
-            this.notifications.filter(
-              n => n.id !== notification.id
-            );
-
-          this.unreadCount--;
-        },
-
-        error: (err) => {
-          console.error(err);
-        }
-      });
+    this.notificationService.markAsRead(notification.id).subscribe({
+      error: (err) => console.error(err)
+    });
   }
 
   markAllAsRead(): void {
+    this.notificationService.markAllAsRead().subscribe({
+      error: (err) => console.error(err)
+    });
+  }
 
-    this.notificationService
-      .markAllAsRead()
-      .subscribe({
-
-        next: () => {
-
-          this.notifications = [];
-
-          this.unreadCount = 0;
-        },
-
-        error: (err) => {
-          console.error(err);
-        }
-      });
+  openNotification(notification: Notification): void {
+    if (!notification.is_read) {
+      this.markAsRead(notification);
+    }
+    this.router.navigate([notification.action_url || '/notifications']);
   }
 
   getNotificationIcon(type: string): string {

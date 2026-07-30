@@ -70,9 +70,9 @@
           </span>
         </h6>
 
-        <a *ngIf="errorFileUrl" [href]="errorFileUrl" download class="btn btn-outline-danger btn-sm">
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="downloadErrorReport()">
           Download Report
-        </a>
+        </button>
       </div>
 
       <div class="table-responsive">

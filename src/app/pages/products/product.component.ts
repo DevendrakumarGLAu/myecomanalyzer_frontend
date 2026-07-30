@@ -13,6 +13,8 @@ import { MaterialModule } from '../../../../material.module';
 import { COLORS, PLATFORMS, PLATFORM_COLORS } from '../../common/constant/platform.constants';
 import { ToastService } from '../../services/toast.service';
 import { ConfirmationPopupComponent } from '../../common/confirmation-popup/confirmation-popup.component';
+import { ProductHealthScoreService, ProductHealthScore } from '../../services/product-health-score.service';
+import { HealthScoreBreakdownComponent } from './health-score-breakdown/health-score-breakdown.component';
 
 declare var bootstrap: any;
 @Component({
@@ -49,6 +51,11 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     activeTab: 'active' | 'paused' = 'active';
 
+    // Health score is computed across ALL of the seller's products at once
+    // (server-side, one batch call) — it's a per-product attribute, not
+    // page/tab-specific, so it's loaded independently of pagination.
+    healthScores = new Map<number, ProductHealthScore>();
+
     // Dynamic columns config
     columns = [
         { key: 'image', label: 'Image', type: 'image' },
@@ -63,11 +70,13 @@ export class ProductComponent implements OnInit, OnDestroy {
     ];
 
     constructor(private productService: ProductService,
-        private dialog: MatDialog, private toast: ToastService
+        private dialog: MatDialog, private toast: ToastService,
+        private healthScoreService: ProductHealthScoreService
     ) { }
 
     ngOnInit() {
         this.loadProducts();
+        this.loadHealthScores();
 
         this.searchSubscription = this.searchSubject
             .pipe(
@@ -123,6 +132,7 @@ export class ProductComponent implements OnInit, OnDestroy {
         this.currentPage = 1;
         this.gotoPageNumber = 1;
         this.loadProducts();
+        this.loadHealthScores();
     }
 
 
@@ -227,6 +237,40 @@ export class ProductComponent implements OnInit, OnDestroy {
             }
         });
     }
+    loadHealthScores(): void {
+        this.healthScoreService.getAll(this.selectedPlatform || undefined).subscribe({
+            next: (res) => {
+                this.healthScores = new Map(res.data.map(s => [s.product_id, s]));
+            },
+            error: (err) => console.error('Failed to load health scores', err)
+        });
+    }
+
+    getHealthScore(productId: number | undefined): ProductHealthScore | undefined {
+        return productId ? this.healthScores.get(productId) : undefined;
+    }
+
+    getGradeClass(grade: string | undefined): string {
+        switch (grade) {
+            case 'A': return 'bg-success';
+            case 'B': return 'bg-primary';
+            case 'C': return 'bg-warning text-dark';
+            case 'D': return 'bg-orange text-white';
+            case 'F': return 'bg-danger';
+            default: return 'bg-secondary';
+        }
+    }
+
+    openHealthScoreBreakdown(productId: number | undefined): void {
+        const score = this.getHealthScore(productId);
+        if (!score) return;
+
+        this.dialog.open(HealthScoreBreakdownComponent, {
+            width: '480px',
+            data: { score }
+        });
+    }
+
     toggleProductActive(product: Product): void {
         this.productService.toggleActive(Number(product.id)).subscribe({
             next: (res: any) => {
