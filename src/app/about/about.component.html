@@ -1,0 +1,65 @@
+<div class="bg-light">
+  <app-public-header></app-public-header>
+
+  <!-- Hero -->
+  <section class="container py-5 text-center">
+    <h1 class="display-5 fw-bold">About SellerPulse</h1>
+    <p class="lead mt-3 mx-auto" style="max-width: 700px;">
+      We help marketplace sellers see their <span class="text-primary fw-semibold">real</span> profit —
+      not the number before commission, GST, RTO cost, and shipping quietly ate into it.
+    </p>
+  </section>
+
+  <!-- Our Story -->
+  <section class="bg-white border-top border-bottom py-5">
+    <div class="container" style="max-width: 800px;">
+      <h2 class="fw-bold text-center mb-4">Why we built this</h2>
+      <p class="text-muted">
+        Selling across Meesho, Amazon, Flipkart, and Myntra means selling across four
+        different settlement formats, four different fee structures, and four different
+        places a return or RTO can quietly turn a "sale" into a loss. Most sellers end up
+        tracking all of it in scattered spreadsheets — or not tracking it at all, and finding
+        out the real margin only when it's too late to do anything about it.
+      </p>
+      <p class="text-muted mb-0">
+        SellerPulse exists to close that gap: upload your settlement reports and dispatch
+        invoices, and get back a SKU-wise profit and loss statement that accounts for
+        every fee, every return, and every RTO — automatically, across every marketplace
+        you sell on.
+      </p>
+    </div>
+  </section>
+
+  <!-- What we care about -->
+  <section class="container py-5">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">What we care about</h2>
+    </div>
+
+    <div class="row g-4">
+      <div *ngFor="let v of values" class="col-md-4">
+        <div class="card h-100 shadow-sm border">
+          <div class="card-body text-center">
+            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mb-3"
+              style="width:50px;height:50px;margin:auto;">
+              <i [class]="v.icon"></i>
+            </div>
+            <h5 class="card-title">{{ v.title }}</h5>
+            <p class="card-text text-muted">{{ v.desc }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-primary text-white py-5 text-center">
+    <div class="container">
+      <h2 class="fw-bold">Want to see your real numbers?</h2>
+      <p class="mt-3">Start free and upload your first settlement report in minutes.</p>
+      <a routerLink="/signup" class="btn btn-light btn-lg mt-3">Start Free Trial</a>
+    </div>
+  </section>
+
+  <app-public-footer></app-public-footer>
+</div>

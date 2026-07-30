@@ -1,0 +1,87 @@
+<div class="container m-4">
+  <h2>{{ mode }} Fee Slab</h2>
+
+  <form [formGroup]="form" (ngSubmit)="save()">
+
+    <div class="mb-3">
+      <label class="form-label">Platform</label>
+      <div class="d-flex gap-2">
+        <select class="form-select" formControlName="platform_code">
+          <option value="" disabled>Select platform</option>
+          <option *ngFor="let p of platforms" [value]="p.code">{{ p.name }}</option>
+        </select>
+        <button type="button" class="btn btn-outline-secondary text-nowrap" (click)="toggleAddPlatform()">
+          + New
+        </button>
+      </div>
+    </div>
+
+    <div class="mb-3 p-3 border rounded" *ngIf="addingPlatform">
+      <div class="row g-2">
+        <div class="col-6">
+          <input type="text" class="form-control" placeholder="Name, e.g. Ajio" [(ngModel)]="newPlatformName" [ngModelOptions]="{standalone: true}" />
+        </div>
+        <div class="col-6">
+          <input type="text" class="form-control" placeholder="Code, e.g. AJIO" [(ngModel)]="newPlatformCode" [ngModelOptions]="{standalone: true}" />
+        </div>
+      </div>
+      <button type="button" class="btn btn-sm th-primary mt-2" (click)="saveNewPlatform()">Save Platform</button>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Category</label>
+      <input type="text" class="form-control" formControlName="category" placeholder="ALL or a specific category name" />
+      <div class="form-text">Use "ALL" for a rate that applies to every category on this platform.</div>
+    </div>
+
+    <div class="row g-3 mb-3">
+      <div class="col-6">
+        <label class="form-label">Min Selling Price (₹)</label>
+        <input type="number" class="form-control" formControlName="min_selling_price" />
+      </div>
+      <div class="col-6">
+        <label class="form-label">Max Selling Price (₹)</label>
+        <input type="number" class="form-control" formControlName="max_selling_price" placeholder="Blank = no upper bound" />
+      </div>
+    </div>
+
+    <div class="row g-3 mb-3">
+      <div class="col-6">
+        <label class="form-label">Commission %</label>
+        <input type="number" class="form-control" formControlName="commission_percent" />
+      </div>
+      <div class="col-6">
+        <label class="form-label">Fixed Fee (₹)</label>
+        <input type="number" class="form-control" formControlName="fixed_fee" />
+      </div>
+    </div>
+
+    <div class="row g-3 mb-3">
+      <div class="col-6">
+        <label class="form-label">Shipping Fee (₹)</label>
+        <input type="number" class="form-control" formControlName="shipping_fee" />
+      </div>
+      <div class="col-6">
+        <label class="form-label">RTO Fee (₹)</label>
+        <input type="number" class="form-control" formControlName="rto_fee" />
+      </div>
+    </div>
+
+    <div class="row g-3 mb-3">
+      <div class="col-6">
+        <label class="form-label">GST %</label>
+        <input type="number" class="form-control" formControlName="gst_percent" />
+      </div>
+      <div class="col-6">
+        <label class="form-label">Effective From</label>
+        <input type="date" class="form-control" formControlName="effective_from" />
+      </div>
+    </div>
+
+    <div class="text-end">
+      <button type="button" class="btn btn-secondary me-2" (click)="cancel()">Cancel</button>
+      <button type="submit" class="btn th-primary">{{ mode }}</button>
+    </div>
+
+  </form>
+</div>

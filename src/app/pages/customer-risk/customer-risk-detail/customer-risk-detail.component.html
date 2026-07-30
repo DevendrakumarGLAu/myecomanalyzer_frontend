@@ -1,0 +1,49 @@
+<div class="p-4">
+  <div *ngIf="loading" class="text-center py-4 text-muted">Loading...</div>
+
+  <ng-container *ngIf="!loading && detail">
+    <div class="d-flex justify-content-between align-items-start mb-3">
+      <div>
+        <h5 class="mb-0">{{ detail.name }}</h5>
+        <div class="text-muted small">{{ detail.address }}</div>
+        <div class="text-muted small">{{ detail.state }} <span *ngIf="detail.pincode"> - {{ detail.pincode }}</span></div>
+        <div class="text-muted small" *ngIf="detail.phone">📞 {{ detail.phone }}</div>
+      </div>
+      <span class="badge" [ngClass]="getRiskBadgeClass(detail.risk_level)">
+        {{ detail.risk_level.replace('_', ' ') }}
+      </span>
+    </div>
+
+    <div class="alert alert-light border small mb-3">
+      {{ detail.risk_reason }}
+    </div>
+
+    <h6 class="mb-2">Order History ({{ detail.total_orders }})</h6>
+    <div class="table-responsive" style="max-height: 350px; overflow-y: auto;">
+      <table class="table table-sm align-middle mb-0">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Platform</th>
+            <th>Product</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let o of detail.order_history" [class.table-danger]="o.is_bad_outcome">
+            <td class="small">{{ o.order_id }}</td>
+            <td class="small">{{ o.order_date }}</td>
+            <td class="small">{{ o.platform }}</td>
+            <td class="small">{{ o.product_name }} <span class="text-muted">({{ o.sku }})</span></td>
+            <td class="small fw-semibold">{{ o.status }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="text-end mt-3">
+      <button type="button" class="btn btn-secondary btn-sm" (click)="close()">Close</button>
+    </div>
+  </ng-container>
+</div>

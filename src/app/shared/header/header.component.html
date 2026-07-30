@@ -164,8 +164,8 @@
 
           <ng-container *ngIf="notifications.length > 0; else noNotifications">
 
-            <a routerLink="/notifications" class="dropdown-item notification-item"
-              *ngFor="let notification of notifications" (click)="markAsRead(notification)">
+            <a href="javascript:void(0)" class="dropdown-item notification-item"
+              *ngFor="let notification of notifications" (click)="openNotification(notification)">
 
               <div class="d-flex">
 

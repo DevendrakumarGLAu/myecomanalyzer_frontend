@@ -71,6 +71,7 @@
                             <tr>
                                 <th class="th-primary">Actions</th>
                                 <th class="th-primary">Status</th>
+                                <th class="th-primary">Health Score</th>
                                 <th class="th-primary" *ngFor="let col of columns">{{ col.label }}</th>
 
                             </tr>
@@ -82,6 +83,7 @@
                                 <tr *ngFor="let row of skeletonRows">
                                     <td><div class="skeleton-cell w-60"></div></td>
                                     <td><div class="skeleton-cell w-40"></div></td>
+                                    <td><div class="skeleton-cell w-40"></div></td>
                                     <td *ngFor="let col of columns">
                                         <div class="skeleton-cell" [class.skeleton-avatar]="col.type === 'image'"></div>
                                     </td>
@@ -90,7 +92,7 @@
 
                             <ng-container *ngIf="!loading">
                             <tr *ngIf="filteredProducts.length === 0">
-                                <td [attr.colspan]="columns.length + 2" class="text-center text-muted py-4">
+                                <td [attr.colspan]="columns.length + 3" class="text-center text-muted py-4">
                                     No products found
                                 </td>
                             </tr>
@@ -132,6 +134,21 @@
                                             [checked]="product.is_active" (change)="toggleProductActive(product)"
                                             [title]="product.is_active ? 'Active — click to deactivate' : 'Inactive — click to activate'" />
                                     </div>
+                                </td>
+
+                                <!-- Health Score -->
+                                <td>
+                                    <span *ngIf="getHealthScore(product.id) as hs; else noScore"
+                                        class="badge health-score-badge"
+                                        [ngClass]="getGradeClass(hs.grade)"
+                                        style="cursor: pointer;"
+                                        (click)="openHealthScoreBreakdown(product.id)"
+                                        [title]="'Click for breakdown'">
+                                        {{ hs.health_score }} · {{ hs.grade }}
+                                    </span>
+                                    <ng-template #noScore>
+                                        <span class="text-muted small">—</span>
+                                    </ng-template>
                                 </td>
 
                                 <!-- Dynamic Columns -->

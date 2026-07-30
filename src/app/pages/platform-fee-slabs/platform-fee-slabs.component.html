@@ -1,0 +1,110 @@
+<div class="container m-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+      <h2 class="fw-bold">Platform Fee Slabs</h2>
+      <p class="text-muted mb-0">Commission, fixed fee, shipping &amp; RTO rates per platform — powers the public profit calculator</p>
+    </div>
+  </div>
+
+  <!-- Filters + Add -->
+  <div class="row mb-3 align-items-center">
+    <div class="col-md-3">
+      <select class="form-select" [(ngModel)]="selectedPlatformCode" (change)="loadSlabs()">
+        <option value="">All Platforms</option>
+        <option *ngFor="let p of platforms" [value]="p.code">{{ p.name }}</option>
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="showInactive" [(ngModel)]="showInactive" (change)="loadSlabs()" />
+        <label class="form-check-label" for="showInactive">Show inactive</label>
+      </div>
+    </div>
+
+    <div class="col-md-6 text-end">
+      <button class="btn th-primary" (click)="openDialog()">
+        <i class="fas fa-plus me-1"></i> Add Fee Slab
+      </button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="saas-card">
+    <div class="card-body p-0">
+      <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+        <table class="table saas-table mb-0">
+          <thead>
+            <tr>
+              <th class="th-primary">Actions</th>
+              <th class="th-primary">Status</th>
+              <th class="th-primary">Platform</th>
+              <th class="th-primary">Category</th>
+              <th class="th-primary">Price Range</th>
+              <th class="th-primary">Commission %</th>
+              <th class="th-primary">Fixed Fee</th>
+              <th class="th-primary">Shipping</th>
+              <th class="th-primary">RTO Fee</th>
+              <th class="th-primary">GST %</th>
+              <th class="th-primary">Effective From</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngIf="loading">
+              <td colspan="11" class="text-center py-4 text-muted">Loading...</td>
+            </tr>
+
+            <ng-container *ngIf="!loading">
+              <tr *ngIf="slabs.length === 0">
+                <td colspan="11" class="text-center py-4 text-muted">No fee slabs found</td>
+              </tr>
+
+              <tr *ngFor="let slab of slabs">
+                <td class="text-center align-middle">
+                  <div class="dropdown">
+                    <button class="btn btn-sm btn-link text-dark" type="button" data-bs-toggle="dropdown"
+                      data-bs-auto-close="outside">
+                      <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                      <li>
+                        <button class="dropdown-item" (click)="openDialog(slab)">
+                          <i class="fas fa-pencil-alt text-primary me-2"></i> Edit
+                        </button>
+                      </li>
+                      <li>
+                        <button class="dropdown-item text-danger" (click)="deleteSlab(slab)">
+                          <i class="fas fa-trash me-2"></i> Delete
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+
+                <td>
+                  <div class="form-check form-switch mb-0">
+                    <input class="form-check-input" type="checkbox" role="switch"
+                      [checked]="slab.is_active" (change)="toggleActive(slab)"
+                      [title]="slab.is_active ? 'Active — click to deactivate' : 'Inactive — click to activate'" />
+                  </div>
+                </td>
+
+                <td>{{ slab.platform_name }}</td>
+                <td>{{ slab.category }}</td>
+                <td>₹{{ slab.min_selling_price }} - {{ slab.max_selling_price ?? '∞' }}</td>
+                <td>{{ slab.commission_percent }}%</td>
+                <td>₹{{ slab.fixed_fee }}</td>
+                <td>₹{{ slab.shipping_fee }}</td>
+                <td>₹{{ slab.rto_fee }}</td>
+                <td>{{ slab.gst_percent }}%</td>
+                <td>{{ slab.effective_from }}</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

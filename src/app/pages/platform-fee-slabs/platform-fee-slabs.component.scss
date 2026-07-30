@@ -1,0 +1,18 @@
+::ng-deep .card .card-body {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+::ng-deep .dropdown {
+  position: relative;
+}
+
+::ng-deep .dropdown-menu {
+  z-index: 1050 !important;
+}
+
+::ng-deep [data-bs-toggle="dropdown"] {
+  &::after {
+    display: none;
+  }
+}

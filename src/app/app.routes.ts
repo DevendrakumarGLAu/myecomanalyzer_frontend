@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { AboutComponent } from './about/about.component';
 import { NotFoundComponent } from './common/not-found/not-found.component';
 import { LoginComponent } from './common/login/login.component';
 import { SignupComponent } from './common/signup/signup.component';
@@ -18,11 +19,14 @@ import { authGuard } from './auth.guard';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { InventoryComponent } from './pages/inventory/inventory.component';
 import { ManifestComponent } from './pages/manifest/manifest.component';
+import { PlatformFeeSlabsComponent } from './pages/platform-fee-slabs/platform-fee-slabs.component';
+import { CustomerRiskComponent } from './pages/customer-risk/customer-risk.component';
 
 export const routes: Routes = [
 
   // Public routes (no layout)
   { path: '', component: LandingPageComponent },
+  { path: 'about', component: AboutComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
@@ -46,6 +50,8 @@ export const routes: Routes = [
       { path: 'notifications', component: NotificationsComponent, data: { breadcrumb: 'Notifications' } },
       { path: 'inventory', component: InventoryComponent, data: { breadcrumb: 'Inventory' } },
       { path: 'manifest', component: ManifestComponent, data: { breadcrumb: 'Manifest' } },
+      { path: 'platform-fee-slabs', component: PlatformFeeSlabsComponent, data: { breadcrumb: 'Platform Fee Slabs' } },
+      { path: 'customer-risk-report', component: CustomerRiskComponent, data: { breadcrumb: 'Customer Risk Report' } },
       // add more sidebar routes here,
 
        { path: '**', component: NotFoundComponent }

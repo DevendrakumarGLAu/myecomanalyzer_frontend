@@ -189,11 +189,15 @@
 
       </div>
 
-      <span class="count-badge">
+      <div class="d-flex align-items-center gap-2">
+        <span class="count-badge">
+          {{ skippedDetails.length }}
+        </span>
 
-        {{ skippedDetails.length }}
-
-      </span>
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="downloadErrorReport()">
+          Download Report
+        </button>
+      </div>
 
     </div>
 
