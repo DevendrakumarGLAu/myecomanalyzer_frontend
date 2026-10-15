@@ -7,7 +7,7 @@ import { ToastService } from '../../services/toast.service';
 import { PublicHeaderComponent } from '../../shared/public-header/public-header.component';
 import { PublicFooterComponent } from '../../shared/public-footer/public-footer.component';
 
-type ForgotPasswordStep = 'request' | 'verify' | 'success';
+type ForgotPasswordStep = 'request' | 'verify' | 'new-password' | 'success';
 type ResetMethod = 'email' | 'mobile';
 
 @Component({
@@ -22,6 +22,7 @@ export class ForgotPasswordComponent implements OnDestroy {
   isLoading = false;
   errorMessage = '';
   resendCooldown = 0;
+  resetToken: string | null = null;
   private resendTimer?: ReturnType<typeof setInterval>;
 
   requestForm: FormGroup;
@@ -38,9 +39,9 @@ export class ForgotPasswordComponent implements OnDestroy {
     });
 
     this.resetForm = this.fb.group({
-      otp: ['', [Validators.required]],
-      new_password: ['', [Validators.required, Validators.minLength(6)]],
-      confirm_password: ['', [Validators.required, Validators.minLength(6)]],
+      otp: ['', [Validators.required, Validators.pattern(/^[0-9]{6}$/)]],
+      new_password: ['', [ Validators.required,Validators.minLength(8)]],
+      confirm_password: ['', [Validators.required, Validators.minLength(8)]],
     });
   }
 
@@ -97,41 +98,121 @@ export class ForgotPasswordComponent implements OnDestroy {
     this.sendOtp();
   }
 
-  resetPasswordSubmit(): void {
-    if (this.resetForm.invalid) {
-      this.resetForm.markAllAsTouched();
-      return;
-    }
+  verifyOtp(): void {
+  const otpControl = this.resetForm.get('otp');
 
-    const { otp, new_password, confirm_password } = this.resetForm.value;
-
-    if (new_password !== confirm_password) {
-      this.errorMessage = 'Passwords do not match.';
-      return;
-    }
-
-    this.isLoading = true;
-    this.errorMessage = '';
-
-    this.authService
-      .resetPassword({
-        method: this.method,
-        identifier: this.requestForm.value.identifier,
-        otp,
-        new_password,
-      })
-      .subscribe({
-        next: () => {
-          this.isLoading = false;
-          this.step = 'success';
-          this.clearResendCooldown();
-        },
-        error: (err) => {
-          this.isLoading = false;
-          this.errorMessage = err?.error?.message || 'Invalid OTP or something went wrong.';
-        },
-      });
+  if (otpControl?.invalid) {
+    otpControl?.markAsTouched();
+    return;
   }
+
+  this.isLoading = true;
+  this.errorMessage = '';
+
+  this.authService.verifyOtp({
+    method: this.method,
+    identifier: this.requestForm.value.identifier.trim(),
+    otp: String(otpControl?.value).trim(),
+  }).subscribe({
+    next: (response: any) => {
+      this.isLoading = false;
+
+      if (!response?.reset_token) {
+        this.errorMessage = 'Reset token was not returned by the server.';
+        return;
+      }
+
+      this.resetToken = response.reset_token;
+      this.step = 'new-password';
+      this.toast.success('OTP verified successfully.');
+    },
+    error: (err) => {
+      this.isLoading = false;
+      this.errorMessage =
+        err?.error?.detail || 'Invalid or expired OTP.';
+    }
+  });
+}
+
+  // resetPasswordSubmit(): void {
+  //   if (this.resetForm.invalid) {
+  //     this.resetForm.markAllAsTouched();
+  //     return;
+  //   }
+
+  //   const { otp, new_password, confirm_password } = this.resetForm.value;
+
+  //   if (new_password !== confirm_password) {
+  //     this.errorMessage = 'Passwords do not match.';
+  //     return;
+  //   }
+
+  //   this.isLoading = true;
+  //   this.errorMessage = '';
+
+  //   this.authService
+  //     .resetPassword({
+  //       method: this.method,
+  //       identifier: this.requestForm.value.identifier,
+  //       otp,
+  //       new_password,
+  //     })
+  //     .subscribe({
+  //       next: () => {
+  //         this.isLoading = false;
+  //         this.step = 'success';
+  //         this.clearResendCooldown();
+  //       },
+  //       error: (err) => {
+  //         this.isLoading = false;
+  //         this.errorMessage = err?.error?.message || 'Invalid OTP or something went wrong.';
+  //       },
+  //     });
+  // }
+  resetPasswordSubmit(): void {
+  if (this.resetForm.invalid) {
+    this.resetForm.markAllAsTouched();
+    return;
+  }
+
+  if (!this.resetToken) {
+    this.errorMessage = 'Please verify your OTP first.';
+    this.step = 'verify';
+    return;
+  }
+
+  const { new_password, confirm_password } =
+    this.resetForm.value;
+
+  if (new_password !== confirm_password) {
+    this.errorMessage = 'Passwords do not match.';
+    return;
+  }
+
+  this.isLoading = true;
+  this.errorMessage = '';
+
+  this.authService.resetPassword({
+    method: this.method,
+    identifier: this.requestForm.value.identifier.trim(),
+    reset_token: this.resetToken,
+    new_password,
+  }).subscribe({
+    next: () => {
+      this.isLoading = false;
+      this.resetToken = null;
+      this.resetForm.reset();
+      this.step = 'success';
+      this.clearResendCooldown();
+      this.toast.success('Password reset successfully.');
+    },
+    error: (err) => {
+      this.isLoading = false;
+      this.errorMessage =
+        err?.error?.detail || 'Failed to reset password.';
+    }
+  });
+}
 
   changeIdentifier(): void {
     this.step = 'request';

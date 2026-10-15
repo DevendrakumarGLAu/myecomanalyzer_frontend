@@ -24,7 +24,7 @@ export interface ForgotPasswordPayload {
 export interface ResetPasswordPayload {
   method: 'email' | 'mobile';
   identifier: string;
-  otp: string;
+  reset_token: string;
   new_password: string;
 }
 
@@ -79,19 +79,36 @@ export class AuthService {
     );
   }
 
+  verifyOtp(payload: {
+  method: 'email' | 'mobile';
+  identifier: string;
+  otp: string;
+}) {
+  return this.http.post<any>(
+    `${this.apiUrl}/auth/verify-otp`,
+    {
+      channel: payload.method === 'mobile' ? 'sms' : 'email',
+      identifier: payload.identifier,
+      otp: payload.otp
+    }
+  );
+}
+
   // NOTE: endpoint paths/payloads are placeholders — confirm against the real
   // backend contract and adjust once forgot/reset-password APIs exist.
   forgotPassword(payload: ForgotPasswordPayload): Observable<any> {
+    const body = { channel: payload.method === 'mobile' ? 'sms' : 'email', identifier: payload.method === 'mobile' ? `+91${payload.identifier}` : payload.identifier, };
     return this.http.post(
       `${this.apiUrl}/auth/forgot-password`,
-      payload
+      body
     );
   }
 
   resetPassword(payload: ResetPasswordPayload): Observable<any> {
+    const body = { channel: payload.method === 'mobile' ? 'sms' : 'email', identifier: payload.method === 'mobile' ? `+91${payload.identifier}` : payload.identifier, reset_token: payload.reset_token, new_password: payload.new_password };
     return this.http.post(
       `${this.apiUrl}/auth/reset-password`,
-      payload
+      body
     );
   }
 }
